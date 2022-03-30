@@ -1,14 +1,12 @@
 import { lk } from "./lk"
 
 test('test sum', () => {
-    expect(lk('abcabcbb')).toBe(3)
-    expect(lk('bbbbb')).toBe(1)
-    expect(lk('pwwkew')).toBe(3)
-    expect(lk('')).toBe(0)
-    expect(lk(' ')).toBe(1)
-    expect(lk('   ')).toBe(1)
-    expect(lk(' 12  ')).toBe(3)
-    expect(lk('abba')).toBe(2)
-    expect(lk(' abccdefaabc')).toBe(5)
-    expect(lk('abccba')).toBe(3)
+    expect(lk(123123)).toBe(false)
+    expect(lk(12123)).toBe(false)
+    expect(lk(1)).toBe(true)
+    expect(lk(0)).toBe(true)
+    expect(lk(-1)).toBe(false)
+    expect(lk(102)).toBe(false)
+    expect(lk(121)).toBe(true)
+    expect(lk(123321)).toBe(true)
 })
