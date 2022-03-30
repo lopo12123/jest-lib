@@ -1,15 +1,18 @@
 {
-  "name": "jest-lib",
-  "version": "1.0.0",
-  "description": "for jest",
-  "main": "index.js",
-  "author": "lopo",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "@types/jest": "^27.4.1",
-    "jest": "^27.5.1",
-    "ts-jest": "^27.1.4",
-    "typescript": "^4.6.3"
-  }
+    "name": "jest-lib",
+    "version": "1.0.0",
+    "description": "for jest",
+    "main": "index.js",
+    "author": "lopo",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@types/jest": "^27.4.1",
+        "jest": "^27.5.1",
+        "ts-jest": "^27.1.4",
+        "typescript": "^4.6.3"
+    }
 }
