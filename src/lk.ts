@@ -1,27 +1,18 @@
-function lk(left: number, right: number): number[] {
-    const judge = (n: number): boolean => {
-        if(n < 9) return true
-        const copyN = n
-        const nums: number[] = []
-        while (n >= 1) {
-            if(n % 10 === 0) return false
-            nums.push(n % 10)
-            n = Math.floor(n / 10)
+function lk(s: string): string {
+    if(new Set(s.split('')).size === s.length) return s[0]
+
+    let res = s[0]
+    for (let i = 0; i < s.length; i++) {
+        let left = i, right = i
+        while (s[left] === s[right]) {
+            right += 1
         }
-
-        if([ ...new Set(nums) ].length === 1) return true
-
-        for (let i = 0; i < nums.length; i++) {
-            if(copyN % nums[i] !== 0) {
-                return false
-            }
+        right--
+        while (left >= 0 && right < s.length && s[--left] === s[++right]) {
         }
-        return true
-    }
+        left++
 
-    const res: number[] = []
-    for (let i = left; i < right + 1; i++) {
-        if(judge(i)) res.push(i)
+        res = (right - left) > res.length ? s.slice(left, right) : res
     }
 
     return res
@@ -30,3 +21,5 @@ function lk(left: number, right: number): number[] {
 export {
     lk
 }
+
+console.log(lk('babad'))
