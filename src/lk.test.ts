@@ -1,5 +1,7 @@
 import { lk } from "./lk"
 
 test('test sum', () => {
-    expect(lk(1, 22)).toStrictEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22])
+    expect(lk(["zyx","wvu","tsr"])).toBe(3)
+    expect(lk(["xc","yb","za"])).toBe(0)
+    expect(lk(["ca","bb","ac"])).toBe(1)
 })
