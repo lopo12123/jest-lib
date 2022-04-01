@@ -1,25 +1,30 @@
-function lk(s: string): string {
-    if(new Set(s.split('')).size === s.length) return s[0]
-
-    let res = s[0]
-    for (let i = 0; i < s.length; i++) {
-        let left = i, right = i
-        while (s[left] === s[right]) {
-            right += 1
-        }
-        right--
-        while (left >= 0 && right < s.length && s[--left] === s[++right]) {
-        }
-        left++
-
-        res = (right - left) > res.length ? s.slice(left, right) : res
+function lk(arr: number[]): boolean {
+    // map
+    const count: { [k: number]: number } = {}
+    for (let i = 0; i < arr.length; i++) {
+        count[arr[i]] = count[arr[i]] ? count[arr[i]] + 1 : 1
     }
 
-    return res
+    // sort
+    arr.sort((a, b) => Math.abs(a) - Math.abs(b))
+
+    for (let j = 0; j < arr.length; j++) {
+        if(count[arr[j]] === 0) continue
+
+        if(!count[arr[j] * 2]) {
+            return false
+        }
+        else {
+            count[arr[j]] -= 1
+            count[arr[j] * 2] -= 1
+        }
+    }
+
+    return true
 }
 
 export {
     lk
 }
 
-console.log(lk('babad'))
+console.log(lk([1,2,2,4,4,8]))
