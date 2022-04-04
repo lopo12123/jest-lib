@@ -9,69 +9,74 @@
  *     }
  * }
  */
-class ListNode {
-    val: number
-    next: ListNode | null
+class NumArray {
+    // 分段 100
+    private partSum: number[] = []
+    private numArr: number[]
 
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
+    constructor(nums: number[]) {
+        let tempSum = 0
+        this.numArr = nums
+        for(let i = 0; i < nums.length; i ++) {
+            if(i > 0 && i % 100 === 0) {
+                this.partSum.push(tempSum)
+                tempSum = 0
+            }
+            tempSum += nums[i]
+        }
+        console.log(this.partSum)
+    }
+
+    update(index: number, val: number): void {
+        this.partSum[Math.floor(index / 100)] += val - this.numArr[index]
+        this.numArr[index] = val
+    }
+
+    sumRange(left: number, right: number): number {
+        let sum = 0
+        const [borderL, borderR] = [Math.ceil(left / 100), Math.floor(right / 100)]
+        if(borderR < borderL) {
+            for (let z = left; z < right + 1; z ++) {
+                sum += this.numArr[z]
+            }
+            return sum
+        }
+        else {
+            for(let i = left; i < borderL * 100; i ++) {
+                sum += this.numArr[i]
+            }
+            for(let j = borderL; j < borderR; j ++) {
+                sum += this.partSum[j]
+            }
+            for (let k = borderR * 100; k < right + 1; k ++) {
+                sum += this.numArr[k]
+            }
+            return sum
+        }
     }
 }
 
-function lk(list1: ListNode | null, list2: ListNode | null): ListNode | null {
-    if(list1 === null && list2 === null) return null
-    else if(list2 === null) return list1
-    else if(list1 === null) return list2
-    else {
-        const nextOne = (l1: ListNode | null, l2: ListNode | null): [number, (ListNode | null), (ListNode | null)] => {
-            if(l1 && l2) {
-                if(l1.val < l2.val) {
-                    return [l1.val, l1.next, l2]
-                }
-                else {
-                    return [l2.val, l1, l2.next]
-                }
-            }
-            else if(l1) {
-                return [l1.val, l1.next, null]
-            }
-            else if(l2) {
-                return [l2.val, null, l2.next]
-            }
-            else {  // never
-                return [0, null, null]
-            }
-        }
-        let l1p = list1
-        let l2p = list2
+const ori: number[] = []
+ori[101] = 1
+ori.fill(0)
+ori[0] = 1
+ori[1] = 1
+// console.log(ori)
+const numArray = new NumArray(ori);
+let sumTest = numArray.sumRange(0, 101); // 返回 1 + 3 + 5 = 9
+numArray.update(1, 1);   // nums = [1,2,5]
+let sumTest2 = numArray.sumRange(0, 101); // 返回 1 + 2 + 5 = 8
 
-        let min: number
-        [min, list1, list2] = nextOne(list1, list2)
+console.log(sumTest, sumTest2)
 
-        const merge = new ListNode(min, null)
-        let p = merge
+// function lk() {
+//
+// }
+//
+// export {
+//     lk
+// }
 
-        while (list1 || list2) {
-            [min, list1, list2] = nextOne(list1, list2)
-            p.next = new ListNode(min)
-            p = p.next
-        }
-
-        return merge
-    }
-}
-
-export {
-    lk
-}
-
-const l1 = null
-const l2 = {
-    val: 1,
-    next: null
-}
-console.log(lk(l1, l2))
 
 
 
