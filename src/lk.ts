@@ -1,19 +1,19 @@
-function lk(nums: number[]): number {
+function lk(nums: number[], val: number): number {
     let sumIndex = 0
-    for(let i = 1; i < nums.length; i ++) {
-        if(nums[i] !== nums[sumIndex]) {
-            nums[++sumIndex] = nums[i]
+    for(let i = 0; i < nums.length; i ++) {
+        if(nums[i] !== val) {
+            nums[sumIndex++] = nums[i]
         }
     }
-    return sumIndex + 1  // index + 1 === length
+    return sumIndex  // index + 1 === length
 }
 
 export {
     lk
 }
 
-const ori = [0,0,1,1,1,2,2,3,3,4]
-console.log(lk( ori), ori)
+const ori = [3,2,2,3]
+console.log(lk(ori, 3), ori)
 
 
 
