@@ -1,29 +1,32 @@
-function lk(nums: number[], target: number): number {
-    if(target <= nums[0]) return 0
-    else if(target > nums[nums.length - 1]) return nums.length
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
 
-    let place = 0
-    let scope = nums
-
-    while (scope.length > 1) {
-        const partLength = Math.floor(scope.length / 2)
-        if(scope[partLength-1] < target && target <= scope[partLength]) return place + partLength
-        else if(scope[partLength - 1] === target) return place + partLength - 1
-        else if(target < scope[partLength - 1]) scope.splice(partLength)
-        else if(target > scope[partLength]) {
-            place += partLength
-            scope.splice(0, partLength)
-        }
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
     }
-    return place + 1
+}
+
+function lk(numRows: number): number[][] {
+    if(numRows === 1) return [[1]]
+    else if(numRows === 2) return [[1], [1, 1]]
+
+    const res: number[][] = [[1], [1, 1]]
+
+    for(let rowIndex = 2; rowIndex < numRows; rowIndex ++) {
+        const thisRow = []
+        for(let i = 0; i < rowIndex - 1; i ++) {
+            thisRow[i] = res[rowIndex - 1][i] + res[rowIndex - 1][i + 1]
+        }
+        res.push([1, ...thisRow, 1])
+    }
+
+    return res
 }
 
 export {
     lk
 }
-
-console.log(lk([1,3,5,6], 5))
-
-
-
-
