@@ -10,23 +10,30 @@ class TreeNode {
     }
 }
 
-function lk(numRows: number): number[][] {
-    if(numRows === 1) return [[1]]
-    else if(numRows === 2) return [[1], [1, 1]]
+function lk(s: string): boolean {
+    let [left, right] = [0, s.length - 1]
 
-    const res: number[][] = [[1], [1, 1]]
-
-    for(let rowIndex = 2; rowIndex < numRows; rowIndex ++) {
-        const thisRow = []
-        for(let i = 0; i < rowIndex - 1; i ++) {
-            thisRow[i] = res[rowIndex - 1][i] + res[rowIndex - 1][i + 1]
-        }
-        res.push([1, ...thisRow, 1])
+    const inRange = (char: string) => {
+        let code = char.charCodeAt(0)
+        return (code >= 65 && code <= 90) || (code >= 97 && code <= 122) || (code >= 48 && code <= 57)
     }
 
-    return res
+    while (left < right) {
+        if(!inRange(s[left])) left ++
+        else if(!inRange(s[right])) right --
+        else {
+            if(s[left].toLowerCase() !== s[right].toLowerCase()) return false
+            else {
+                left ++
+                right --
+            }
+        }
+    }
+    return true
 }
 
 export {
     lk
 }
+
+console.log(lk("A man, a plan, a canal: Panama"))
