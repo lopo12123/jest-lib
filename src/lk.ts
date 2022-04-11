@@ -1,3 +1,13 @@
+class ListNode {
+    val: number
+    next: ListNode | null
+
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.next = (next === undefined ? null : next)
+    }
+}
+
 class TreeNode {
     val: number
     left: TreeNode | null
@@ -10,30 +20,23 @@ class TreeNode {
     }
 }
 
-function lk(s: string): boolean {
-    let [left, right] = [0, s.length - 1]
+function lk(root: TreeNode | null): number[] {
+    if(!root) return []
 
-    const inRange = (char: string) => {
-        let code = char.charCodeAt(0)
-        return (code >= 65 && code <= 90) || (code >= 97 && code <= 122) || (code >= 48 && code <= 57)
+    const all: number[] = []
+    const dfs = (subRoot: TreeNode | null) => {
+        if(subRoot === null) return
+        all.push(subRoot.val)
+        dfs(subRoot.left)
+        dfs(subRoot.right)
     }
+    dfs(root)
 
-    while (left < right) {
-        if(!inRange(s[left])) left ++
-        else if(!inRange(s[right])) right --
-        else {
-            if(s[left].toLowerCase() !== s[right].toLowerCase()) return false
-            else {
-                left ++
-                right --
-            }
-        }
-    }
-    return true
+    return all
 }
 
 export {
     lk
 }
 
-console.log(lk("A man, a plan, a canal: Panama"))
+console.log(JSON.stringify(new TreeNode(1, new TreeNode(2), new TreeNode(3))))
