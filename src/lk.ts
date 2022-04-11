@@ -20,40 +20,42 @@ class TreeNode {
     }
 }
 
-function lk(root: TreeNode | null) {
+function lk(headA: ListNode | null, headB: ListNode | null): ListNode | null {
+    let target: ListNode | null = null
 
+    let p = headA
+    // visit
+    while (p !== null) {
+        // @ts-ignore
+        p.visited = true
+        p = p.next
+    }
+
+    // search
+    p = headB
+    while (p !== null) {
+        // @ts-ignore
+        if(p.visited) {
+            // @ts-ignore
+            delete p.visited
+            target = p
+            break
+        }
+        p = p.next
+    }
+
+    // recover
+    p = headA
+    while (p !== null) {
+        // @ts-ignore
+        delete p.visited
+        p = p.next
+    }
+
+    return target
 }
 
 export {
     lk
 }
 
-
-class MinStack {
-    #stack: [number, number][] = []  // [val, min]
-
-    constructor() {
-
-    }
-
-    push(val: number): void {
-        if(this.#stack.length === 0) {
-            this.#stack.push([val, val])
-        }
-        else {
-            this.#stack.push([val, Math.min(val, this.#stack[this.#stack.length - 1][1])])
-        }
-    }
-
-    pop(): void {
-        this.#stack.pop()
-    }
-
-    top(): number {
-        return this.#stack[this.#stack.length - 1][0]
-    }
-
-    getMin(): number {
-        return this.#stack[this.#stack.length - 1][1]
-    }
-}
