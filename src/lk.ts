@@ -20,23 +20,40 @@ class TreeNode {
     }
 }
 
-function lk(root: TreeNode | null): number[] {
-    if(!root) return []
+function lk(root: TreeNode | null) {
 
-    const all: number[] = []
-    const dfs = (subRoot: TreeNode | null) => {
-        if(subRoot === null) return
-        all.push(subRoot.val)
-        dfs(subRoot.left)
-        dfs(subRoot.right)
-    }
-    dfs(root)
-
-    return all
 }
 
 export {
     lk
 }
 
-console.log(JSON.stringify(new TreeNode(1, new TreeNode(2), new TreeNode(3))))
+
+class MinStack {
+    #stack: [number, number][] = []  // [val, min]
+
+    constructor() {
+
+    }
+
+    push(val: number): void {
+        if(this.#stack.length === 0) {
+            this.#stack.push([val, val])
+        }
+        else {
+            this.#stack.push([val, Math.min(val, this.#stack[this.#stack.length - 1][1])])
+        }
+    }
+
+    pop(): void {
+        this.#stack.pop()
+    }
+
+    top(): number {
+        return this.#stack[this.#stack.length - 1][0]
+    }
+
+    getMin(): number {
+        return this.#stack[this.#stack.length - 1][1]
+    }
+}
