@@ -20,42 +20,23 @@ class TreeNode {
     }
 }
 
-function lk(headA: ListNode | null, headB: ListNode | null): ListNode | null {
-    let target: ListNode | null = null
-
-    let p = headA
-    // visit
-    while (p !== null) {
-        // @ts-ignore
-        p.visited = true
-        p = p.next
+function lk(n: number): number {
+    // return parseInt(n.toString(2).split('').reverse().join(''), 2)
+    let b = BigInt(n)
+    const rev = [0n, 8n, 4n, 12n, 2n, 10n, 6n, 14n, 1n, 9n, 5n, 13n, 3n, 11n, 7n, 15n]
+    let ans = 0n;
+    for(let i = 1; i <= 8; i++){
+        ans = ans << 4n | rev[Number(b & 15n)];
+        b >>= 4n;
     }
-
-    // search
-    p = headB
-    while (p !== null) {
-        // @ts-ignore
-        if(p.visited) {
-            // @ts-ignore
-            delete p.visited
-            target = p
-            break
-        }
-        p = p.next
-    }
-
-    // recover
-    p = headA
-    while (p !== null) {
-        // @ts-ignore
-        delete p.visited
-        p = p.next
-    }
-
-    return target
+    return Number(ans);
 }
+
+
 
 export {
     lk
 }
+
+console.log(lk(0b00000010100101000001111010011100))
 
