@@ -20,16 +20,16 @@ class TreeNode {
     }
 }
 
-function lk(n: number): number {
-    // return parseInt(n.toString(2).split('').reverse().join(''), 2)
-    let b = BigInt(n)
-    const rev = [0n, 8n, 4n, 12n, 2n, 10n, 6n, 14n, 1n, 9n, 5n, 13n, 3n, 11n, 7n, 15n]
-    let ans = 0n;
-    for(let i = 1; i <= 8; i++){
-        ans = ans << 4n | rev[Number(b & 15n)];
-        b >>= 4n;
+function lk(accounts: number[][]): number {
+    let max = 0
+    for(let person = 0; person < accounts.length; person ++) {
+        let sum = 0
+        for(let bank = 0; bank < accounts[0].length; bank ++) {
+            sum += accounts[person][bank]
+        }
+        max = Math.max(sum, max)
     }
-    return Number(ans);
+    return max
 }
 
 
@@ -38,5 +38,4 @@ export {
     lk
 }
 
-console.log(lk(0b00000010100101000001111010011100))
 
