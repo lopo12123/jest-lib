@@ -52,26 +52,22 @@ class NestedInteger {
     }
 }
 
-function lk(head: ListNode | null): ListNode | null {
-    if(head === null) return null
-    else {
-        const str = JSON.stringify(head)
-        const nums = str.match(/[-]?[0-9]+/g)!
-
-        const preHead = new ListNode()
-        let p = preHead
-        for(let i = nums.length - 1; i >= 0; i --) {
-            p.next = new ListNode(parseInt(nums[i]))
-            p = p.next
-        }
-        return preHead.next
+function lk(nums: number[], k: number): boolean {
+    const range = (i: number) => {
+        return [Math.max(0, i - k), Math.min(nums.length, i + k)]
     }
-}
 
+    for(let i = 0; i < nums.length; i ++) {
+        for(let j = range(i)[0]; j < i; j ++) {
+            if(i !== j && nums[i] === nums[j]) return true
+        }
+    }
+    return false
+}
 
 export {
     lk
 }
 
-
+console.log(lk([1,2,3,1,2,3], 2))
 
