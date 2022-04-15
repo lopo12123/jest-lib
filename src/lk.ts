@@ -20,18 +20,61 @@ class TreeNode {
     }
 }
 
-function lk(accounts: number[][]): number {
-    let max = 0
-    for(let person = 0; person < accounts.length; person ++) {
-        let sum = 0
-        for(let bank = 0; bank < accounts[0].length; bank ++) {
-            sum += accounts[person][bank]
-        }
-        max = Math.max(sum, max)
+class NestedInteger {
+    #list: (number | NestedInteger) [] = []
+
+    constructor(val?: number) {
+        if(val !== undefined) this.#list.push(val)
     }
-    return max
+
+    isInteger() {
+        return this.#list.length === 1 && typeof this.#list[1] === 'number'
+    }
+
+    getInteger() {
+        return this.isInteger() ? this.#list[0] : null
+    }
+
+    setInteger(val: number) {
+        this.#list = [ val ]
+    }
+
+    add(elem: NestedInteger) {
+        this.#list.push(elem)
+    }
+
+    getList(): NestedInteger[] {
+        return this.isInteger()
+            ? []
+            : this.#list.filter((item) => {
+                return item instanceof NestedInteger
+            }) as NestedInteger[]
+    }
 }
 
+function lk(s: string): NestedInteger {
+    let ori = JSON.parse(s)
+
+    if(typeof ori === 'number') return new NestedInteger(ori)
+    else {
+        const dfsSolve = (ori: number | number[]) => {
+            if(typeof ori === 'number') return new NestedInteger(ori)
+            else {
+                const subRes = new NestedInteger()
+                for (let j = 0; j < ori.length; j++) {
+                    subRes.add(dfsSolve(ori[j]))
+                }
+                return subRes
+            }
+        }
+
+        const res = new NestedInteger()
+        for (let i = 0; i < ori.length; i++) {
+            res.add(dfsSolve(ori[i]))
+        }
+        return res
+    }
+}
 
 
 export {
