@@ -1,12 +1,12 @@
-class ListNode {
-    val: number
-    next: ListNode | null
-
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
-    }
-}
+// class ListNode {
+//     val: number
+//     next: ListNode | null
+//
+//     constructor(val?: number, next?: ListNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.next = (next === undefined ? null : next)
+//     }
+// }
 
 class TreeNode {
     val: number
@@ -20,54 +20,75 @@ class TreeNode {
     }
 }
 
-class NestedInteger {
-    #list: (number | NestedInteger) [] = []
+// class NestedInteger {
+//     #list: (number | NestedInteger) [] = []
+//
+//     constructor(val?: number) {
+//         if(val !== undefined) this.#list.push(val)
+//     }
+//
+//     isInteger() {
+//         return this.#list.length === 1 && typeof this.#list[1] === 'number'
+//     }
+//
+//     getInteger() {
+//         return this.isInteger() ? this.#list[0] : null
+//     }
+//
+//     setInteger(val: number) {
+//         this.#list = [ val ]
+//     }
+//
+//     add(elem: NestedInteger) {
+//         this.#list.push(elem)
+//     }
+//
+//     getList(): NestedInteger[] {
+//         return this.isInteger()
+//             ? []
+//             : this.#list.filter((item) => {
+//                 return item instanceof NestedInteger
+//             }) as NestedInteger[]
+//     }
+// }
 
-    constructor(val?: number) {
-        if(val !== undefined) this.#list.push(val)
-    }
 
-    isInteger() {
-        return this.#list.length === 1 && typeof this.#list[1] === 'number'
-    }
+function lk(nums: number[]): string[] {
+    if(nums.length === 0) return []
 
-    getInteger() {
-        return this.isInteger() ? this.#list[0] : null
-    }
+    const res: string[] = []
 
-    setInteger(val: number) {
-        this.#list = [ val ]
-    }
+    // 从第一个开始直接计数
+    let start: number = nums[0]
 
-    add(elem: NestedInteger) {
-        this.#list.push(elem)
-    }
-
-    getList(): NestedInteger[] {
-        return this.isInteger()
-            ? []
-            : this.#list.filter((item) => {
-                return item instanceof NestedInteger
-            }) as NestedInteger[]
-    }
-}
-
-function lk(nums: number[], k: number): boolean {
-    const range = (i: number) => {
-        return [Math.max(0, i - k), Math.min(nums.length, i + k)]
-    }
-
-    for(let i = 0; i < nums.length; i ++) {
-        for(let j = range(i)[0]; j < i; j ++) {
-            if(i !== j && nums[i] === nums[j]) return true
+    const last = nums.reduce((prev, curr) => {
+        // 已经开始计数 且遇到终点
+        if(curr - prev !== 1) {
+            // 只计了一个数
+            if(prev === start) {
+                res.push(start + '')
+            }
+            // 计了多个数
+            else {
+                res.push(`${start}->${prev}`)
+            }
+            start = curr
         }
+        return curr
+    })
+
+    if(start === last) {
+        res.push(start + '')
     }
-    return false
+    else {
+        res.push(`${start}->${last}`)
+    }
+
+    return res
 }
 
 export {
     lk
 }
 
-console.log(lk([1,2,3,1,2,3], 2))
 
