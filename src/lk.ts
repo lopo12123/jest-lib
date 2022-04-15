@@ -52,27 +52,19 @@ class NestedInteger {
     }
 }
 
-function lk(s: string): NestedInteger {
-    let ori = JSON.parse(s)
-
-    if(typeof ori === 'number') return new NestedInteger(ori)
+function lk(head: ListNode | null): ListNode | null {
+    if(head === null) return null
     else {
-        const dfsSolve = (ori: number | number[]) => {
-            if(typeof ori === 'number') return new NestedInteger(ori)
-            else {
-                const subRes = new NestedInteger()
-                for (let j = 0; j < ori.length; j++) {
-                    subRes.add(dfsSolve(ori[j]))
-                }
-                return subRes
-            }
-        }
+        const str = JSON.stringify(head)
+        const nums = str.match(/[-]?[0-9]+/g)!
 
-        const res = new NestedInteger()
-        for (let i = 0; i < ori.length; i++) {
-            res.add(dfsSolve(ori[i]))
+        const preHead = new ListNode()
+        let p = preHead
+        for(let i = nums.length - 1; i >= 0; i --) {
+            p.next = new ListNode(parseInt(nums[i]))
+            p = p.next
         }
-        return res
+        return preHead.next
     }
 }
 
@@ -80,5 +72,6 @@ function lk(s: string): NestedInteger {
 export {
     lk
 }
+
 
 
