@@ -34,10 +34,3 @@ function lk(nums: number[]): number {
 export {
     // lk
 }
-
-const head = new ListNode(1)
-head.next = new ListNode(2)
-head.next.next = new ListNode(2)
-head.next.next.next = new ListNode(1)
-
-console.log(lk(head))
