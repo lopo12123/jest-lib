@@ -21,14 +21,28 @@ class ListNode {
 // }
 
 
-function lk(nums: number[]): number {
-    let remain = nums.length * (nums.length + 1) / 2
+function lk(paragraph: string, banned: string[]): string {
+    const list = paragraph
+        .replace(/[^a-zA-Z]/g, ' ')
+        .replace(/[ ]+/g, ' ')
+        .toLowerCase()
+        .split(' ')
 
-    for(let i = 0; i < nums.length; i ++) {
-        remain = remain - nums[i]
+    const map = new Map<string, number>()
+
+    let max = 0, maxStr = ''
+    for (let i = 0; i < list.length; i ++) {
+        if(banned.includes(list[i])) continue
+        map.has(list[i])
+            ? map.set(list[i], map.get(list[i])! + 1)
+            : map.set(list[i], 1)
+
+        if(max < map.get(list[i])!) {
+            max = map.get(list[i])!
+            maxStr = list[i]
+        }
     }
-
-    return remain
+    return maxStr
 }
 
 export {
