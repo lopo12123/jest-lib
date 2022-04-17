@@ -21,29 +21,28 @@ class ListNode {
 // }
 
 
-function lk(paragraph: string, banned: string[]): string {
-    const list = paragraph
-        .replace(/[^a-zA-Z]/g, ' ')
-        .replace(/[ ]+/g, ' ')
-        .toLowerCase()
-        .split(' ')
+function lk(s: string, t: string): boolean {
+    if(s.length !== t.length) return false
 
-    const map = new Map<string, number>()
+    const hash: {[k: string]: number} = {}
 
-    let max = 0, maxStr = ''
-    for (let i = 0; i < list.length; i ++) {
-        if(banned.includes(list[i])) continue
-        map.has(list[i])
-            ? map.set(list[i], map.get(list[i])! + 1)
-            : map.set(list[i], 1)
-
-        if(max < map.get(list[i])!) {
-            max = map.get(list[i])!
-            maxStr = list[i]
-        }
+    for (let i = 0; i < s.length; i ++) {
+        hash[s[i]] === undefined
+            ? (hash[s[i]] = 1)
+            : (hash[s[i]] += 1)
     }
-    return maxStr
+    for (let j = 0; j < t.length; j ++) {
+        hash[t[j]] === undefined
+            ? (hash[t[j]] = -1)
+            : (hash[t[j]] -= 1)
+    }
+
+    console.log(hash)
+
+    return Object.values(hash).findIndex((item) => {return item !== 0}) === -1
 }
+
+console.log(lk('rat', 'car'))
 
 export {
     // lk
