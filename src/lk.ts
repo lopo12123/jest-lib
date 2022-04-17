@@ -21,28 +21,12 @@ class ListNode {
 // }
 
 
-function lk(s: string, t: string): boolean {
-    if(s.length !== t.length) return false
-
-    const hash: {[k: string]: number} = {}
-
-    for (let i = 0; i < s.length; i ++) {
-        hash[s[i]] === undefined
-            ? (hash[s[i]] = 1)
-            : (hash[s[i]] += 1)
+function lk(root: ListNode | null): void {
+    if(root !== null) {
+        root.val = root.next!.val
+        root.next = root.next!.next
     }
-    for (let j = 0; j < t.length; j ++) {
-        hash[t[j]] === undefined
-            ? (hash[t[j]] = -1)
-            : (hash[t[j]] -= 1)
-    }
-
-    console.log(hash)
-
-    return Object.values(hash).findIndex((item) => {return item !== 0}) === -1
 }
-
-console.log(lk('rat', 'car'))
 
 export {
     // lk
