@@ -23,30 +23,29 @@ class ListNode {
 // }
 
 
-function lk(n: number): number[] {
-    if(n <= 9) return (new Array(n)).fill(undefined).map((item, index) => index + 1)
+function lk(isBadVersion: (n: number) => boolean): (n: number) => number {
+    return (n) => {
+        if(isBadVersion(1)) return 1
 
-    const res: number[] = []
+        let left = 1, right = n;
 
-    const add = (ori: number) => {
-        for (let i = 0; i <= 9; i++) {
-            if(ori * 10 + i >= 1 && ori * 10 + i <= n) {
-                res.push(ori * 10 + i)
-                add(ori * 10 + i)
+        while (1) {
+            let mid = ~~((left + right) / 2)
+            if(isBadVersion(mid)) {
+                if(!isBadVersion(mid - 1)) return mid
+                right = mid - 1
+            }
+            else {
+                left = mid + 1
             }
         }
-    }
 
-    for (let i = 1; i <= 9; i++) {
-        res.push(i)
-        add(i)
+        return 0
     }
-
-    return res
 }
 
 export {
     // lk
 }
-console.log(lk(2))
+
 // fs.writeFileSync('./res.json', JSON.stringify(lk(139)), { encoding: 'utf-8' })
