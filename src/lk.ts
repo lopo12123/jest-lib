@@ -22,10 +22,13 @@
 
 
 function lk(nums: number[]): void {
-    const l = nums.length
-    const notZero = nums.filter((item) => item !== 0)
-    nums.fill(0, notZero.length, l)
-    nums.splice(0, notZero.length, ...notZero)
+    let put = 0
+
+    for(let i = 0; i < nums.length; i ++) {
+        if(nums[i] !== 0) nums[put++] = nums[i]
+    }
+
+    nums.fill(0, put)
 }
 
 export {
