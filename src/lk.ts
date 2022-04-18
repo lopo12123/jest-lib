@@ -1,14 +1,12 @@
-import * as fs from "fs";
-
-class ListNode {
-    val: number
-    next: ListNode | null
-
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
-    }
-}
+// class ListNode {
+//     val: number
+//     next: ListNode | null
+//
+//     constructor(val?: number, next?: ListNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.next = (next === undefined ? null : next)
+//     }
+// }
 
 // class TreeNode {
 //     val: number
@@ -23,25 +21,11 @@ class ListNode {
 // }
 
 
-function lk(isBadVersion: (n: number) => boolean): (n: number) => number {
-    return (n) => {
-        if(isBadVersion(1)) return 1
-
-        let left = 1, right = n;
-
-        while (1) {
-            let mid = ~~((left + right) / 2)
-            if(isBadVersion(mid)) {
-                if(!isBadVersion(mid - 1)) return mid
-                right = mid - 1
-            }
-            else {
-                left = mid + 1
-            }
-        }
-
-        return 0
-    }
+function lk(nums: number[]): void {
+    const l = nums.length
+    const notZero = nums.filter((item) => item !== 0)
+    nums.fill(0, notZero.length, l)
+    nums.splice(0, notZero.length, ...notZero)
 }
 
 export {
