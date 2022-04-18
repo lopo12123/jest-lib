@@ -1,3 +1,5 @@
+import * as fs from "fs";
+
 class ListNode {
     val: number
     next: ListNode | null
@@ -21,13 +23,30 @@ class ListNode {
 // }
 
 
-function lk(root: ListNode | null): void {
-    if(root !== null) {
-        root.val = root.next!.val
-        root.next = root.next!.next
+function lk(n: number): number[] {
+    if(n <= 9) return (new Array(n)).fill(undefined).map((item, index) => index + 1)
+
+    const res: number[] = []
+
+    const add = (ori: number) => {
+        for (let i = 0; i <= 9; i++) {
+            if(ori * 10 + i >= 1 && ori * 10 + i <= n) {
+                res.push(ori * 10 + i)
+                add(ori * 10 + i)
+            }
+        }
     }
+
+    for (let i = 1; i <= 9; i++) {
+        res.push(i)
+        add(i)
+    }
+
+    return res
 }
 
 export {
     // lk
 }
+console.log(lk(2))
+// fs.writeFileSync('./res.json', JSON.stringify(lk(139)), { encoding: 'utf-8' })
