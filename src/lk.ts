@@ -21,10 +21,14 @@
 // }
 
 
-function lk(n: number): boolean {
-    if(n <= 0) return false
+function lk(n: number): number[] {
+    const res: number[] = []
 
-    return n.toString(3).replace(/[0]/g, '') === '1'
+    for(let i = 0; i <= n; i ++) {
+        res.push(i.toString(2).replace(/[0]/g, '').length)
+    }
+
+    return res
 }
 
 export {
