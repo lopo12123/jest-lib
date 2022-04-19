@@ -21,14 +21,13 @@
 // }
 
 
-function lk(n: number): boolean {
-    if(n <= 0) return false
+function lk(n: string[]): void {
+    let offset = 0
 
-    while(n / 4 === ~~(n / 4)) {
-        n = n / 4
+    while(offset <= ~~((n.length - 1) / 2)) {
+        [n[offset], n[n.length -1 - offset]] = [n[n.length -1 - offset], n[offset]]
+        offset ++
     }
-
-    return n === 1
 }
 
 export {
