@@ -24,10 +24,7 @@
 function lk(n: number): boolean {
     if(n <= 0) return false
 
-    while (n / 3 === ~~(n / 3)) {
-        n = n / 3
-    }
-    return n === 1
+    return n.toString(3).replace(/[0]/g, '') === '1'
 }
 
 export {
