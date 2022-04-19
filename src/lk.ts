@@ -20,46 +20,15 @@
 //     }
 // }
 
-class NumArray {
-    #sumTilli: number[] = []
 
-    constructor(nums: number[]) {
-        nums.reduce((prev, curr) => {
-            this.#sumTilli.push(prev + curr)
-            return prev + curr
-        }, 0)
-    }
+function lk(n: number): boolean {
+    if(n <= 0) return false
 
-    sumRange(left: number, right: number): number {
-        return left === 0
-            ? this.#sumTilli[right]
-            : this.#sumTilli[right] - this.#sumTilli[left - 1]
+    while (n / 3 === ~~(n / 3)) {
+        n = n / 3
     }
+    return n === 1
 }
-
-
-// function lk(pattern: string, s: string): boolean {
-//     const words = s.split(' ')
-//
-//     if(pattern.length !== words.length) return false
-//     else {
-//         const hash: {[k: string]: string} = {}
-//         const hashReverse: {[k: string]: string} = {}
-//
-//         for (let i = 0; i < pattern.length; i ++) {
-//             if(hash[pattern[i]] === undefined) {
-//                 if(hashReverse[words[i]] !== undefined) return false
-//                 hash[pattern[i]] = words[i]
-//                 hashReverse[words[i]] = pattern[i]
-//             }
-//             else {
-//                 if(hash[pattern[i]] !== words[i]) return false
-//             }
-//         }
-//
-//         return true
-//     }
-// }
 
 export {
     // lk
