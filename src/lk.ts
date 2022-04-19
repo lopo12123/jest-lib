@@ -8,41 +8,40 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
 
+function lk(pattern: string, s: string): boolean {
+    const words = s.split(' ')
 
-function lk(root: TreeNode | null): string[] {
-    if(root === null) return []
+    if(pattern.length !== words.length) return false
+    else {
+        const hash: {[k: string]: string} = {}
+        const hashReverse: {[k: string]: string} = {}
 
-    if(!root.left && !root.right) return [root.val + '']
-
-    const res: string[] = []
-
-    const dfs = (subRoot: TreeNode | null, pathStr: string) => {
-        if(subRoot === null) return
-        else {
-            if(!subRoot.left && !subRoot.right) res.push(pathStr + '->' + subRoot.val)
+        for (let i = 0; i < pattern.length; i ++) {
+            if(hash[pattern[i]] === undefined) {
+                if(hashReverse[words[i]] !== undefined) return false
+                hash[pattern[i]] = words[i]
+                hashReverse[words[i]] = pattern[i]
+            }
             else {
-                dfs(subRoot.left, pathStr + '->' + subRoot.val)
-                dfs(subRoot.right, pathStr + '->' + subRoot.val)
+                if(hash[pattern[i]] !== words[i]) return false
             }
         }
+
+        return true
     }
-
-    dfs(root.left, root.val + '')
-    dfs(root.right, root.val + '')
-
-    return res
 }
 
 export {
