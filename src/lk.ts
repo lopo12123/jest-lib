@@ -8,27 +8,41 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 
-function lk(nums: number[]): void {
-    let put = 0
+function lk(root: TreeNode | null): string[] {
+    if(root === null) return []
 
-    for(let i = 0; i < nums.length; i ++) {
-        if(nums[i] !== 0) nums[put++] = nums[i]
+    if(!root.left && !root.right) return [root.val + '']
+
+    const res: string[] = []
+
+    const dfs = (subRoot: TreeNode | null, pathStr: string) => {
+        if(subRoot === null) return
+        else {
+            if(!subRoot.left && !subRoot.right) res.push(pathStr + '->' + subRoot.val)
+            else {
+                dfs(subRoot.left, pathStr + '->' + subRoot.val)
+                dfs(subRoot.right, pathStr + '->' + subRoot.val)
+            }
+        }
     }
 
-    nums.fill(0, put)
+    dfs(root.left, root.val + '')
+    dfs(root.right, root.val + '')
+
+    return res
 }
 
 export {
