@@ -20,29 +20,46 @@
 //     }
 // }
 
+class NumArray {
+    #sumTilli: number[] = []
 
-function lk(pattern: string, s: string): boolean {
-    const words = s.split(' ')
+    constructor(nums: number[]) {
+        nums.reduce((prev, curr) => {
+            this.#sumTilli.push(prev + curr)
+            return prev + curr
+        }, 0)
+    }
 
-    if(pattern.length !== words.length) return false
-    else {
-        const hash: {[k: string]: string} = {}
-        const hashReverse: {[k: string]: string} = {}
-
-        for (let i = 0; i < pattern.length; i ++) {
-            if(hash[pattern[i]] === undefined) {
-                if(hashReverse[words[i]] !== undefined) return false
-                hash[pattern[i]] = words[i]
-                hashReverse[words[i]] = pattern[i]
-            }
-            else {
-                if(hash[pattern[i]] !== words[i]) return false
-            }
-        }
-
-        return true
+    sumRange(left: number, right: number): number {
+        return left === 0
+            ? this.#sumTilli[right]
+            : this.#sumTilli[right] - this.#sumTilli[left - 1]
     }
 }
+
+
+// function lk(pattern: string, s: string): boolean {
+//     const words = s.split(' ')
+//
+//     if(pattern.length !== words.length) return false
+//     else {
+//         const hash: {[k: string]: string} = {}
+//         const hashReverse: {[k: string]: string} = {}
+//
+//         for (let i = 0; i < pattern.length; i ++) {
+//             if(hash[pattern[i]] === undefined) {
+//                 if(hashReverse[words[i]] !== undefined) return false
+//                 hash[pattern[i]] = words[i]
+//                 hashReverse[words[i]] = pattern[i]
+//             }
+//             else {
+//                 if(hash[pattern[i]] !== words[i]) return false
+//             }
+//         }
+//
+//         return true
+//     }
+// }
 
 export {
     // lk
