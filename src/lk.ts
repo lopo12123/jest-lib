@@ -22,11 +22,18 @@
 
 
 function lk(n: number): number[] {
-    const res: number[] = []
+    const res: number[] = [0]
 
-    for(let i = 0; i <= n; i ++) {
-        res.push(i.toString(2).replace(/[0]/g, '').length)
+    const expand = (i: number, ones: number) => {
+        if(i > n) return
+        else {
+            res[i] = ones
+            expand(i * 2, ones)
+            expand(i * 2 + 1, ones + 1)
+        }
     }
+
+    expand(1, 1)
 
     return res
 }
