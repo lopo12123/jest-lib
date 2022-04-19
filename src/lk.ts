@@ -21,21 +21,14 @@
 // }
 
 
-function lk(n: number): number[] {
-    const res: number[] = [0]
+function lk(n: number): boolean {
+    if(n <= 0) return false
 
-    const expand = (i: number, ones: number) => {
-        if(i > n) return
-        else {
-            res[i] = ones
-            expand(i * 2, ones)
-            expand(i * 2 + 1, ones + 1)
-        }
+    while(n / 4 === ~~(n / 4)) {
+        n = n / 4
     }
 
-    expand(1, 1)
-
-    return res
+    return n === 1
 }
 
 export {
