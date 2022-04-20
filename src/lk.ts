@@ -21,17 +21,32 @@
 // }
 
 
-function lk(n: string[]): void {
-    let offset = 0
+function lk(input: string): number {
+    const items = input.split('\n')
 
-    while(offset <= ~~((n.length - 1) / 2)) {
-        [n[offset], n[n.length -1 - offset]] = [n[n.length -1 - offset], n[offset]]
-        offset ++
+    let maxLength = 0
+    let midDirs: number[] = []
+    midDirs[-1] = -1
+
+    for (let i = 0; i < items.length; i++) {
+        let depth = (items[i].match(/\t/g) ?? []).length
+        midDirs[depth] = items[i].replace(/\t/g, '').length + (depth === 0 ? 0 : midDirs[depth - 1] + 1)
+        midDirs.length = depth + 1
+
+        if(items[i].includes('.')) {
+            maxLength = Math.max(maxLength, midDirs[midDirs.length - 1])
+        }
     }
+
+    return maxLength
 }
 
 export {
     // lk
 }
+
+console.log(lk("dir\n        file.txt"))
+console.log(lk("dir\n    file.txt"))
+// console.log(lk("file1.txt\nfile2.txt\nlongfile.txt"))
 
 // fs.writeFileSync('./res.json', JSON.stringify(lk(139)), { encoding: 'utf-8' })
