@@ -23,14 +23,15 @@
 function lk(ransomNote: string, magazine: string): boolean {
     const material: Map<string, number> = new Map()
 
-    for(let i = 0; i < magazine.length; i ++) {
-        material.set(magazine[i], material.has(magazine[i]) ? material.get(magazine[i])! + 1 : 1)
+    for (let i = 0; i < magazine.length; i++) {
+        material.set(magazine[i], (material.get(magazine[i]) ?? 0) + 1)
     }
 
-    for (let j = 0; j < ransomNote.length; j ++) {
-        if(!material.has(ransomNote[j]) || (material.get(ransomNote[j])! <= 0)) return false
+    for (let j = 0; j < ransomNote.length; j++) {
+        let remain = material.get(ransomNote[j])
+        if(!remain || remain <= 0) return false
         else {
-            material.set(ransomNote[j], material.get(ransomNote[j])! - 1)
+            material.set(ransomNote[j], remain - 1)
         }
     }
 
