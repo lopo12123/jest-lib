@@ -20,26 +20,21 @@
 //     }
 // }
 
+const guess = (num: number): number => {return 0}
 
-function lk(s: string): string {
-    const ss = s.split('')
-    let [l, r] = [0, s.length - 1]
+function lk(n: number): number {
+    let [l, r] = [1, n]
+    let myGuess = ~~((l + r) / 2)
 
-    const hash = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'])
-
-    while (l < r) {
-        if(hash.has(ss[l]) && hash.has(ss[r])) {
-            [ss[l], ss[r]] = [ss[r], ss[l]]
-            l ++
-            r --
-        }
-        else {
-            if(!hash.has(ss[l])) l ++
-            if(!hash.has(ss[r])) r --
-        }
+    let myGuessRes = guess(myGuess)
+    while (myGuessRes !== 0) {
+        if(myGuessRes === 1) l = myGuess + 1
+        else r = myGuess - 1
+        myGuess = ~~((l + r) / 2)
+        myGuessRes = guess(myGuess)
     }
 
-    return ss.join('')
+    return myGuess
 }
 
 export {
