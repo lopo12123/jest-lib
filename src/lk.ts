@@ -21,32 +21,31 @@
 // }
 
 
-function lk(input: string): number {
-    const items = input.split('\n')
+function lk(s: string): string {
+    const ss = s.split('')
+    let [l, r] = [0, s.length - 1]
 
-    let maxLength = 0
-    let midDirs: number[] = []
-    midDirs[-1] = -1
+    const hash = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'])
 
-    for (let i = 0; i < items.length; i++) {
-        let depth = (items[i].match(/\t/g) ?? []).length
-        midDirs[depth] = items[i].replace(/\t/g, '').length + (depth === 0 ? 0 : midDirs[depth - 1] + 1)
-        midDirs.length = depth + 1
-
-        if(items[i].includes('.')) {
-            maxLength = Math.max(maxLength, midDirs[midDirs.length - 1])
+    while (l < r) {
+        if(hash.has(ss[l]) && hash.has(ss[r])) {
+            [ss[l], ss[r]] = [ss[r], ss[l]]
+            l ++
+            r --
+        }
+        else {
+            if(!hash.has(ss[l])) l ++
+            if(!hash.has(ss[r])) r --
         }
     }
 
-    return maxLength
+    return ss.join('')
 }
 
 export {
     // lk
 }
 
-console.log(lk("dir\n        file.txt"))
-console.log(lk("dir\n    file.txt"))
 // console.log(lk("file1.txt\nfile2.txt\nlongfile.txt"))
 
 // fs.writeFileSync('./res.json', JSON.stringify(lk(139)), { encoding: 'utf-8' })
