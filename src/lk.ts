@@ -20,21 +20,21 @@
 //     }
 // }
 
-const guess = (num: number): number => {return 0}
+function lk(ransomNote: string, magazine: string): boolean {
+    const material: Map<string, number> = new Map()
 
-function lk(n: number): number {
-    let [l, r] = [1, n]
-    let myGuess = ~~((l + r) / 2)
-
-    let myGuessRes = guess(myGuess)
-    while (myGuessRes !== 0) {
-        if(myGuessRes === 1) l = myGuess + 1
-        else r = myGuess - 1
-        myGuess = ~~((l + r) / 2)
-        myGuessRes = guess(myGuess)
+    for(let i = 0; i < magazine.length; i ++) {
+        material.set(magazine[i], material.has(magazine[i]) ? material.get(magazine[i])! + 1 : 1)
     }
 
-    return myGuess
+    for (let j = 0; j < ransomNote.length; j ++) {
+        if(!material.has(ransomNote[j]) || (material.get(ransomNote[j])! <= 0)) return false
+        else {
+            material.set(ransomNote[j], material.get(ransomNote[j])! - 1)
+        }
+    }
+
+    return true
 }
 
 export {
