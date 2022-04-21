@@ -20,20 +20,18 @@
 //     }
 // }
 
-function lk(nums1: number[], nums2: number[]): number[] {
-    const res: number[] = []
-
-    const set1 = new Set(nums1)
-    const set2 = new Set(nums2)
-
-    let more = set1.size > set2.size ? set1 : set2
-    let less = set1.size > set2.size ? set2 : set1
-
-    for (let num of less) {
-        if(more.has(num)) res.push(num)
+function lk(s: string, t: string): string {
+    if(s === '') return t
+    else {
+        let sum = 0
+        for(let i = 0; i < s.length; i ++) {
+            sum -= s[i].charCodeAt(0)
+        }
+        for(let j = 0; j < t.length; j ++) {
+            sum += t[j].charCodeAt(0)
+        }
+        return String.fromCharCode(sum)
     }
-
-    return res
 }
 
 export {
