@@ -20,19 +20,20 @@
 //     }
 // }
 
-function lk(sentence: string): string {
-    const set = new Set([ 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' ])
-    const words: string[] = sentence.split(' ')
+function lk(nums1: number[], nums2: number[]): number[] {
+    const res: number[] = []
 
-    for (let i = 0; i < words.length; i++) {
-        words[i] = (
-            set.has(words[i][0])
-                ? words[i]
-                : words[i].slice(1) + words[i][0]
-        ) + 'ma'.padEnd(i + 3, 'a')
+    const set1 = new Set(nums1)
+    const set2 = new Set(nums2)
+
+    let more = set1.size > set2.size ? set1 : set2
+    let less = set1.size > set2.size ? set2 : set1
+
+    for (let num of less) {
+        if(more.has(num)) res.push(num)
     }
 
-    return words.join(' ')
+    return res
 }
 
 export {
