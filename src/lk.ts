@@ -20,22 +20,19 @@
 //     }
 // }
 
-function lk(ransomNote: string, magazine: string): boolean {
-    const material: Map<string, number> = new Map()
+function lk(sentence: string): string {
+    const set = new Set([ 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' ])
+    const words: string[] = sentence.split(' ')
 
-    for (let i = 0; i < magazine.length; i++) {
-        material.set(magazine[i], (material.get(magazine[i]) ?? 0) + 1)
+    for (let i = 0; i < words.length; i++) {
+        words[i] = (
+            set.has(words[i][0])
+                ? words[i]
+                : words[i].slice(1) + words[i][0]
+        ) + 'ma'.padEnd(i + 3, 'a')
     }
 
-    for (let j = 0; j < ransomNote.length; j++) {
-        let remain = material.get(ransomNote[j])
-        if(!remain || remain <= 0) return false
-        else {
-            material.set(ransomNote[j], remain - 1)
-        }
-    }
-
-    return true
+    return words.join(' ')
 }
 
 export {
