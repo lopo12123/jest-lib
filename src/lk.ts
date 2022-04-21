@@ -21,17 +21,11 @@
 // }
 
 function lk(s: string, t: string): string {
-    if(s === '') return t
-    else {
-        let sum = 0
-        for(let i = 0; i < s.length; i ++) {
-            sum -= s[i].charCodeAt(0)
-        }
-        for(let j = 0; j < t.length; j ++) {
-            sum += t[j].charCodeAt(0)
-        }
-        return String.fromCharCode(sum)
+    let charCode = 0
+    for (let ch of (s + t)) {
+        charCode ^= ch.charCodeAt(0)
     }
+    return String.fromCharCode(charCode)
 }
 
 export {
