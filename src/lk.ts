@@ -20,12 +20,25 @@
 //     }
 // }
 
-function lk(s: string, t: string): string {
-    let charCode = 0
-    for (let ch of (s + t)) {
-        charCode ^= ch.charCodeAt(0)
-    }
-    return String.fromCharCode(charCode)
+function lk(nums: number[]): number {
+    const n = nums.length
+    let max = 0, Sn = 0, Tn = nums.reduce((prev, curr, index) => {
+        Sn += curr
+        return prev + curr * index
+    }, 0)
+
+    nums.reduce((prevTn, curr, index) => {
+        if(index === 0) {
+            max = Tn
+            return Tn
+        }
+        else {
+            max = Math.max(max, Tn += (n * nums[index - 1] - Sn))
+        }
+        return Tn
+    }, 0)
+
+    return max
 }
 
 export {
