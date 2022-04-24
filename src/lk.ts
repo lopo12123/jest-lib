@@ -20,18 +20,19 @@
 //     }
 // }
 
-function lk(s: string, t: string): string {
-    let charCode = 0
-    for (let ch of (s + t)) {
-        charCode ^= ch.charCodeAt(0)
+function lk(n: number): number {
+    const str = n.toString(2)
+
+    const zeros = str.match(/(?<=1)[0]*(?=1)/g)
+
+    if(zeros === null) return 0
+    else {
+        return Math.max(...zeros.map(x => x.length)) + 1
     }
-    return String.fromCharCode(charCode)
 }
 
 export {
     // lk
 }
 
-// console.log(lk("file1.txt\nfile2.txt\nlongfile.txt"))
-
-// fs.writeFileSync('./res.json', JSON.stringify(lk(139)), { encoding: 'utf-8' })
+console.log(lk(0b1011))
