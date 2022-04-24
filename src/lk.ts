@@ -20,34 +20,14 @@
 //     }
 // }
 
-function lk(s: string): number {
-    // 约定状态:
-    // >=0 第一次出现的下标
-    // -1 有重复
-    const map = new Map()
-
-    for(let i = 0; i < s.length; i ++) {
-        if(map.has(s[i])) {
-            map.set(s[i], -1)
-        }
-        else {
-            map.set(s[i], i)
-        }
-    }
-
-    console.log(map)
-
-    let minIndex = s.length
-    map.forEach((val, key) => {
-        if(val >= 0 && val < minIndex) minIndex = val
-    })
-
-    return minIndex === s.length ? -1 : minIndex
+function lk(s: string, t: string): boolean {
+    const str = `/[${s.split('').join('].*[')}]/.test("${t}")`
+    console.log(str)
+    return eval(str)
 }
 
 export {
     // lk
 }
 
-console.log(lk('aabb'))
-// console.log(lk('loveleetcode'))
+console.log(lk('', 'ahbgdc'))
