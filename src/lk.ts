@@ -21,13 +21,22 @@
 // }
 
 function lk(s: string, t: string): boolean {
-    const str = `/[${s.split('').join('].*[')}]/.test("${t}")`
-    console.log(str)
-    return eval(str)
+    if(s === '') return true
+    else if(s.length > t.length) return false
+    else {
+        let p_s = 0
+        for (let i = 0; i < t.length; i++) {
+            // if(p_s === s.length - 1) return true
+            if(s[p_s] === t[i]) p_s++
+            console.log(t[i], p_s)
+        }
+        return p_s === s.length
+    }
+
 }
 
 export {
     // lk
 }
 
-console.log(lk('', 'ahbgdc'))
+console.log(lk('abc', 'ahbgdc'))
