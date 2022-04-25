@@ -20,53 +20,34 @@
 //     }
 // }
 
-// function lk(s: string, t: string): boolean {
-//     if(s === '') return true
-//     else if(s.length > t.length) return false
-//     else {
-//         let p_s = 0
-//         for (let i = 0; i < t.length; i++) {
-//             // if(p_s === s.length - 1) return true
-//             if(s[p_s] === t[i]) p_s++
-//             console.log(t[i], p_s)
-//         }
-//         return p_s === s.length
-//     }
-//
-// }
+function lk(nums1: number[], nums2: number[]): number[] {
+    const count = new Map<number, number>()
 
-class Solution {
-    #nums: number[]
-    #hash = new Map<number, number>()
-
-    constructor(nums: number[]) {
-        this.#nums = nums
-    }
-
-    pick(target: number): number {
-        let checkIndex = this.#hash.get(target) ?? 0
-
-        while (1) {
-            if(checkIndex === this.#nums.length) checkIndex = 0
-
-            if(this.#nums[checkIndex] === target) {
-                this.#hash.set(target, checkIndex + 1)
-                return checkIndex
-            }
-
-            checkIndex++
+    for (let i = 0; i < nums1.length; i ++) {
+        const item = count.get(nums1[i])
+        if(!!item) {
+            count.set(nums1[i], item + 1)
         }
-
-        return -1
+        else {
+            count.set(nums1[i], 1)
+        }
     }
+
+    const res: number[] = []
+
+    for (let j = 0; j < nums2.length; j ++) {
+        const itemIn1 = count.get(nums2[j])
+
+        if(itemIn1 && itemIn1 > 0) {
+            res.push(nums2[j])
+            count.set(nums2[j], itemIn1 - 1)
+        }
+    }
+
+    return res
 }
+
 
 export {
     // lk
 }
-
-const sl = new Solution([ 1, 2, 1, 3, 3, 1 ])
-console.log(sl.pick(1))
-console.log(sl.pick(1))
-console.log(sl.pick(1))
-console.log(sl.pick(1))
