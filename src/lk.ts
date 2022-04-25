@@ -36,27 +36,37 @@
 // }
 
 class Solution {
-    #hash = new Map<number, number[]>()
+    #nums: number[]
+    #hash = new Map<number, number>()
 
     constructor(nums: number[]) {
-        for (let i = 0; i < nums.length; i++) {
-            const ori = this.#hash.get(nums[i])
-            if(ori === undefined) {
-                this.#hash.set(nums[i], [ i ])
-            }
-            else {
-                this.#hash.set(nums[i], [...ori, i])
-            }
-        }
+        this.#nums = nums
     }
 
     pick(target: number): number {
-        const allIndex = this.#hash.get(target) as number[]
+        let checkIndex = this.#hash.get(target) ?? 0
 
-        return allIndex[~~(Math.random() * allIndex.length)]
+        while (1) {
+            if(checkIndex === this.#nums.length) checkIndex = 0
+
+            if(this.#nums[checkIndex] === target) {
+                this.#hash.set(target, checkIndex + 1)
+                return checkIndex
+            }
+
+            checkIndex++
+        }
+
+        return -1
     }
 }
 
 export {
     // lk
 }
+
+const sl = new Solution([ 1, 2, 1, 3, 3, 1 ])
+console.log(sl.pick(1))
+console.log(sl.pick(1))
+console.log(sl.pick(1))
+console.log(sl.pick(1))
