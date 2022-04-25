@@ -21,29 +21,21 @@
 // }
 
 function lk(nums1: number[], nums2: number[]): number[] {
-    const count = new Map<number, number>()
-
-    for (let i = 0; i < nums1.length; i ++) {
-        const item = count.get(nums1[i])
-        if(!!item) {
-            count.set(nums1[i], item + 1)
-        }
-        else {
-            count.set(nums1[i], 1)
-        }
-    }
+    nums1.sort((a, b) => a - b)
+    nums2.sort((a, b) => a - b)
 
     const res: number[] = []
-
-    for (let j = 0; j < nums2.length; j ++) {
-        const itemIn1 = count.get(nums2[j])
-
-        if(itemIn1 && itemIn1 > 0) {
-            res.push(nums2[j])
-            count.set(nums2[j], itemIn1 - 1)
+    let p1 = 0, p2 = 0
+    while (p1 < nums1.length && p2 < nums2.length) {
+        if(nums1[p1] === nums2[p2]) {
+            res.push(nums1[p1])
+            p1 ++
+            p2 ++
+        }
+        else {
+            nums1[p1] > nums2[p2] ? (p2 ++) : (p1 ++)
         }
     }
-
     return res
 }
 
