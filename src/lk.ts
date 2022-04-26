@@ -20,26 +20,15 @@
 //     }
 // }
 
-function lk(num1: string, num2: string): string {
-    const [ l1, l2 ] = [ num1.length, num2.length ]
-    const l = Math.max(l1, l2)
-
-    const res: number[] = []
-    let plus = 0
-
-    let i = 0
-    while (i < l) {
-        const sum = parseInt(num1[l1 - 1 - i] ?? '0') + parseInt(num2[l2 - 1 - i] ?? '0')
-        res.unshift(sum % 10)
-        plus = ~~(sum / 10)
-
-        i++
-    }
-
-    if(plus === 1) res.unshift(1)
-
-    return res.join('')
+function lk(s: string): number {
+    if(s.trim() === '') return 0
+    return (s.trim().match(/[ ]+/g)?.length ?? 0) + 1
 }
+
+console.log(lk('   '))
+console.log(lk('   1'))
+console.log(lk('   1   '))
+console.log(lk('   1   2'))
 
 export {
     // lk
