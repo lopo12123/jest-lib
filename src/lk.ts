@@ -20,11 +20,8 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    const numSet = [...new Set(nums)].sort((a, b) => b - a)
-
-    return numSet[2] ?? numSet[0]
-
+function lk(num1: string, num2: string): string {
+    return (BigInt(num1) + BigInt(num2)).toString()
 }
 
 export {
