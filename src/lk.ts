@@ -20,14 +20,11 @@
 //     }
 // }
 
-function lk(s: string): number {
-    if(s.trim() === '') return 0
+function lk(n: number): number {
+    // sum(i) = (1 + i) * i / 2
+    // sum(i) <= n < sum(i + 1) 求 i
 
-    let sum = s[0] === ' ' ? 0 : 1
-    for(let i = 1; i < s.length; i ++) {
-        if(s[i - 1] === ' ' && s[i] !== ' ') sum ++
-    }
-    return sum
+    return Math.ceil((Math.sqrt(8 * n + 1) - 1) / 2)
 }
 
 
