@@ -22,13 +22,14 @@
 
 function lk(s: string): number {
     if(s.trim() === '') return 0
-    return (s.trim().match(/[ ]+/g)?.length ?? 0) + 1
+
+    let sum = s[0] === ' ' ? 0 : 1
+    for(let i = 1; i < s.length; i ++) {
+        if(s[i - 1] === ' ' && s[i] !== ' ') sum ++
+    }
+    return sum
 }
 
-console.log(lk('   '))
-console.log(lk('   1'))
-console.log(lk('   1   '))
-console.log(lk('   1   2'))
 
 export {
     // lk
