@@ -20,17 +20,11 @@
 //     }
 // }
 
-function lk(n: number): string[] {
-    const res: string[] = []
+function lk(nums: number[]): number {
+    const numSet = [...new Set(nums)].sort((a, b) => b - a)
 
-    for(let i = 1; i <= n; i ++) {
-        if(i % 15 === 0) res.push('FizzBuzz')
-        else if(i % 5 === 0) res.push('Buzz')
-        else if(i % 3 === 0) res.push('Fizz')
-        else res.push(i+1+'')
-    }
+    return numSet[2] ?? numSet[0]
 
-    return res
 }
 
 export {
