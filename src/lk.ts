@@ -20,25 +20,18 @@
 //     }
 // }
 
-function lk(nums1: number[], nums2: number[]): number[] {
-    nums1.sort((a, b) => a - b)
-    nums2.sort((a, b) => a - b)
+function lk(n: number): string[] {
+    const res: string[] = []
 
-    const res: number[] = []
-    let p1 = 0, p2 = 0
-    while (p1 < nums1.length && p2 < nums2.length) {
-        if(nums1[p1] === nums2[p2]) {
-            res.push(nums1[p1])
-            p1 ++
-            p2 ++
-        }
-        else {
-            nums1[p1] > nums2[p2] ? (p2 ++) : (p1 ++)
-        }
+    for(let i = 1; i <= n; i ++) {
+        if(i % 15 === 0) res.push('FizzBuzz')
+        else if(i % 5 === 0) res.push('Buzz')
+        else if(i % 3 === 0) res.push('Fizz')
+        else res.push(i+1+'')
     }
+
     return res
 }
-
 
 export {
     // lk
