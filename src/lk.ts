@@ -20,13 +20,23 @@
 //     }
 // }
 
-function lk(n: number): number {
-    // sum(i) = (1 + i) * i / 2
-    // sum(i) <= n < sum(i + 1) 求 i
+function lk(nums: number[]): number[] {
+    const ordered: any[] = new Array(nums.length).fill(undefined)
 
-    return Math.ceil((Math.sqrt(8 * n + 1) - 1) / 2)
+    nums.forEach((item) => {
+        ordered[item - 1] = true
+    })
+
+    const res: number[] = []
+
+    ordered.forEach((item, index) => {
+        if(!item) res.push(index + 1)
+    })
+
+    return res
 }
 
+console.log(lk([1, 1]))
 
 export {
     // lk
