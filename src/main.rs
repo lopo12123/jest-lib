@@ -1,53 +1,33 @@
-pub fn projection_area(grid: Vec<Vec<i32>>) -> i32 {
-    let mut up = 0;
-    let mut front = 0;
+fn main() {
+    println!("find: {:#?}", lk(vec![3,3], 6));
+}
 
-    let mut column_y = Vec::new();
+fn lk(nums: Vec<i32>, target: i32) -> Vec<i32> {
+    use std::collections::HashMap;
+    use std::convert::TryInto;
 
-    let mut x = 0;
-    while x < grid.len() {
-        let mut column_x = 0;
-
-        let mut y = 0;
-        while y < grid[x].len() {
-            if grid[x][y] > 0 {
-                // 俯视图 +1
-                up += 1;
-            }
-            column_x = std::cmp::max(column_x, grid[x][y]);
-            // x 为零的时候vec[y]为空 - 要先push
-            if x == 0 {
-                column_y.push(grid[x][y]);
-            } else {
-                column_y[y] = std::cmp::max(column_y[y], grid[x][y]);
-            }
-
-            y += 1;
-        }
-        // 主视图 +1
-        front += column_x;
-
-        x += 1;
+    fn usize_to_i32(val: impl TryInto<i32>) -> i32 {
+        let val = match val.try_into() {
+            Ok(v) => v,
+            Err(_) => panic!("can not do trans"),
+        };
+        return val;
     }
 
-    let mut left = 0;
+    // value: index
+    let mut visited: HashMap<i32, i32> = HashMap::new();
 
+    let len = nums.len();
     let mut i = 0;
-    while i < column_y.len() {
-        // 累加左视图
-        left += column_y[i];
+    while i < len {
+        if visited.contains_key(&(target - nums[i])) {
+            return vec![*visited.get(&(target - nums[i])).unwrap(), usize_to_i32(i)];
+        } else {
+            visited.insert(nums[i], usize_to_i32(i));
+        }
 
         i += 1;
     }
 
-    // println!("up {}, left {}, front {}", up, left, front);
-
-    left + up + front
-}
-fn main() {
-    let sum1 = projection_area(vec![vec![1, 2], vec![3, 4]]);  // 17
-    let sum2 = projection_area(vec![vec![2]]);  // 5
-    let sum3 = projection_area(vec![vec![1, 0], vec![0, 2]]);  // 8
-
-    println!("sum1 :{}, sum2: {}, sum3: {}", sum1, sum2, sum3);
+    return vec![0, 0];
 }
