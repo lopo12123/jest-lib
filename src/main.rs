@@ -1,18 +1,33 @@
 fn main() {
     // println!("find: {:#?}", lk(vec![3,3], 6));
-    println!("{}", lk(123321));
+    let aa = lk(vec![1, 2, 3]);
+
+    println!("{:#?}", aa);
 }
 
-fn lk(nums: i32) -> bool {
-    let str: String = nums.to_string();
-    let l: usize = str.len();
-    let mut i: usize = 0;
-    while i < (l / 2) {
-        if str[i..(i + 1)] != str[(l - 1 - i)..(l - i)] {
-            return false;
+fn lk(nums: Vec<i32>) -> Vec<i32> {
+    let mut res = nums.clone();
+
+    let mut l = 0;
+    let mut r = res.len() - 1;
+
+    while l < r {
+        if res[l] % 2 == 1 && res[r] % 2 == 0 {
+            let temp = res[r];
+            res[r] = res[l];
+            res[l] = temp;
+            l += 1;
+            r -= 1;
         }
-        i += 1;
+        else {
+            if res[l] % 2 == 0 {
+                l += 1;
+            };
+            if res[r] % 2 == 1 {
+                r -= 1;
+            }
+        }
     }
 
-    return true;
+    return res;
 }
