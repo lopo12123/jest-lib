@@ -8,37 +8,42 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
 
-function lk(nums: number[]): number[] {
-    const res: number[] = [];
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
-    let i = 0;
-    while (i < nums.length) {
-        if(nums[i] % 2 === 0) res.unshift(nums[i])
-        else res.push(nums[i])
-        i++
+function lk(root: TreeNode | null): number {
+    if(root === null) return 0;
+
+    let sum = 0;
+
+    const dfsSum = (subRoot: TreeNode, left: boolean) => {
+        if(subRoot.left === null && subRoot.right === null) sum += left ? subRoot.val : 0;
+        else {
+            subRoot.left ? dfsSum(subRoot.left, true) : ''
+            subRoot.right ? dfsSum(subRoot.right, false) : ''
+        }
     }
 
-    return res
+    dfsSum(root, false);
+
+    return sum;
 }
 
 export {
     lk
 }
 
-console.log(lk([3,1,2,4]))
+const tree = new TreeNode(1)
+tree.left = new TreeNode(2)
+tree.right = new TreeNode(3)
 
-// console.log(lk( [[1,2], [4,3]]))
-// console.log(lk([ [ 1, 2, 2, 3, 5 ], [ 3, 2, 3, 4, 4 ], [ 2, 4, 5, 3, 1 ], [ 6, 7, 1, 4, 5 ], [ 5, 1, 1, 2, 4 ] ]))
-// [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]
+console.log(lk(tree))
