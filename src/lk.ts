@@ -38,14 +38,16 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): number {
-    let min = nums[0], max = nums[0]
-    for (let i = 0; i < nums.length; i++) {
+function lk(nums: number[]): number {
+    let sum = 0
+    let min = nums[0]
+
+    for(let i = 0; i < nums.length; i ++) {
+        sum += nums[i]
         min = Math.min(min, nums[i])
-        max = Math.max(max, nums[i])
     }
 
-    return Math.max(0, (max - min - 2 * k))
+    return sum - min * nums.length
 }
 
 export {
