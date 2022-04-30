@@ -38,25 +38,12 @@
 //     }
 // }
 
-function lk(grid: number[][]): number {
-    const [xL, yL] = [grid[0].length, grid.length]
-
-    const border = (x: number, y: number) => {
-        let ceilBorder = 0
-        if(x === 0 || grid[y][x - 1] === 0) ceilBorder += 1
-        if(y === 0 || grid[y - 1][x] === 0) ceilBorder += 1
-        if(x === xL - 1 || grid[y][x + 1] === 0) ceilBorder += 1
-        if(y === yL - 1 || grid[y + 1][x] === 0) ceilBorder += 1
-        return ceilBorder
-    }
-
-    let sum = 0
-    for(let y = 0; y < grid.length; y ++) {
-        for(let x = 0; x < grid[0].length; x ++) {
-            sum += grid[y][x] === 1 ? border(x, y) : 0
-        }
-    }
-    return sum
+function lk(num: number): number {
+    return parseInt(num
+        .toString(2)
+        .replace(/1/g, '-')
+        .replace(/0/g, '1')
+        .replace(/-/g, '0'), 2)
 }
 
 export {
