@@ -39,7 +39,18 @@
 // }
 
 function lk(nums: number[]): number {
-    return Math.max(...nums.join('').split('0').map(x => x.length))
+    let max = 0
+    let curr = 0
+    for(let i = 0; i < nums.length; i ++) {
+        if(nums[i] === 0) {
+            max = Math.max(max, curr)
+            curr = 0
+        }
+        curr += nums[i]
+    }
+    max = Math.max(max, curr)
+
+    return max
 }
 
 export {
