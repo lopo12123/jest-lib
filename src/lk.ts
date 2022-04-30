@@ -38,25 +38,8 @@
 //     }
 // }
 
-function lk(g: number[], s: number[]): number {
-    s.sort((a, b) => a - b)
-    g.sort((a, b) => a - b)
-
-    let sat = 0
-    let from = 0, to = 0
-
-    while (from < s.length && to < g.length) {
-        if(s[from] >= g[to]) {
-            from += 1
-            to += 1
-            sat += 1
-        }
-        else {
-            from += 1
-        }
-    }
-
-    return sat
+function lk(s: string): boolean {
+    return (s + s).slice(1, s.length * 2 - 1).includes(s)
 }
 
 export {
