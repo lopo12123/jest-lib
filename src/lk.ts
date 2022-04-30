@@ -38,8 +38,8 @@
 //     }
 // }
 
-function lk(s: string): boolean {
-    return (s + s).slice(1, s.length * 2 - 1).includes(s)
+function lk(x: number, y: number): number {
+    return (x ^ y).toString(2).match(/[1]/g)?.length ?? 0
 }
 
 export {
