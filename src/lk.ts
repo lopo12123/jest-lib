@@ -38,22 +38,17 @@
 //     }
 // }
 
-function lk(area: number): number[] {
-    let start = Math.sqrt(area)
+function lk(timeSeries: number[], duration: number): number {
+    let sum = 0
+    timeSeries.reduce((prev, curr) => {
+        sum += Math.min(curr - prev, duration)
 
-    if(~~start === start) return [start, start]
-    else {
-        let w = ~~start
-
-        while (w > 0) {
-            if(area % w === 0) return [area / w, w]
-
-            w --
-        }
-
-        return [area, 1]
-    }
+        return curr
+    })
+    return sum + duration
 }
+
+console.log(lk([1, 2], 2))
 
 export {
     lk
