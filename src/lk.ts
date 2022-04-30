@@ -38,17 +38,30 @@
 //     }
 // }
 
-function lk(timeSeries: number[], duration: number): number {
-    let sum = 0
-    timeSeries.reduce((prev, curr) => {
-        sum += Math.min(curr - prev, duration)
+function lk(nums1: number[], nums2: number[]): number[] {
+    const hash = new Map<number, number>()
+    const stack: number[] = []  // 左边是栈顶
 
-        return curr
-    })
-    return sum + duration
+    const pop = (curr: number) => {
+        while(stack[0] !== undefined && stack[0] < curr) hash.set(stack.shift()!, curr)
+    }
+
+    for(let i = 0; i < nums2.length; i ++) {
+        if(stack[0] === undefined) stack.push(nums2[i])
+        else if(nums2[i] > stack[0]) {
+            pop(nums2[i])
+        }
+
+        stack.unshift(nums2[i])
+    }
+
+    const res: number[] = []
+    for(let j = 0; j < nums1.length; j ++) {
+        res.push(hash.get(nums1[j]) ?? -1)
+    }
+
+    return res
 }
-
-console.log(lk([1, 2], 2))
 
 export {
     lk
