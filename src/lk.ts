@@ -38,12 +38,22 @@
 //     }
 // }
 
-function lk(num: number): number {
-    return parseInt(num
-        .toString(2)
-        .replace(/1/g, '-')
-        .replace(/0/g, '1')
-        .replace(/-/g, '0'), 2)
+function lk(s: string, k: number): string {
+    let groups: string[] = []
+    let inGroup = ''
+    for (let i = s.length - 1; i >= 0; i--) {
+        if(s[i] !== '-') {
+            inGroup = s[i].toUpperCase() + inGroup
+            if(inGroup.length === k) {
+                groups.unshift(inGroup)
+                inGroup = ''
+            }
+        }
+    }
+
+    if(inGroup !== '') groups.unshift(inGroup)
+
+    return groups.join('-')
 }
 
 export {
