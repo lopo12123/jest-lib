@@ -38,19 +38,21 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let max = 0
-    let curr = 0
-    for(let i = 0; i < nums.length; i ++) {
-        if(nums[i] === 0) {
-            max = Math.max(max, curr)
-            curr = 0
-        }
-        curr += nums[i]
-    }
-    max = Math.max(max, curr)
+function lk(area: number): number[] {
+    let start = Math.sqrt(area)
 
-    return max
+    if(~~start === start) return [start, start]
+    else {
+        let w = ~~start
+
+        while (w > 0) {
+            if(area % w === 0) return [area / w, w]
+
+            w --
+        }
+
+        return [area, 1]
+    }
 }
 
 export {
