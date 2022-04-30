@@ -38,22 +38,8 @@
 //     }
 // }
 
-function lk(s: string, k: number): string {
-    let groups: string[] = []
-    let inGroup = ''
-    for (let i = s.length - 1; i >= 0; i--) {
-        if(s[i] !== '-') {
-            inGroup = s[i].toUpperCase() + inGroup
-            if(inGroup.length === k) {
-                groups.unshift(inGroup)
-                inGroup = ''
-            }
-        }
-    }
-
-    if(inGroup !== '') groups.unshift(inGroup)
-
-    return groups.join('-')
+function lk(nums: number[]): number {
+    return Math.max(...nums.join('').split('0').map(x => x.length))
 }
 
 export {
