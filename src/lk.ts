@@ -38,13 +38,14 @@ class TreeNode {
 //     }
 // }
 
-function lk(num: number): boolean {
-    if(num <= 0) return false
-    let sum = 1  // 1先加上
-    for(let i = Math.floor(Math.sqrt(num)); i > 1; i --) {
-        if(num % i === 0) sum += (i === num / i) ? i : i + num / i
+function lk(n: number): number {
+    const fb = (x: number): number => {
+        if(x === 0) return 0
+        else if(x === 1) return 1
+        else return fb(x - 1) + fb(x - 2)
     }
-    return sum === num
+
+    return fb(n)
 }
 
 export {
