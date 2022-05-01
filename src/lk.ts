@@ -38,8 +38,8 @@ class TreeNode {
 //     }
 // }
 
-function lk(word: string): boolean {
-    return word.toUpperCase() === word || word.toLowerCase() === word || word.slice(1).toLowerCase() === word.slice(1)
+function lk(a: string, b: string): number {
+    return a === b ? -1 : Math.max(a.length, b.length)
 }
 
 export {
