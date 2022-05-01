@@ -38,63 +38,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null): number[] {
-    let res: number[] = []
-
-    if(root === null) return []
-
-    let max = 0, currCount = 0, lastNum = root.val
-    const dfs = (subRoot: TreeNode | null) => {
-        if(subRoot === null) return
-        else {
-            dfs(subRoot.left)
-
-            if(subRoot.val === lastNum) currCount += 1
-            else {
-                if(max === currCount) {
-                    res.push(lastNum)
-                }
-                else if(max < currCount) {
-                    max = currCount
-                    res = [lastNum]
-                }
-                lastNum = subRoot.val
-                currCount = 1
-            }
-
-            dfs(subRoot.right)
-        }
+function lk(num: number): string {
+    let ifMinus = false
+    if(num < 0) {
+        ifMinus = true
+        num = -num
     }
-    dfs(root)
-
-    // 如果众数在末尾则没有结束判断
-    if(max === currCount) {
-        res.push(lastNum)
-    }
-    else if(max < currCount) {
-        max = currCount
-        res = [lastNum]
+    let ns: number[] = []
+    while (num > 6) {
+        ns.unshift(num % 7)
+        num = ~~(num / 7)
     }
 
-    return res
+    return (ifMinus ? '-' : '') + num + ns.join('')
 }
 
 export {
     lk
 }
-
-const test: TreeNode = {
-    val: 1,
-    left: null,
-    right: {
-        val: 2,
-        left: {
-            val: 2,
-            left: null,
-            right: null
-        },
-        right: null
-    }
-}
-
-console.log(lk(test))
