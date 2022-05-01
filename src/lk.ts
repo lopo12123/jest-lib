@@ -46,8 +46,10 @@ function lk(num: number): string {
     }
     let ns: number[] = []
     while (num > 6) {
-        ns.unshift(num % 7)
-        num = ~~(num / 7)
+        let tail = num % 7
+        ns.unshift(tail)
+        // num = ~~(num / 7)
+        num = (num - tail) / 7
     }
 
     return (ifMinus ? '-' : '') + num + ns.join('')
