@@ -38,43 +38,42 @@ class TreeNode {
 //     }
 // }
 
-function lk(root1: TreeNode | null, root2: TreeNode | null): number[] {
-    // 中序遍历 得到两个小到大的数组
-    const num1: number[] = []
-    const num2: number[] = []
+function lk(root: TreeNode | null): number[] {
+    let res: number[] = []
 
-    const dfs = (subRoot: TreeNode | null, can: number[]) => {
+    if(root === null) return []
+
+    let max = 0, currCount = 0, lastNum = root.val
+    const dfs = (subRoot: TreeNode | null) => {
         if(subRoot === null) return
         else {
-            dfs(subRoot.left, can)
-            can.push(subRoot.val)
-            dfs(subRoot.right, can)
+            dfs(subRoot.left)
+
+            if(subRoot.val === lastNum) currCount += 1
+            else {
+                if(max === currCount) {
+                    res.push(lastNum)
+                }
+                else if(max < currCount) {
+                    max = currCount
+                    res = [lastNum]
+                }
+                lastNum = subRoot.val
+                currCount = 1
+            }
+
+            dfs(subRoot.right)
         }
     }
+    dfs(root)
 
-    dfs(root1, num1)
-    dfs(root2, num2)
-
-    const res: number[] = []
-    let p1 = 0, p2 = 0
-    while (p1 < num1.length || p2 < num2.length) {
-        if(p1 === num1.length) {
-            res.push(...num2.slice(p2))
-            break
-        }
-        else if(p2 === num2.length) {
-            res.push(...num1.slice(p1))
-            break
-        }
-
-        if(num1[p1] < num2[p2]) {
-            res.push(num1[p1])
-            p1 += 1
-        }
-        else {
-            res.push(num2[p2])
-            p2 += 1
-        }
+    // 如果众数在末尾则没有结束判断
+    if(max === currCount) {
+        res.push(lastNum)
+    }
+    else if(max < currCount) {
+        max = currCount
+        res = [lastNum]
     }
 
     return res
@@ -84,3 +83,18 @@ export {
     lk
 }
 
+const test: TreeNode = {
+    val: 1,
+    left: null,
+    right: {
+        val: 2,
+        left: {
+            val: 2,
+            left: null,
+            right: null
+        },
+        right: null
+    }
+}
+
+console.log(lk(test))
