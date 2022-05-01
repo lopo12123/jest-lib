@@ -39,7 +39,20 @@
 // }
 
 function lk(s: string): boolean {
-    return (s.match(/[A]/g)?.length ?? 0) < 2 && !s.includes('LLL')
+    let count_A = 0
+    let count_L = 0
+    for(let i = 0; i < s.length; i ++) {
+
+        if(s[i] === 'A') count_A ++
+        if(s[i] === 'L') count_L ++
+        else {
+            count_L = 0
+        }
+
+        if(count_A >= 2) return false
+        if(count_L >= 3) return false
+    }
+    return true
 }
 
 export {
