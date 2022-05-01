@@ -38,20 +38,13 @@ class TreeNode {
 //     }
 // }
 
-function lk(score: number[]): string[] {
-    const scoreWithIndex = score.map((score, index) => [score, index])
-    scoreWithIndex.sort((a, b) => b[0] - a[0])
-
-    const res: string[] = []
-    res[scoreWithIndex[0][1]] = 'Gold Medal'
-    if(score.length > 1) res[scoreWithIndex[1][1]] = 'Silver Medal'
-    if(score.length > 2) res[scoreWithIndex[2][1]] = 'Bronze Medal'
-
-    for(let i = 3; i < scoreWithIndex.length; i ++) {
-        res[scoreWithIndex[i][1]] = (i + 1) + ''
+function lk(num: number): boolean {
+    if(num <= 0) return false
+    let sum = 1  // 1先加上
+    for(let i = Math.floor(Math.sqrt(num)); i > 1; i --) {
+        if(num % i === 0) sum += i + num / i
     }
-
-    return res
+    return sum === num
 }
 
 export {
