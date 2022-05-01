@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -38,22 +38,17 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): number {
-    let min = 100001
-    let last = -1
-    const dfs = (subRoot: TreeNode | null) => {
-        if(subRoot === null) return;
+function lk(s: string, k: number): string {
+    const pair_of_2k = Math.floor(s.length / k / 2)
 
-        dfs(subRoot.left)
-
-        if(last !== -1) min = Math.min(min, Math.abs(subRoot.val - last))
-        last = subRoot.val
-
-        dfs(subRoot.right)
+    const parts: string[] = []
+    let p = 0
+    while (p < s.length) {
+        parts.push(s.slice(p, p + k).split('').reverse().join(''))
+        parts.push(s.slice(p + k, p + 2 * k))
+        p += 2 * k
     }
-    dfs(root)
-
-    return min
+    return parts.join('')
 }
 
 export {
