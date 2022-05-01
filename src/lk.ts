@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -38,26 +38,43 @@
 //     }
 // }
 
-function lk(nums1: number[], nums2: number[]): number[] {
-    const hash = new Map<number, number>()
-    const stack: number[] = []  // 左边是栈顶
+function lk(root1: TreeNode | null, root2: TreeNode | null): number[] {
+    // 中序遍历 得到两个小到大的数组
+    const num1: number[] = []
+    const num2: number[] = []
 
-    const pop = (curr: number) => {
-        while(stack[0] !== undefined && stack[0] < curr) hash.set(stack.shift()!, curr)
-    }
-
-    for(let i = 0; i < nums2.length; i ++) {
-        if(stack[0] === undefined) stack.push(nums2[i])
-        else if(nums2[i] > stack[0]) {
-            pop(nums2[i])
+    const dfs = (subRoot: TreeNode | null, can: number[]) => {
+        if(subRoot === null) return
+        else {
+            dfs(subRoot.left, can)
+            can.push(subRoot.val)
+            dfs(subRoot.right, can)
         }
-
-        stack.unshift(nums2[i])
     }
+
+    dfs(root1, num1)
+    dfs(root2, num2)
 
     const res: number[] = []
-    for(let j = 0; j < nums1.length; j ++) {
-        res.push(hash.get(nums1[j]) ?? -1)
+    let p1 = 0, p2 = 0
+    while (p1 < num1.length || p2 < num2.length) {
+        if(p1 === num1.length) {
+            res.push(...num2.slice(p2))
+            break
+        }
+        else if(p2 === num2.length) {
+            res.push(...num1.slice(p1))
+            break
+        }
+
+        if(num1[p1] < num2[p2]) {
+            res.push(num1[p1])
+            p1 += 1
+        }
+        else {
+            res.push(num2[p2])
+            p2 += 1
+        }
     }
 
     return res
