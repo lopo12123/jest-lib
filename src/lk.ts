@@ -38,21 +38,20 @@ class TreeNode {
 //     }
 // }
 
-function lk(num: number): string {
-    let ifMinus = false
-    if(num < 0) {
-        ifMinus = true
-        num = -num
-    }
-    let ns: number[] = []
-    while (num > 6) {
-        let tail = num % 7
-        ns.unshift(tail)
-        // num = ~~(num / 7)
-        num = (num - tail) / 7
+function lk(score: number[]): string[] {
+    const scoreWithIndex = score.map((score, index) => [score, index])
+    scoreWithIndex.sort((a, b) => b[0] - a[0])
+
+    const res: string[] = []
+    res[scoreWithIndex[0][1]] = 'Gold Medal'
+    if(score.length > 1) res[scoreWithIndex[1][1]] = 'Silver Medal'
+    if(score.length > 2) res[scoreWithIndex[2][1]] = 'Bronze Medal'
+
+    for(let i = 3; i < scoreWithIndex.length; i ++) {
+        res[scoreWithIndex[i][1]] = (i + 1) + ''
     }
 
-    return (ifMinus ? '-' : '') + num + ns.join('')
+    return res
 }
 
 export {
