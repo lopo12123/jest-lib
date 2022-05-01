@@ -42,7 +42,7 @@ function lk(num: number): boolean {
     if(num <= 0) return false
     let sum = 1  // 1先加上
     for(let i = Math.floor(Math.sqrt(num)); i > 1; i --) {
-        if(num % i === 0) sum += i + num / i
+        if(num % i === 0) sum += (i === num / i) ? i : i + num / i
     }
     return sum === num
 }
