@@ -38,8 +38,22 @@ class TreeNode {
 //     }
 // }
 
-function lk(a: string, b: string): number {
-    return a === b ? -1 : Math.max(a.length, b.length)
+function lk(root: TreeNode): number {
+    let min = 100001
+    let last = -1
+    const dfs = (subRoot: TreeNode | null) => {
+        if(subRoot === null) return;
+
+        dfs(subRoot.left)
+
+        if(last !== -1) min = Math.min(min, Math.abs(subRoot.val - last))
+        last = subRoot.val
+
+        dfs(subRoot.right)
+    }
+    dfs(root)
+
+    return min
 }
 
 export {
