@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -38,17 +38,35 @@
 //     }
 // }
 
-function lk(s: string, k: number): string {
-    const pair_of_2k = Math.floor(s.length / k / 2)
+function lk(root: TreeNode | null): number {
+    if(root === null) return 0
 
-    const parts: string[] = []
-    let p = 0
-    while (p < s.length) {
-        parts.push(s.slice(p, p + k).split('').reverse().join(''))
-        parts.push(s.slice(p + k, p + 2 * k))
-        p += 2 * k
+    let maxL = 0
+
+    const dfs_branch = (subRoot: TreeNode | null): [ left: number, right: number ] => {
+        if(subRoot === null) return [ 0, 0 ]
+        else {
+            let left, right
+            if(subRoot.left === null) left = 0
+            else {
+                left = Math.max(...dfs_branch(subRoot.left)) + 1
+            }
+            if(subRoot.right === null) right = 0
+            else {
+                right = Math.max(...dfs_branch(subRoot.right)) + 1
+            }
+
+            // 比较
+            maxL = Math.max(maxL, left + right)
+
+            return [left, right]
+        }
     }
-    return parts.join('')
+
+    const [l, r] = dfs_branch(root)
+    maxL = Math.max(maxL, l + r)
+
+    return maxL
 }
 
 export {
