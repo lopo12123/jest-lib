@@ -48,33 +48,37 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): number {
-    nums.sort((a, b) => a - b)
-    nums.push(nums[nums.length - 1] + 3)
+function lk(list1: string[], list2: string[]): string[] {
+    let res: string[] = []
+    let minIndexSum = -1
 
-    let max = 0
-
-    const countStack = [ 0 ]
-    let lastPushVal = nums[0]
-    for (let i = 1; i < nums.length; i++) {
-        if(lastPushVal !== nums[i]) {
-            countStack.push(i)
-            lastPushVal = nums[i]
+    list1.forEach((item, index) => {
+        const indexIn2 = list2.findIndex(item2 => item2 === item)
+        if(indexIn2 !== -1) {
+            if(minIndexSum === -1) {
+                minIndexSum = index + indexIn2
+                res.push(item)
+            }
+            else {
+                const sum = indexIn2 + index
+                if(sum < minIndexSum) {
+                    minIndexSum = sum
+                    res = [item]
+                }
+                else if(sum === minIndexSum) {
+                    res.push(item)
+                }
+            }
         }
-        if(nums[i] - nums[countStack[0]] > 1) {
-            if(nums[i - 1] - nums[countStack[0]] === 1) max = Math.max(max, i - countStack[0])
-            countStack.shift()
-        }
-    }
+        console.log(item, indexIn2, res)
+    })
 
-    return max
+    return res
 }
 
-console.log(lk([ 1, 1, 1, 1 ]))  // 0
-console.log(lk([1,3,5,7,9,11,13,15,17]))  // 0
-console.log(lk([ 1, 2, 3, 4 ]))  // 2
-console.log(lk([ 1, 2, 3, 3, 3, 3, 3, 3 ]))  // 7
-console.log(lk([ 1, 3, 2, 2, 5, 2, 3, 7 ]))  // 5
+console.log(lk(
+    ["Shogun","Piatti","Tapioca Express","Burger King","KFC"],
+        ["Piatti","The Grill at Torrey Pines","Hungry Hunter Steakhouse","Shogun"]))
 
 export {
     lk
