@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -48,12 +48,20 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    return nums.sort((a, b) => a - b)
-        .reduce((prev, curr, index) => {
-            if(index % 2 === 0) return prev + curr
-            else return prev
-        }, 0)
+function lk(root: TreeNode | null): number {
+
+    let max = 0
+    const dfs_sub = (subRoot: TreeNode | null): number => {
+        if(subRoot === null) return 0
+        else {
+            const left = subRoot.left === null ? 0 : dfs_sub(subRoot.left)
+            const right = subRoot.right === null ? 0 : dfs_sub(subRoot.right)
+            max += Math.abs(left - right)
+            return left + right + subRoot.val
+        }
+    }
+    dfs_sub(root)
+    return max
 }
 
 export {
