@@ -38,31 +38,22 @@
 //     }
 // }
 
-class Node {
-    val: number
-    children: Node[]
+// class Node {
+//     val: number
+//     children: Node[]
+//
+//     constructor(val?: number, children?: Node[]) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.children = (children === undefined ? [] : children)
+//     }
+// }
 
-    constructor(val?: number, children?: Node[]) {
-        this.val = (val === undefined ? 0 : val)
-        this.children = (children === undefined ? [] : children)
-    }
-}
-
-function lk(root: Node | null): number {
-    if(root === null) return 0
-
-    let layer = 0
-    const dfs = (subRoot: Node | null, layerUpside: number) => {
-        if(subRoot === null) return
-        else {
-            layer = Math.max(layer, layerUpside + 1)
-            subRoot.children.forEach(node => dfs(node, layerUpside + 1))
-        }
-    }
-
-    dfs(root, 0)
-
-    return layer
+function lk(nums: number[]): number {
+    return nums.sort((a, b) => a - b)
+        .reduce((prev, curr, index) => {
+            if(index % 2 === 0) return prev + curr
+            else return prev
+        }, 0)
 }
 
 export {
