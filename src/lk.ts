@@ -48,26 +48,9 @@ class TreeNode {
 //     }
 // }
 
-function lk(mat: number[][], r: number, c: number): number[][] {
-    if(r * c !== mat.length * mat[0].length) return mat
-    else {
-        const x_len = mat[0].length
-        const y_len = mat.length
-        const res: number[][] = new Array(r).fill(1).map(() => [])
-
-        for (let y = 0; y < y_len; y++) {
-            for (let x = 0; x < x_len; x++) {
-                const num = y * x_len + x + 1  // 第几个
-
-                res[Math.floor((num - 1) / c)][(num + c - 1) % c] = mat[y][x]
-            }
-        }
-
-        return res
-    }
+function lk(candyType: number[]): number {
+    return Math.min(new Set(candyType).size, candyType.length / 2)
 }
-
-console.log(lk([[1,2], [3,4]], 4, 1))
 
 export {
     lk
