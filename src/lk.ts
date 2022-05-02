@@ -38,8 +38,31 @@
 //     }
 // }
 
-function lk(s: string): string {
-    return s.split(' ').map(x => x.split('').reverse().join('')).join(' ')
+class Node {
+    val: number
+    children: Node[]
+
+    constructor(val?: number, children?: Node[]) {
+        this.val = (val === undefined ? 0 : val)
+        this.children = (children === undefined ? [] : children)
+    }
+}
+
+function lk(root: Node | null): number {
+    if(root === null) return 0
+
+    let layer = 0
+    const dfs = (subRoot: Node | null, layerUpside: number) => {
+        if(subRoot === null) return
+        else {
+            layer = Math.max(layer, layerUpside + 1)
+            subRoot.children.forEach(node => dfs(node, layerUpside + 1))
+        }
+    }
+
+    dfs(root, 0)
+
+    return layer
 }
 
 export {
