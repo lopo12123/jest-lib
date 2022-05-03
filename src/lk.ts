@@ -48,29 +48,14 @@ class TreeNode {
 //     }
 // }
 
-function lk(logs: string[]): string[] {
-    // 数字的 不变
-    const log_num = logs.filter((log => {
-        return /[0-9]/.test(log.split(' ').slice(1).join(''))
-    }))
-    // 字母的 字典序排序
-    const log_word = logs.filter((log => {
-        return /[a-zA-Z]/.test(log.split(' ').slice(1).join(''))
-    })).sort((a, b) => {
-        const[label_a, ...content_a] = a.split(' ')
-        const[label_b, ...content_b] = b.split(' ')
-
-        if(content_a.join('') === content_b.join('')) return label_a < label_b ? -1 : 1
-        else return content_a.join(' ') < content_b.join(' ') ? -1 : 1
-    })
-
-    console.log('word: ', log_word)
-    console.log('num: ', log_num)
-
-    return [...log_word, ...log_num]
+function lk(flowerbed: number[], n: number): boolean {
+    return [ '1', '0', ...flowerbed, '0', '1' ].join('').split(/[1]+/)
+        .reduce((prev, curr) => {
+            return prev + (curr.length === 0 ? 0 : Math.floor((curr.length - 1) / 2))
+        }, 0) >= n
 }
 
-console.log(lk(["j mo", "5 m w", "g 07", "o 2 0", "t q h"]))
+console.log(lk([ 1, 0, 0, 0, 0, 1 ], 2))
 
 export {
     lk
