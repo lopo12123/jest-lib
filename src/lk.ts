@@ -50,27 +50,27 @@ class TreeNode {
 
 function lk(root1: TreeNode | null, root2: TreeNode | null): TreeNode | null {
     if(root1 === null && root2 === null) return null
+    else if(root1 === null) return root2
+    else if(root2 === null) return root1
 
-    let newRoot = new TreeNode()
-
-    const dfs_2 = (sub1: TreeNode | null | undefined, sub2: TreeNode | null| undefined, target: TreeNode) => {
+    const dfs_2 = (sub1: TreeNode, sub2: TreeNode | null | undefined) => {
         if(!sub1 && !sub2) return
         else {
-            target.val = (sub1?.val ?? 0) + (sub2?.val ?? 0)
+            sub1.val = (sub1?.val ?? 0) + (sub2?.val ?? 0)
             if(sub1?.left || sub2?.left) {
-                target.left = new TreeNode()
-                dfs_2(sub1?.left, sub2?.left, target.left)
+                if(!sub1.left) sub1.left = new TreeNode()
+                dfs_2(sub1?.left, sub2?.left)
             }
             if(sub1?.right || sub2?.right) {
-                target.right = new TreeNode()
-                dfs_2(sub1?.right, sub2?.right, target.right)
+                if(!sub1.right) sub1.right = new TreeNode()
+                dfs_2(sub1?.right, sub2?.right)
             }
         }
     }
 
-    dfs_2(root1, root2, newRoot)
+    dfs_2(root1, root2)
 
-    return newRoot
+    return root1
 }
 
 export {
