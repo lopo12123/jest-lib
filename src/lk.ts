@@ -48,26 +48,29 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): string {
-    const res: (string | number)[] = []
+function lk(root1: TreeNode | null, root2: TreeNode | null): TreeNode | null {
+    if(root1 === null && root2 === null) return null
 
-    const dfs = (subRoot: TreeNode | null, need: boolean) => {
-        if(subRoot === null) {
-            if(need) res.push('()')
-            return
+    let newRoot = new TreeNode()
+
+    const dfs_2 = (sub1: TreeNode | null | undefined, sub2: TreeNode | null| undefined, target: TreeNode) => {
+        if(!sub1 && !sub2) return
+        else {
+            target.val = (sub1?.val ?? 0) + (sub2?.val ?? 0)
+            if(sub1?.left || sub2?.left) {
+                target.left = new TreeNode()
+                dfs_2(sub1?.left, sub2?.left, target.left)
+            }
+            if(sub1?.right || sub2?.right) {
+                target.right = new TreeNode()
+                dfs_2(sub1?.right, sub2?.right, target.right)
+            }
         }
-        res.push('(', subRoot.val)
-        dfs(subRoot.left, subRoot.left === null && subRoot.right !== null)
-        dfs(subRoot.right, subRoot.left === null && subRoot.right !== null)
-        res.push(')')
     }
 
-    dfs(root, false)
+    dfs_2(root1, root2, newRoot)
 
-    res.shift()
-    res.pop()
-
-    return res.join('')
+    return newRoot
 }
 
 export {
