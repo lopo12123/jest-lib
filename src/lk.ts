@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -48,29 +48,12 @@ class TreeNode {
 //     }
 // }
 
-function lk(root1: TreeNode | null, root2: TreeNode | null): TreeNode | null {
-    if(root1 === null && root2 === null) return null
-    else if(root1 === null) return root2
-    else if(root2 === null) return root1
+function lk(nums: number[]): number {
+    nums.sort((a, b) => a - b)
 
-    const dfs_2 = (sub1: TreeNode, sub2: TreeNode | null | undefined) => {
-        if(!sub1 && !sub2) return
-        else {
-            sub1.val = (sub1?.val ?? 0) + (sub2?.val ?? 0)
-            if(sub1?.left || sub2?.left) {
-                if(!sub1.left) sub1.left = new TreeNode()
-                dfs_2(sub1?.left, sub2?.left)
-            }
-            if(sub1?.right || sub2?.right) {
-                if(!sub1.right) sub1.right = new TreeNode()
-                dfs_2(sub1?.right, sub2?.right)
-            }
-        }
-    }
+    const len = nums.length
 
-    dfs_2(root1, root2)
-
-    return root1
+    return Math.max(nums[len - 3] * nums[len - 2] * nums[len - 1], nums[0] * nums[1] * nums[len - 1])
 }
 
 export {
