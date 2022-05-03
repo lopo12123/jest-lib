@@ -48,24 +48,29 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    const res: number[] = []
-    const table: number[] = []
+function lk(root: TreeNode | null, k: number): boolean {
+    const sorted: number[] = []
 
-    const len = nums.length
-    for(let i = 0; i < len; i ++) {
-        if(table[nums[i]] === nums[i]) res[0] = nums[i]
-        table[nums[i]] = nums[i]
+    const dfs = (sub: TreeNode | null) => {
+        if(sub === null) return
+        else {
+            dfs(sub.left)
+            sorted.push(sub.val)
+            dfs(sub.right)
+        }
+    }
+    dfs(root)
+
+    let left = 0, right = sorted.length - 1
+    while (left < right) {
+        const thisSum = sorted[left] + sorted[right]
+        if(thisSum === k) return true
+        else if(thisSum > k) right -= 1
+        else if(thisSum < k) left += 1
     }
 
-    for(let j = 1; j < len + 1; j ++) {
-        if(table[j] === undefined) res[1] = j
-    }
-
-    return res
+    return false
 }
-
-console.log(lk([1,12,-5,-6,50,3], 4))
 
 export {
     lk
