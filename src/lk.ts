@@ -48,14 +48,27 @@ class TreeNode {
 //     }
 // }
 
-function lk(flowerbed: number[], n: number): boolean {
-    return [ '1', '0', ...flowerbed, '0', '1' ].join('').split(/[1]+/)
-        .reduce((prev, curr) => {
-            return prev + (curr.length === 0 ? 0 : Math.floor((curr.length - 1) / 2))
-        }, 0) >= n
-}
+function lk(root: TreeNode): string {
+    const res: (string | number)[] = []
 
-console.log(lk([ 1, 0, 0, 0, 0, 1 ], 2))
+    const dfs = (subRoot: TreeNode | null, need: boolean) => {
+        if(subRoot === null) {
+            if(need) res.push('()')
+            return
+        }
+        res.push('(', subRoot.val)
+        dfs(subRoot.left, subRoot.left === null && subRoot.right !== null)
+        dfs(subRoot.right, subRoot.left === null && subRoot.right !== null)
+        res.push(')')
+    }
+
+    dfs(root, false)
+
+    res.shift()
+    res.pop()
+
+    return res.join('')
+}
 
 export {
     lk
