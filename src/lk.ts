@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -48,12 +48,26 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    nums.sort((a, b) => a - b)
+function lk(root: TreeNode | null): number[] {
+    const layers: [sum: number, num: number][] = []  // 总和 / 个数
 
-    const len = nums.length
+    const dfs_sum = (sub: TreeNode | null, layer: number) => {
+        if(sub === null) return
+        else {
+            if(!layers[layer]) layers[layer] = [0, 0]
+            layers[layer][0] += sub.val
+            layers[layer][1] += 1
 
-    return Math.max(nums[len - 3] * nums[len - 2] * nums[len - 1], nums[0] * nums[1] * nums[len - 1])
+            dfs_sum(sub.left, layer + 1)
+            dfs_sum(sub.right, layer + 1)
+        }
+    }
+
+    dfs_sum(root, 0)
+
+    return layers.map(([sum, num]) => {
+        return sum / num
+    })
 }
 
 export {
