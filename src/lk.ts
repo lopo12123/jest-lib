@@ -48,27 +48,23 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null): number[] {
-    const layers: [sum: number, num: number][] = []  // 总和 / 个数
-
-    const dfs_sum = (sub: TreeNode | null, layer: number) => {
-        if(sub === null) return
-        else {
-            if(!layers[layer]) layers[layer] = [0, 0]
-            layers[layer][0] += sub.val
-            layers[layer][1] += 1
-
-            dfs_sum(sub.left, layer + 1)
-            dfs_sum(sub.right, layer + 1)
-        }
+function lk(nums: number[], k: number): number {
+    let sum = 0
+    for(let i = 0; i < k; i ++) {
+        sum += nums[i]
     }
 
-    dfs_sum(root, 0)
+    let max = sum
 
-    return layers.map(([sum, num]) => {
-        return sum / num
-    })
+    for(let j = k; j < nums.length; j ++) {
+        sum = sum - nums[j - k] + nums[j]
+        max = Math.max(max, sum)
+    }
+
+    return max / k
 }
+
+console.log(lk([1,12,-5,-6,50,3], 4))
 
 export {
     lk
