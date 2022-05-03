@@ -48,20 +48,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[], k: number): number {
-    let sum = 0
-    for(let i = 0; i < k; i ++) {
-        sum += nums[i]
+function lk(nums: number[]): number[] {
+    const res: number[] = []
+    const table: number[] = []
+
+    const len = nums.length
+    for(let i = 0; i < len; i ++) {
+        if(table[nums[i]] === nums[i]) res[0] = nums[i]
+        table[nums[i]] = nums[i]
     }
 
-    let max = sum
-
-    for(let j = k; j < nums.length; j ++) {
-        sum = sum - nums[j - k] + nums[j]
-        max = Math.max(max, sum)
+    for(let j = 1; j < len + 1; j ++) {
+        if(table[j] === undefined) res[1] = j
     }
 
-    return max / k
+    return res
 }
 
 console.log(lk([1,12,-5,-6,50,3], 4))
