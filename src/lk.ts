@@ -48,37 +48,29 @@ class TreeNode {
 //     }
 // }
 
-function lk(list1: string[], list2: string[]): string[] {
-    let res: string[] = []
-    let minIndexSum = -1
+function lk(logs: string[]): string[] {
+    // 数字的 不变
+    const log_num = logs.filter((log => {
+        return /[0-9]/.test(log.split(' ').slice(1).join(''))
+    }))
+    // 字母的 字典序排序
+    const log_word = logs.filter((log => {
+        return /[a-zA-Z]/.test(log.split(' ').slice(1).join(''))
+    })).sort((a, b) => {
+        const[label_a, ...content_a] = a.split(' ')
+        const[label_b, ...content_b] = b.split(' ')
 
-    list1.forEach((item, index) => {
-        const indexIn2 = list2.findIndex(item2 => item2 === item)
-        if(indexIn2 !== -1) {
-            if(minIndexSum === -1) {
-                minIndexSum = index + indexIn2
-                res.push(item)
-            }
-            else {
-                const sum = indexIn2 + index
-                if(sum < minIndexSum) {
-                    minIndexSum = sum
-                    res = [item]
-                }
-                else if(sum === minIndexSum) {
-                    res.push(item)
-                }
-            }
-        }
-        console.log(item, indexIn2, res)
+        if(content_a.join('') === content_b.join('')) return label_a < label_b ? -1 : 1
+        else return content_a.join(' ') < content_b.join(' ') ? -1 : 1
     })
 
-    return res
+    console.log('word: ', log_word)
+    console.log('num: ', log_num)
+
+    return [...log_word, ...log_num]
 }
 
-console.log(lk(
-    ["Shogun","Piatti","Tapioca Express","Burger King","KFC"],
-        ["Piatti","The Grill at Torrey Pines","Hungry Hunter Steakhouse","Shogun"]))
+console.log(lk(["j mo", "5 m w", "g 07", "o 2 0", "t q h"]))
 
 export {
     lk
