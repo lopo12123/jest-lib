@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -48,32 +48,22 @@
 //     }
 // }
 
-function lk(img: number[][]): number[][] {
-    const [ xLen, yLen ] = [ img[0].length, img.length ]
-
-    const filter = (thisX: number, thisY: number) => {
-        let sum = 0
-        let ceil_count = 0
-        for (let y = Math.max(0, thisY - 1); y <= Math.min(yLen - 1, thisY + 1); y++) {
-            for (let x = Math.max(0, thisX - 1); x <= Math.min(xLen - 1, thisX + 1); x++) {
-                sum += img[y][x]
-                ceil_count += 1
+function lk(root: TreeNode): number {
+    let res = -1
+    const dfs = (sub: TreeNode | null) => {
+        if(sub === null) return
+        else {
+            if(sub.val > root.val) {
+                res = (res === -1) ? sub.val : Math.min(sub.val, res)
             }
+            dfs(sub.left)
+            dfs(sub.right)
         }
-        return Math.floor(sum / ceil_count)
     }
+    dfs(root)
 
-    const out: number[][] = []
-    for (let y = 0; y < yLen; y++) {
-        out[y] = []
-        for (let x = 0; x < xLen; x++) {
-            out[y][x] = filter(x, y)
-        }
-    }
-    return out
+    return res
 }
-
-console.log(lk([[1,1,1],[1,0,1],[1,1,1]]))
 
 export {
     lk
