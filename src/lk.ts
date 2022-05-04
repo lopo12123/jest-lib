@@ -48,22 +48,24 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): number {
-    let res = -1
-    const dfs = (sub: TreeNode | null) => {
-        if(sub === null) return
-        else {
-            if(sub.val > root.val) {
-                res = (res === -1) ? sub.val : Math.min(sub.val, res)
-            }
-            dfs(sub.left)
-            dfs(sub.right)
+function lk(nums: number[]): number {
+    if(nums.length === 1) return 1
+
+    let sum = 1
+    let l = 0
+
+    nums.push(nums[nums.length - 1] - 1)
+    for(let i = 1; i < nums.length; i ++) {
+        if(nums[i] <= nums[i - 1]) {
+            sum = Math.max(sum, i - l)
+            l = i
         }
     }
-    dfs(root)
 
-    return res
+    return sum
 }
+
+console.log(lk([1,3,5,4,7]))
 
 export {
     lk
