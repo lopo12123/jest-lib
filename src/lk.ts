@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -48,28 +48,17 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null, k: number): boolean {
-    const sorted: number[] = []
+function lk(n: number, k: number): number {
+    const players: number[] = new Array(n).fill(1).map((x, index) => index)
 
-    const dfs = (sub: TreeNode | null) => {
-        if(sub === null) return
-        else {
-            dfs(sub.left)
-            sorted.push(sub.val)
-            dfs(sub.right)
+    while (players.length > 1) {
+        for (let i = 0; i < k - 1; i ++) {
+            players.push(players.shift()!)
         }
-    }
-    dfs(root)
-
-    let left = 0, right = sorted.length - 1
-    while (left < right) {
-        const thisSum = sorted[left] + sorted[right]
-        if(thisSum === k) return true
-        else if(thisSum > k) right -= 1
-        else if(thisSum < k) left += 1
+        players.shift()
     }
 
-    return false
+    return players[0] + 1
 }
 
 export {
