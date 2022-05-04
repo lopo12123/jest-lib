@@ -48,28 +48,32 @@
 //     }
 // }
 
-function lk(moves: string): boolean {
-    let [x, y] = [0, 0]
+function lk(img: number[][]): number[][] {
+    const [ xLen, yLen ] = [ img[0].length, img.length ]
 
-    for (let i = 0; i < moves.length; i ++) {
-        switch (moves[i]) {
-            case 'L':
-                x -= 1
-                break
-            case 'R':
-                x += 1
-                break
-            case 'U':
-                y += 1
-                break
-            case 'D':
-                y -= 1
-                break
+    const filter = (thisX: number, thisY: number) => {
+        let sum = 0
+        let ceil_count = 0
+        for (let y = Math.max(0, thisY - 1); y <= Math.min(yLen - 1, thisY + 1); y++) {
+            for (let x = Math.max(0, thisX - 1); x <= Math.min(xLen - 1, thisX + 1); x++) {
+                sum += img[y][x]
+                ceil_count += 1
+            }
         }
+        return Math.floor(sum / ceil_count)
     }
 
-    return x === 0 && y === 0
+    const out: number[][] = []
+    for (let y = 0; y < yLen; y++) {
+        out[y] = []
+        for (let x = 0; x < xLen; x++) {
+            out[y][x] = filter(x, y)
+        }
+    }
+    return out
 }
+
+console.log(lk([[1,1,1],[1,0,1],[1,1,1]]))
 
 export {
     lk
