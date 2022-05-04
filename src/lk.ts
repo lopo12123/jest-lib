@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -48,28 +48,17 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    const count: [start: number, end: number, count: number][] = []
-
-    for(let i = 0; i < nums.length; i ++) {
-        if(count[nums[i]] === undefined) count[nums[i]] = [i, i, 1]
+function lk(root: TreeNode | null, val: number): TreeNode | null {
+    const dfs_s = (sub: TreeNode | null): TreeNode | null => {
+        if(sub === null) return null
         else {
-            count[nums[i]][1] = i
-            count[nums[i]][2] += 1
+            if(sub.val === val) return sub
+            return dfs_s(sub.left) ?? dfs_s(sub.right)
         }
     }
 
-    console.log(count)
-
-    const max =  count.sort((a, b) => {
-        if(a[2] === b[2]) return (a[1] - a[0]) - (b[1] - b[0])
-        else return b[2] - a[2]
-    })[0]
-
-    return max[1] - max[0] + 1
+    return dfs_s(root)
 }
-
-console.log(lk([1,2,2,3,1,4,2]))
 
 export {
     lk
