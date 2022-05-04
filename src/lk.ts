@@ -48,30 +48,31 @@ class TreeNode {
 //     }
 // }
 
-function lk(s: string): boolean {
-    const ifTrue = (start_l: number, start_r: number) => {
-        while (start_l < start_r) {
-            if(s[start_l] !== s[start_r]) return false
-            else {
-                start_l += 1
-                start_r -= 1
-            }
-        }
-        return true
-    }
+function lk(ops: string[]): number {
+    const his: number[] = []
 
-    let [l, r] = [0, s.length - 1]
-    while (l < r) {
-        if(s[l] === s[r]) {
-            l += 1
-            r -= 1
-        }
-        else {
-            return ifTrue(l + 1, r) || ifTrue(l, r - 1)
+    let sum = 0
+    for(let i = 0; i < ops.length; i ++) {
+        switch (ops[i]) {
+            case '+':
+                sum += his[0] + his[1]
+                his.unshift(his[0] + his[1])
+                break
+            case 'D':
+                sum += his[0] * 2
+                his.unshift(his[0] * 2)
+                break
+            case 'C':
+                sum -= his[0]
+                his.shift()
+                break
+            default:
+                sum += parseInt(ops[i])
+                his.unshift(parseInt(ops[i]))
+                break
         }
     }
-
-    return true
+    return sum
 }
 
 export {
