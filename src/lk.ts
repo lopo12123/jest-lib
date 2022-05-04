@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -48,32 +48,28 @@ class TreeNode {
 //     }
 // }
 
-function lk(ops: string[]): number {
-    const his: number[] = []
+function lk(nums: number[]): number {
+    const count: [start: number, end: number, count: number][] = []
 
-    let sum = 0
-    for(let i = 0; i < ops.length; i ++) {
-        switch (ops[i]) {
-            case '+':
-                sum += his[0] + his[1]
-                his.unshift(his[0] + his[1])
-                break
-            case 'D':
-                sum += his[0] * 2
-                his.unshift(his[0] * 2)
-                break
-            case 'C':
-                sum -= his[0]
-                his.shift()
-                break
-            default:
-                sum += parseInt(ops[i])
-                his.unshift(parseInt(ops[i]))
-                break
+    for(let i = 0; i < nums.length; i ++) {
+        if(count[nums[i]] === undefined) count[nums[i]] = [i, i, 1]
+        else {
+            count[nums[i]][1] = i
+            count[nums[i]][2] += 1
         }
     }
-    return sum
+
+    console.log(count)
+
+    const max =  count.sort((a, b) => {
+        if(a[2] === b[2]) return (a[1] - a[0]) - (b[1] - b[0])
+        else return b[2] - a[2]
+    })[0]
+
+    return max[1] - max[0] + 1
 }
+
+console.log(lk([1,2,2,3,1,4,2]))
 
 export {
     lk
