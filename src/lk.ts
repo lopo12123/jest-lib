@@ -48,24 +48,31 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): number {
-    if(nums.length === 1) return 1
+function lk(s: string): boolean {
+    const ifTrue = (start_l: number, start_r: number) => {
+        while (start_l < start_r) {
+            if(s[start_l] !== s[start_r]) return false
+            else {
+                start_l += 1
+                start_r -= 1
+            }
+        }
+        return true
+    }
 
-    let sum = 1
-    let l = 0
-
-    nums.push(nums[nums.length - 1] - 1)
-    for(let i = 1; i < nums.length; i ++) {
-        if(nums[i] <= nums[i - 1]) {
-            sum = Math.max(sum, i - l)
-            l = i
+    let [l, r] = [0, s.length - 1]
+    while (l < r) {
+        if(s[l] === s[r]) {
+            l += 1
+            r -= 1
+        }
+        else {
+            return ifTrue(l + 1, r) || ifTrue(l, r - 1)
         }
     }
 
-    return sum
+    return true
 }
-
-console.log(lk([1,3,5,4,7]))
 
 export {
     lk
