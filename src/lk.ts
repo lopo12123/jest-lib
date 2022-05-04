@@ -48,17 +48,27 @@
 //     }
 // }
 
-function lk(n: number, k: number): number {
-    const players: number[] = new Array(n).fill(1).map((x, index) => index)
+function lk(moves: string): boolean {
+    let [x, y] = [0, 0]
 
-    while (players.length > 1) {
-        for (let i = 0; i < k - 1; i ++) {
-            players.push(players.shift()!)
+    for (let i = 0; i < moves.length; i ++) {
+        switch (moves[i]) {
+            case 'L':
+                x -= 1
+                break
+            case 'R':
+                x += 1
+                break
+            case 'U':
+                y += 1
+                break
+            case 'D':
+                y -= 1
+                break
         }
-        players.shift()
     }
 
-    return players[0] + 1
+    return x === 0 && y === 0
 }
 
 export {
