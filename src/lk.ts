@@ -49,7 +49,7 @@
 // }
 
 function lk(nums: number[], target: number): number {
-    let [l, r] = [0, nums.length - 1]
+    let [ l, r ] = [ 0, nums.length - 1 ]
 
     while (l < r) {
         const mid = Math.floor((l + r) / 2)
@@ -63,7 +63,24 @@ function lk(nums: number[], target: number): number {
     return -1
 }
 
-console.log(lk([ 1,2,3,4,5 ], 7))
+class KthLargest {
+    hash: (number | undefined)[] = []
+
+    constructor() {
+    }
+
+    add(key: number): void {
+        this.hash[key] = key
+    }
+
+    remove(key: number): void {
+        this.hash[key] = undefined
+    }
+
+    contains(key: number): boolean {
+        return this.hash[key] !== undefined
+    }
+}
 
 export {
     lk
