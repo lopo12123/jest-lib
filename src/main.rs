@@ -1,33 +1,38 @@
 fn main() {
-    // println!("find: {:#?}", lk(vec![3,3], 6));
-    let aa = lk(vec![1, 2, 3]);
-
-    println!("{:#?}", aa);
+    println!("res: {}", lk(&vec![10, 5, 2, 6], 100));
+    println!("res: {}", lk(&vec![1, 2, 3, 4, 5], 8));
 }
 
-fn lk(nums: Vec<i32>) -> Vec<i32> {
-    let mut res = nums.clone();
-
-    let mut l = 0;
-    let mut r = res.len() - 1;
-
-    while l < r {
-        if res[l] % 2 == 1 && res[r] % 2 == 0 {
-            let temp = res[r];
-            res[r] = res[l];
-            res[l] = temp;
-            l += 1;
-            r -= 1;
-        }
-        else {
-            if res[l] % 2 == 0 {
-                l += 1;
-            };
-            if res[r] % 2 == 1 {
-                r -= 1;
-            }
-        }
+fn lk(nums: &Vec<i32>, k: i32) -> i32 {
+    if k == 0 {
+        return 0;
     }
 
-    return res;
+    let mut count = 0;
+    let mut prod = 1;
+    let mut left = 0;
+
+    let len = nums.len();
+    let mut i = 0;
+    while i < len {
+        prod *= nums[i];
+
+        while prod >= k && left <= i {
+            if left == i {
+                prod = 1;
+                left = i + 1;
+                break;
+            }
+            prod /= nums[left];
+            left += 1;
+        }
+
+        if prod < k {
+            count += i - left + 1
+        }
+
+        i += 1;
+    }
+
+    return count as i32;
 }
