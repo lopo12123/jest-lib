@@ -69,16 +69,16 @@ class KthLargest {
     constructor() {
     }
 
-    add(key: number): void {
-        this.hash[key] = key
+    put(key: number, value: number): void {
+        this.hash[key] = value
+    }
+
+    get(key: number): number {
+        return this.hash[key] === undefined ? -1 : this.hash[key]!
     }
 
     remove(key: number): void {
-        this.hash[key] = undefined
-    }
-
-    contains(key: number): boolean {
-        return this.hash[key] !== undefined
+        this.hash[key] = -1
     }
 }
 
