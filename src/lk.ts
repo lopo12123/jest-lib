@@ -48,31 +48,19 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): number {
-    if(k === 0) return 0
+function lk(nums: number[], target: number): number {
+    let [l, r] = [0, nums.length - 1]
 
-    let count = 0
-    let prod = 1, left = 0
-
-    for (let i = 0; i < nums.length; i++) {
-        prod *= nums[i]
-
-        while (prod >= k && left <= i) {
-            if(left === i) {  // 无内容 prod置为1并且left设为下一项
-                prod = 1
-                left = i + 1
-                break
-            }
-            prod /= nums[left]  // 去掉最左侧项
-            left += 1  // 左界右移1
-        }
-
-        if(prod < k) {
-            count += i - left + 1
-        }
+    while (l < r) {
+        const mid = Math.floor((l + r) / 2)
+        if(nums[mid] === target) return mid
+        else if(nums[mid] > target) r = mid - 1
+        else if(nums[mid] < target) l = mid + 1
     }
 
-    return count
+    if(l === r && nums[l] === target) return l
+
+    return -1
 }
 
 console.log(lk([ 1,2,3,4,5 ], 7))
