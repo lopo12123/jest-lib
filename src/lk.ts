@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -48,17 +48,34 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null, val: number): TreeNode | null {
-    const dfs_s = (sub: TreeNode | null): TreeNode | null => {
-        if(sub === null) return null
-        else {
-            if(sub.val === val) return sub
-            return dfs_s(sub.left) ?? dfs_s(sub.right)
+function lk(nums: number[], k: number): number {
+    if(k === 0) return 0
+
+    let count = 0
+    let prod = 1, left = 0
+
+    for (let i = 0; i < nums.length; i++) {
+        prod *= nums[i]
+
+        while (prod >= k && left <= i) {
+            if(left === i) {  // 无内容 prod置为1并且left设为下一项
+                prod = 1
+                left = i + 1
+                break
+            }
+            prod /= nums[left]  // 去掉最左侧项
+            left += 1  // 左界右移1
+        }
+
+        if(prod < k) {
+            count += i - left + 1
         }
     }
 
-    return dfs_s(root)
+    return count
 }
+
+console.log(lk([ 1,2,3,4,5 ], 7))
 
 export {
     lk
