@@ -48,39 +48,20 @@
 //     }
 // }
 
-function lk(nums: number[], target: number): number {
-    let [ l, r ] = [ 0, nums.length - 1 ]
+function lk(bits: number[]): boolean {
+    if(bits.length === 1) return true
 
-    while (l < r) {
-        const mid = Math.floor((l + r) / 2)
-        if(nums[mid] === target) return mid
-        else if(nums[mid] > target) r = mid - 1
-        else if(nums[mid] < target) l = mid + 1
-    }
+    const lastZero = bits.lastIndexOf(0, bits.length - 2)
 
-    if(l === r && nums[l] === target) return l
+    console.log(lastZero)
+    const len = (bits.length - 2) - lastZero
 
-    return -1
+    console.log(len)
+
+    return len % 2 === 0
 }
 
-class KthLargest {
-    hash: (number | undefined)[] = []
-
-    constructor() {
-    }
-
-    put(key: number, value: number): void {
-        this.hash[key] = value
-    }
-
-    get(key: number): number {
-        return this.hash[key] === undefined ? -1 : this.hash[key]!
-    }
-
-    remove(key: number): void {
-        this.hash[key] = -1
-    }
-}
+console.log(lk([0]))
 
 export {
     lk
