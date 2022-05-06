@@ -51,20 +51,17 @@
 function lk(image: number[][]): number[][] {
     const x_len = image[0].length
 
-    // let [l, r] = [0, x_len - 1]
-    let l = 0, r = x_len - 1
+    let offset = 0
     let opposite_r = 0
 
     for (let y = 0; y < image.length; y ++) {
-        l = 0
-        r = x_len - 1
-        while (l <= r) {
-            opposite_r = image[y][r] === 0 ? 1 : 0
-            image[y][r] = image[y][l] === 0 ? 1 : 0
-            image[y][l] = opposite_r
+        offset = 0
+        while (offset < x_len / 2) {
+            opposite_r = image[y][x_len - 1 - offset] === 0 ? 1 : 0
+            image[y][x_len - 1 - offset] = image[y][offset] === 0 ? 1 : 0
+            image[y][offset] = opposite_r
 
-            l += 1
-            r -= 1
+            offset += 1
         }
     }
 
