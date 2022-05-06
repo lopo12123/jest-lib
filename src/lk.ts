@@ -49,7 +49,12 @@
 // }
 
 function lk(jewels: string, stones: string): number {
-    return stones.match(new RegExp(jewels.split('').join('|'),'g'))?.length ?? 0
+    const j = new Set(jewels.split(''))
+    let sum = 0
+    for (let i = 0; i < stones.length; i ++) {
+        sum += j.has(stones[i]) ? 1 : 0
+    }
+    return sum
 }
 
 console.log(lk('aA', 'aAAbbbb'))
