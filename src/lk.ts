@@ -61,7 +61,20 @@ function lk(bits: number[]): boolean {
     return len % 2 === 0
 }
 
-console.log(lk([0]))
+class RecentCounter {
+    #queue: number[] = []
+    constructor() {
+
+    }
+
+    ping(t: number): number {
+        this.#queue.push(t)
+        while (t - this.#queue[0] > 3000) {
+            this.#queue.shift()
+        }
+        return this.#queue.length
+    }
+}
 
 export {
     lk
