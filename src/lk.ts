@@ -48,33 +48,21 @@
 //     }
 // }
 
-function lk(words: string[]): string {
-    const set = new Set<string>()
+function lk(nums: number[]): number {
+    let sum = nums.reduce((prev, curr) => {
+        return prev + curr
+    }, 0)
 
-    words.sort((a, b) => {
-        return a.length === b.length
-            ? (a < b ? 1 : -1)
-            : a.length - b.length
-    })
-
-    let res = ''
-    for (let i = 0; i < words.length; i++) {
-        if(words[i].length === 1) {
-            res = words[i]
-            set.add(res)
-        }
-        else {
-            if(set.has(words[i].slice(0, -1))) {
-                res = words[i]
-                set.add(res)
-            }
-        }
+    let left = 0
+    for (let i = 0; i < nums.length; i ++) {
+        if((sum - nums[i]) / 2 === left) return i
+        left += nums[i]
     }
 
-    return res
+    return -1
 }
 
-console.log(lk(["a", "banana", "app", "appl", "ap", "apply", "apple"]))
+console.log(lk([1, 2, 3]))
 
 export {
     lk
