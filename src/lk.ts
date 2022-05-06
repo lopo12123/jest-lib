@@ -48,14 +48,33 @@
 //     }
 // }
 
-function lk(m: number, n: number, ops: number[][]): number {
-    let [ m_min, n_min ] = ops[0] ?? [ m, n ]
-    for (let i = 0; i < ops.length; i++) {
-        m_min = Math.min(m_min, ops[i][0])
-        n_min = Math.min(n_min, ops[i][1])
+function lk(words: string[]): string {
+    const set = new Set<string>()
+
+    words.sort((a, b) => {
+        return a.length === b.length
+            ? (a < b ? 1 : -1)
+            : a.length - b.length
+    })
+
+    let res = ''
+    for (let i = 0; i < words.length; i++) {
+        if(words[i].length === 1) {
+            res = words[i]
+            set.add(res)
+        }
+        else {
+            if(set.has(words[i].slice(0, -1))) {
+                res = words[i]
+                set.add(res)
+            }
+        }
     }
-    return m_min * n_min
+
+    return res
 }
+
+console.log(lk(["a", "banana", "app", "appl", "ap", "apply", "apple"]))
 
 export {
     lk
