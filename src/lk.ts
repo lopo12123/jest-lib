@@ -48,16 +48,28 @@
 //     }
 // }
 
-function lk(jewels: string, stones: string): number {
-    const j = new Set(jewels.split(''))
-    let sum = 0
-    for (let i = 0; i < stones.length; i ++) {
-        sum += j.has(stones[i]) ? 1 : 0
-    }
-    return sum
-}
+function lk(image: number[][]): number[][] {
+    const x_len = image[0].length
 
-console.log(lk('aA', 'aAAbbbb'))
+    // let [l, r] = [0, x_len - 1]
+    let l = 0, r = x_len - 1
+    let opposite_r = 0
+
+    for (let y = 0; y < image.length; y ++) {
+        l = 0
+        r = x_len - 1
+        while (l <= r) {
+            opposite_r = image[y][r] === 0 ? 1 : 0
+            image[y][r] = image[y][l] === 0 ? 1 : 0
+            image[y][l] = opposite_r
+
+            l += 1
+            r -= 1
+        }
+    }
+
+    return image
+}
 
 export {
     lk
