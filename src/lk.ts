@@ -48,21 +48,63 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let sum = nums.reduce((prev, curr) => {
-        return prev + curr
-    }, 0)
+function lk(image: number[][], sr: number, sc: number, newColor: number): number[][] {
+    const initColor = image[sr][sc]
+    const [ x_len, y_len ] = [ image[0].length, image.length ]
 
-    let left = 0
-    for (let i = 0; i < nums.length; i ++) {
-        if((sum - nums[i]) / 2 === left) return i
-        left += nums[i]
+    const painted = new Set<string>()
+
+    const gpl = (curr_x: number, curr_y: number, ifX: boolean) => {
+        if(ifX) {
+            for (let x1 = curr_x - 1; x1 >= 0; x1--) {
+                if(image[curr_y][x1] === initColor && !painted.has(`${ x1 },${ curr_y }`)) {
+                    image[curr_y][x1] = newColor
+                    painted.add(`${ x1 },${ curr_y }`)
+                    // console.log(`x-: (${curr_x}, ${curr_y})`, x1, curr_y)
+                    gpl(x1, curr_y, false)
+                }
+                else break
+            }
+            for (let x2 = curr_x + 1; x2 < x_len; x2++) {
+                if(image[curr_y][x2] === initColor && !painted.has(`${ x2 },${ curr_y }`)) {
+                    image[curr_y][x2] = newColor
+                    painted.add(`${ x2 },${ curr_y }`)
+                    // console.log(`x+: (${curr_x}, ${curr_y})`, x2, curr_y)
+                    gpl(x2, curr_y, false)
+                }
+                else break
+            }
+        }
+        else {
+            for (let y1 = curr_y - 1; y1 >= 0; y1--) {
+                if(image[y1][curr_x] === initColor && !painted.has(`${ curr_x },${ y1 }`)) {
+                    image[y1][curr_x] = newColor
+                    painted.add(`${ curr_x },${ y1 }`)
+                    // console.log(`y-: (${curr_x}, ${curr_y})`, curr_x, y1)
+                    gpl(curr_x, y1, true)
+                }
+                else break
+            }
+            for (let y2 = curr_y + 1; y2 < y_len; y2++) {
+                if(image[y2][curr_x] === initColor && !painted.has(`${ curr_x },${ y2 }`)) {
+                    image[y2][curr_x] = newColor
+                    painted.add(`${ curr_x },${ y2 }`)
+                    // console.log(`y+: (${curr_x}, ${curr_y})`, curr_x, curr_y)
+                    gpl(curr_x, y2, true)
+                }
+                else break
+            }
+        }
     }
 
-    return -1
+    image[sr][sc] = newColor
+    gpl(sc, sr, true)
+    gpl(sc, sr, false)
+
+    return image
 }
 
-console.log(lk([1, 2, 3]))
+console.log(lk([[ 0, 0, 0 ], [ 0, 0, 1 ] ], 1, 0, 2))
 
 export {
     lk
