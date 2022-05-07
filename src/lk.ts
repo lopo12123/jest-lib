@@ -48,26 +48,13 @@
 //     }
 // }
 
-function lk(s: string): number[][] {
-    const len = s.length
-
-    if(len <= 2) return []
-
-    const res: number[][] = []
-
-    let start = 0
-    for (let i = 1; i < len; i++) {
-        if(i === (len - 1) || s[i] !== s[start]) {
-            if(i - start > 2) res.push([ start, i - 1 ])
-
-            start = i
-        }
-    }
-
-    return res
+function lk(rec1: number[], rec2: number[]): boolean {
+    return !(rec1[0] >= rec2[2]
+        || rec1[2] <= rec2[0]
+        || rec1[1] >= rec2[3]
+        || rec1[3] <= rec2[1]
+    )
 }
-
-console.log(lk('aaa'))
 
 export {
     lk
