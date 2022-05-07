@@ -48,22 +48,24 @@
 //     }
 // }
 
-function lk(matrix: number[][]): boolean {
-    if(matrix.length === 1) return true
+function lk(points: number[][]): number {
+    let maxS = 0
 
-    const base = matrix[0]
-    const x_len = base.length
+    for (let i = 0; i < points.length - 2; i++) {
+        for (let j = i + 1; j < points.length - 1; j++) {
+            for (let k = j + 1; k < points.length; k++) {
+                let n1 = [ points[j][0] - points[i][0], points[j][1] - points[i][1] ]  // ij
+                let n2 = [ points[k][0] - points[i][0], points[k][1] - points[i][1] ]  // ik
 
-    for (let y = 1; y < matrix.length; y ++) {
-        base.unshift(matrix[y][0])
-        base.pop()
-        for (let x = 0; x < x_len; x ++) {
-            if(base[x] !== matrix[y][x]) return false
+                maxS = Math.max(maxS, Math.abs(n1[0] * n2[1] - n2[0] * n1[1]) / 2)
+            }
         }
     }
 
-    return true
+    return maxS
 }
+
+console.log(lk([[1,0],[0,0],[0,1]]))
 
 export {
     lk
