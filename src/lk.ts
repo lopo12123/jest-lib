@@ -49,22 +49,11 @@
 // }
 
 function lk(start: string, end: string, bank: string[]): number {
-    class Tree {
-        val: string
-        deep: number
-        link: Tree[] = []
-
-        constructor(val: string, deep: number) {
-            this.val = val
-            this.deep = deep
-        }
-    }
-
     const diff = (a: string, b: string) => {
         if(a.length !== b.length) return -1
 
         let count = 0
-        for (let i = 0; i < a.length; i ++) {
+        for (let i = 0; i < a.length; i++) {
             if(a[i] !== b[i]) count += 1
         }
         return count
@@ -78,18 +67,29 @@ function lk(start: string, end: string, bank: string[]): number {
     // 将起始串加入set, 开始构建树
     bankSet.add(start)
 
-    const tree = new Tree(end, 0)
-    const pool = [tree]
+    const pool: (string | null)[] = [ end ]
+    let mutCount = 0
+    let layerEnd: boolean = true
 
     while (bankSet.size > 0 && pool.length > 0) {
+        if(pool[0] === null) {
+            layerEnd = true
+            mutCount += 1
+            pool.shift()
+            continue
+        }
+
+        if(layerEnd) {
+            layerEnd = false
+            pool.push(null)
+        }
+
         for (let str of bankSet) {
-            if(diff(str, pool[0].val) === 1) {
-                if(str === start) return pool[0].deep + 1
+            if(diff(str, pool[0]) === 1) {
+                if(str === start) return mutCount + 1
                 else {
-                    let sub = new Tree(str, pool[0].deep + 1)
-                    pool[0].link.push(sub)
+                    pool.push(str)
                     bankSet.delete(str)
-                    pool.push(sub)
                 }
             }
         }
