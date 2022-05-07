@@ -48,13 +48,31 @@
 //     }
 // }
 
-function lk(rec1: number[], rec2: number[]): boolean {
-    return !(rec1[0] >= rec2[2]
-        || rec1[2] <= rec2[0]
-        || rec1[1] >= rec2[3]
-        || rec1[3] <= rec2[1]
-    )
+function lk(s: string, t: string): boolean {
+    const screen: string[] = []  // 0 是栈顶
+
+    for (let i = 0; i < s.length; i++) {
+        if(s[i] === '#') screen.shift()
+        else screen.unshift(s[i])
+    }
+
+    let ignore = 0
+    for (let j = t.length - 1; j >= 0; j--) {
+        if(t[j] === '#') ignore += 1
+        else {
+            if(ignore === 0) {
+                if(screen[0] !== t[j]) return false
+                else screen.shift()
+            }
+            else ignore -= 1
+        }
+    }
+
+    return screen.length === 0
 }
+
+console.log(lk("bxj##tw",
+"bxo#j##tw"))
 
 export {
     lk
