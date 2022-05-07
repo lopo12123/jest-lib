@@ -48,24 +48,26 @@
 //     }
 // }
 
-function lk(points: number[][]): number {
-    let maxS = 0
+function lk(s: string): number[][] {
+    const len = s.length
 
-    for (let i = 0; i < points.length - 2; i++) {
-        for (let j = i + 1; j < points.length - 1; j++) {
-            for (let k = j + 1; k < points.length; k++) {
-                let n1 = [ points[j][0] - points[i][0], points[j][1] - points[i][1] ]  // ij
-                let n2 = [ points[k][0] - points[i][0], points[k][1] - points[i][1] ]  // ik
+    if(len <= 2) return []
 
-                maxS = Math.max(maxS, Math.abs(n1[0] * n2[1] - n2[0] * n1[1]) / 2)
-            }
+    const res: number[][] = []
+
+    let start = 0
+    for (let i = 1; i < len; i++) {
+        if(i === (len - 1) || s[i] !== s[start]) {
+            if(i - start > 2) res.push([ start, i - 1 ])
+
+            start = i
         }
     }
 
-    return maxS
+    return res
 }
 
-console.log(lk([[1,0],[0,0],[0,1]]))
+console.log(lk('aaa'))
 
 export {
     lk
