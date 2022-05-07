@@ -48,19 +48,39 @@
 //     }
 // }
 
-function lk(arr: number[]): number {
-    let l = 0, r = arr.length
-    let mid = Math.floor((l + r) / 2)
+function lk(s: string, goal: string): boolean {
+    const s_len = s.length
+    const goal_len = goal.length
 
-    while (l <= r) {
-        if(arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1]) return mid
-        else if(arr[mid - 1] > arr[mid]) r = mid - 1
-        else l = mid + 1
-        mid = Math.floor((l + r) / 2)
+    if(s_len === 1 || goal_len === 1 || s_len !== goal_len) return false
+    else {
+        const existChar = new Set<string>()
+        let ifDouble = false
+
+        let diff: number = 0, diffChar: [ string, string ] = [ '', '' ]  // [s[i], goal[i]]
+        for (let i = 0; i < s_len; i++) {
+            if(!ifDouble) {
+                ifDouble = existChar.has(s[i])
+                existChar.add(s[i])
+            }
+            if(s[i] !== goal[i]) {
+                console.log(diff, diffChar)
+                if(diff === 2) return false
+                else if(diff === 1) {
+                    if(s[i] !== diffChar[1] || goal[i] !== diffChar[0]) return false
+                }
+                diff += 1
+                diffChar = [ s[i], goal[i] ]
+            }
+        }
+
+        console.log(diff, ifDouble)
+
+        return (diff === 0 && ifDouble) || diff === 2
     }
-
-    return mid
 }
+
+console.log(lk('ab', 'ab'))
 
 export {
     lk
