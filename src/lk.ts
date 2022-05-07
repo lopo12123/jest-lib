@@ -48,31 +48,19 @@
 //     }
 // }
 
-function lk(s: string, t: string): boolean {
-    const screen: string[] = []  // 0 是栈顶
+function lk(arr: number[]): number {
+    let l = 0, r = arr.length
+    let mid = Math.floor((l + r) / 2)
 
-    for (let i = 0; i < s.length; i++) {
-        if(s[i] === '#') screen.shift()
-        else screen.unshift(s[i])
+    while (l <= r) {
+        if(arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1]) return mid
+        else if(arr[mid - 1] > arr[mid]) r = mid - 1
+        else l = mid + 1
+        mid = Math.floor((l + r) / 2)
     }
 
-    let ignore = 0
-    for (let j = t.length - 1; j >= 0; j--) {
-        if(t[j] === '#') ignore += 1
-        else {
-            if(ignore === 0) {
-                if(screen[0] !== t[j]) return false
-                else screen.shift()
-            }
-            else ignore -= 1
-        }
-    }
-
-    return screen.length === 0
+    return mid
 }
-
-console.log(lk("bxj##tw",
-"bxo#j##tw"))
 
 export {
     lk
