@@ -48,41 +48,22 @@
 //     }
 // }
 
-function lk(licensePlate: string, words: string[]): string {
-    const oriCount: number[] = new Array(26).fill(0)
+function lk(matrix: number[][]): boolean {
+    if(matrix.length === 1) return true
 
-    for (let i = 0; i < licensePlate.length; i++) {
-        if(/[a-zA-Z]/.test(licensePlate[i])) {
-            oriCount[licensePlate[i].toLowerCase().charCodeAt(0) - 97] += 1
+    const base = matrix[0]
+    const x_len = base.length
+
+    for (let y = 1; y < matrix.length; y ++) {
+        base.unshift(matrix[y][0])
+        base.pop()
+        for (let x = 0; x < x_len; x ++) {
+            if(base[x] !== matrix[y][x]) return false
         }
     }
 
-    let minWord = ''
-
-    for (let j = 0; j < words.length; j++) {
-        const wordCount: number[] = new Array(26).fill(0)
-        for (let k = 0; k < words[j].length; k++) {
-            wordCount[words[j][k].toLowerCase().charCodeAt(0) - 97] += 1
-        }
-
-        let satisfy = true
-        for (let comp = 0; comp < 26; comp++) {
-            if(wordCount[comp] < oriCount[comp]) {
-                satisfy = false
-                break
-            }
-        }
-
-        if(satisfy && (minWord === '' || words[j].length < minWord.length)) {
-            minWord = words[j]
-        }
-    }
-
-    return minWord
+    return true
 }
-
-console.log(lk("1s3 PSt",
-    ["step","steps","stripe","stepple"]))
 
 export {
     lk
