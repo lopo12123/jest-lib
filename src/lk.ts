@@ -48,39 +48,43 @@
 //     }
 // }
 
-function lk(s: string, goal: string): boolean {
-    const s_len = s.length
-    const goal_len = goal.length
+function lk(bills: number[]): boolean {
+    const iHave = new Map<number, number>()
 
-    if(s_len === 1 || goal_len === 1 || s_len !== goal_len) return false
-    else {
-        const existChar = new Set<string>()
-        let ifDouble = false
+    for (let i = 0; i < bills.length; i ++) {
+        const allMy5 = iHave.get(5) ?? 0
+        const allMy10 = iHave.get(10) ?? 0
 
-        let diff: number = 0, diffChar: [ string, string ] = [ '', '' ]  // [s[i], goal[i]]
-        for (let i = 0; i < s_len; i++) {
-            if(!ifDouble) {
-                ifDouble = existChar.has(s[i])
-                existChar.add(s[i])
-            }
-            if(s[i] !== goal[i]) {
-                console.log(diff, diffChar)
-                if(diff === 2) return false
-                else if(diff === 1) {
-                    if(s[i] !== diffChar[1] || goal[i] !== diffChar[0]) return false
+        switch (bills[i]) {
+            case 5:
+                iHave.set(5, allMy5 + 1)
+                break
+            case 10:
+                if(allMy5 === 0) return false
+                else {
+                    iHave.set(5, allMy5 - 1)
+                    iHave.set(10, allMy10 + 1)
                 }
-                diff += 1
-                diffChar = [ s[i], goal[i] ]
-            }
+                break
+            case 20:
+                if(allMy5 === 0 || (allMy10 === 0 && allMy5 < 3)) return false
+                else {
+                    if(allMy10 > 0) {
+                        iHave.set(5, allMy5 - 1)
+                        iHave.set(10, allMy10 - 1)
+                    }
+                    else {
+                        iHave.set(5, allMy5 - 3)
+                    }
+                }
+                break
         }
-
-        console.log(diff, ifDouble)
-
-        return (diff === 0 && ifDouble) || diff === 2
     }
+
+    return true
 }
 
-console.log(lk('ab', 'ab'))
+console.log(lk([5,5,5,10,20]))
 
 export {
     lk
