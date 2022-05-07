@@ -48,24 +48,55 @@
 //     }
 // }
 
-function lk(image: number[][]): number[][] {
-    const x_len = image[0].length
+function lk(start: string, end: string, bank: string[]): number {
+    class Tree {
+        val: string
+        deep: number
+        link: Tree[] = []
 
-    let offset = 0
-    let opposite_r = 0
-
-    for (let y = 0; y < image.length; y ++) {
-        offset = 0
-        while (offset < x_len / 2) {
-            opposite_r = image[y][x_len - 1 - offset] === 0 ? 1 : 0
-            image[y][x_len - 1 - offset] = image[y][offset] === 0 ? 1 : 0
-            image[y][offset] = opposite_r
-
-            offset += 1
+        constructor(val: string, deep: number) {
+            this.val = val
+            this.deep = deep
         }
     }
 
-    return image
+    const diff = (a: string, b: string) => {
+        if(a.length !== b.length) return -1
+
+        let count = 0
+        for (let i = 0; i < a.length; i ++) {
+            if(a[i] !== b[i]) count += 1
+        }
+        return count
+    }
+
+    const bankSet = new Set(bank)
+
+    // 如果end是无效的直接返回-1
+    if(!bankSet.has(end)) return -1
+
+    // 将起始串加入set, 开始构建树
+    bankSet.add(start)
+
+    const tree = new Tree(end, 0)
+    const pool = [tree]
+
+    while (bankSet.size > 0 && pool.length > 0) {
+        for (let str of bankSet) {
+            if(diff(str, pool[0].val) === 1) {
+                if(str === start) return pool[0].deep + 1
+                else {
+                    let sub = new Tree(str, pool[0].deep + 1)
+                    pool[0].link.push(sub)
+                    bankSet.delete(str)
+                    pool.push(sub)
+                }
+            }
+        }
+        pool.shift()
+    }
+
+    return -1
 }
 
 export {
