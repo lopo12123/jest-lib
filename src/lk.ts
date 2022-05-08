@@ -48,29 +48,33 @@
 //     }
 // }
 
-function lk(deck: number[]): boolean {
-    if(deck.length === 1) return false
+function lk(name: string, typed: string): boolean {
+    const len_name = name.length
+    const len_typed = typed.length
+    if(len_typed < len_name || name[0] !== typed[0]) return false
 
-    const gcd = (a: number, b: number): number => {
-        return b === 0 ? a : gcd(b, a % b)
+    let n = 1, t = 1
+    while (n < len_name && t < len_typed) {
+        if(name[n] === typed[t]) {
+            n += 1
+            t += 1
+        }
+        else if(typed[t] === typed[t - 1]) t += 1
+        else return false
     }
 
-    const count: {[k: number]: number} = {}
-
-    for (let i = 0; i < deck.length; i ++) {
-        count[deck[i]] = (count[deck[i]] ?? 0) + 1
+    while (n < len_name) {
+        if(name[n] !== name[n - 1]) return false
+        else n += 1
     }
 
-    let x = 0
-
-    for (let k in count) {
-        x = gcd(x, count[k])
-        if(gcd(x, count[k]) === 1) return false
+    while (t < len_typed) {
+        if(typed[t] !== typed[t - 1]) return false
+        else t += 1
     }
+
     return true
 }
-
-console.log(lk([1,1]))
 
 export {
     lk
