@@ -48,29 +48,29 @@
 //     }
 // }
 
-function lk(grid: number[][]): number {
-    const ylen = grid.length, xlen = grid[0].length
+function lk(deck: number[]): boolean {
+    if(deck.length === 1) return false
 
-    if(ylen === 1 && xlen === 1) return grid[0][0] === 0 ? 0 : (grid[0][0] * 4 + 2)
-
-    let sum = 0
-
-    const all_around = (x: number, y: number, h: number) => {
-        return (x === 0 ? h : Math.max(0, h - grid[y][x - 1]))  // 左
-            + (x === (xlen - 1) ? h : Math.max(0, h - grid[y][x + 1]))  // 右
-            + (y === 0 ? h : Math.max(0, h - grid[y - 1][x]))  // 上
-            + (y === (ylen - 1) ? h : Math.max(0, h - grid[y + 1][x]))  // 下
-            + (h === 0 ? 0 : 2)
+    const gcd = (a: number, b: number): number => {
+        return b === 0 ? a : gcd(b, a % b)
     }
 
-    for (let y = 0; y < ylen; y++) {
-        for (let x = 0; x < xlen; x++) {
-            sum += all_around(x, y, grid[y][x])
-        }
+    const count: {[k: number]: number} = {}
+
+    for (let i = 0; i < deck.length; i ++) {
+        count[deck[i]] = (count[deck[i]] ?? 0) + 1
     }
 
-    return sum
+    let x = 0
+
+    for (let k in count) {
+        x = gcd(x, count[k])
+        if(gcd(x, count[k]) === 1) return false
+    }
+    return true
 }
+
+console.log(lk([1,1]))
 
 export {
     lk
