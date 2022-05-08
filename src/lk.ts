@@ -48,16 +48,16 @@
 //     }
 // }
 
-function lk(s1: string, s2: string): string[] {
-    const pool = (s1 + ' ' + s2).split(' ').sort()
+function lk(matrix: number[][]): number[][] {
+    let xlen = matrix[0].length, ylen = matrix.length
 
-    const res: string[] = []
-    let insert = true
-    for (let i = 0; i < pool.length; i ++) {
-        if(pool[i] === pool[i + 1]) insert = false
-        else {
-            if(!insert) insert = true
-            else res.push(pool[i])
+    if(xlen === 1 && ylen === 1) return matrix
+
+    const res: number[][] = new Array(xlen).fill(0).map(() => new Array(ylen).fill(0))
+
+    for (let y = 0; y < ylen; y ++) {
+        for (let x = 0; x < xlen; x ++) {
+            res[x][y] = matrix[y][x]
         }
     }
 
