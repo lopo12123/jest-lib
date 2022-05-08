@@ -48,22 +48,25 @@
 //     }
 // }
 
-function lk(nums: number[]): boolean {
-    let flag = 0
-    for (let i = 1; i < nums.length; i ++) {
-        if(flag === 0 && (nums[i] - nums[i - 1]) !== 0) {
-            flag = nums[i] - nums[i - 1]
-        }
-        else {
-            if(flag * (nums[i] - nums[i - 1]) < 0) return false
-        }
-        console.log(flag)
+function lk(aliceSizes: number[], bobSizes: number[]): number[] {
+    const a_b = (aliceSizes.reduce((prev, curr) => {
+        return prev + curr
+    }, 0) - bobSizes.reduce((prev, curr) => {
+        return prev + curr
+    }, 0)) / 2
+
+    console.log(a_b)
+
+    const alice_set = new Set(aliceSizes)
+
+    for (let i = 0; i < bobSizes.length; i ++) {
+        if(alice_set.has(bobSizes[i] + a_b)) return [bobSizes[i] + a_b, bobSizes[i]]
     }
 
-    return true
+    return [0, 0]
 }
 
-console.log(lk([6, 5, 4, 4]))
+console.log(lk([1, 1], [2, 2]))
 
 export {
     lk
