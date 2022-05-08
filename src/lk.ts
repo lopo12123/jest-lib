@@ -48,25 +48,30 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    const n = nums.length
+function lk(s: string): string {
+    const res_arr: string[] = new Array(s.length)
 
-    const res: number[] = []
-    for (let i = 0; i < n; i++) {
-        if(nums[i] > 0) {
-            if(nums[nums[i] - 1] <= 0) res.push(nums[i])
-            else nums[nums[i] - 1] -= n
+    let l = 0, r = s.length - 1
+
+    while (l <= r) {
+        if(!/[a-zA-Z]/.test(s[l])) {
+            res_arr[l] = s[l]
+            l += 1
+        }
+        else if(!/[a-zA-Z]/.test(s[r])) {
+            res_arr[r] = s[r]
+            r -= 1
         }
         else {
-            if(nums[nums[i] + n - 1] <= 0) res.push(nums[i] + n)
-            else nums[nums[i] + n - 1] -= n
+            res_arr[l] = s[r]
+            res_arr[r] = s[l]
+            l += 1
+            r -= 1
         }
-        console.log(i, nums)
     }
-    return res
-}
 
-console.log(lk([2, 2]))
+    return res_arr.join('')
+}
 
 export {
     lk
