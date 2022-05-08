@@ -48,20 +48,28 @@
 //     }
 // }
 
-function lk(matrix: number[][]): number[][] {
-    let xlen = matrix[0].length, ylen = matrix.length
+function lk(grid: number[][]): number {
+    const ylen = grid.length, xlen = grid[0].length
 
-    if(xlen === 1 && ylen === 1) return matrix
+    if(ylen === 1 && xlen === 1) return grid[0][0] === 0 ? 0 : (grid[0][0] * 4 + 2)
 
-    const res: number[][] = new Array(xlen).fill(0).map(() => new Array(ylen).fill(0))
+    let sum = 0
 
-    for (let y = 0; y < ylen; y ++) {
-        for (let x = 0; x < xlen; x ++) {
-            res[x][y] = matrix[y][x]
+    const all_around = (x: number, y: number, h: number) => {
+        return (x === 0 ? h : Math.max(0, h - grid[y][x - 1]))  // 左
+            + (x === (xlen - 1) ? h : Math.max(0, h - grid[y][x + 1]))  // 右
+            + (y === 0 ? h : Math.max(0, h - grid[y - 1][x]))  // 上
+            + (y === (ylen - 1) ? h : Math.max(0, h - grid[y + 1][x]))  // 下
+            + (h === 0 ? 0 : 2)
+    }
+
+    for (let y = 0; y < ylen; y++) {
+        for (let x = 0; x < xlen; x++) {
+            sum += all_around(x, y, grid[y][x])
         }
     }
 
-    return res
+    return sum
 }
 
 export {
