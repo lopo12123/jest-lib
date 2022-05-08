@@ -49,20 +49,22 @@
 // }
 
 function lk(nums: number[]): number[] {
-    let even = 0, odd = 1
+    let even = 0, odd = 1, temp
 
-    const res: number[] = []
-    for (let i = 0; i < nums.length; i ++) {
-        if(nums[i] % 2 === 0) {
-            res[even] = nums[i]
+    while (odd < nums.length && even < nums.length - 1) {
+        if(nums[odd] % 2 === 0 && nums[even] % 2 === 1) {
+            temp = nums[odd]
+            nums[odd] = nums[even]
+            nums[even] = temp
+
+            odd += 2
             even += 2
         }
-        else {
-            res[odd] = nums[i]
-            odd += 2
-        }
+        else if(nums[odd] % 2 === 1) odd += 2
+        else if(nums[even] % 2 === 0) even += 2
     }
-    return res
+
+    return nums
 }
 
 export {
