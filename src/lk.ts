@@ -48,25 +48,21 @@
 //     }
 // }
 
-function lk(aliceSizes: number[], bobSizes: number[]): number[] {
-    const a_b = (aliceSizes.reduce((prev, curr) => {
-        return prev + curr
-    }, 0) - bobSizes.reduce((prev, curr) => {
-        return prev + curr
-    }, 0)) / 2
+function lk(s1: string, s2: string): string[] {
+    const pool = (s1 + ' ' + s2).split(' ').sort()
 
-    console.log(a_b)
-
-    const alice_set = new Set(aliceSizes)
-
-    for (let i = 0; i < bobSizes.length; i ++) {
-        if(alice_set.has(bobSizes[i] + a_b)) return [bobSizes[i] + a_b, bobSizes[i]]
+    const res: string[] = []
+    let insert = true
+    for (let i = 0; i < pool.length; i ++) {
+        if(pool[i] === pool[i + 1]) insert = false
+        else {
+            if(!insert) insert = true
+            else res.push(pool[i])
+        }
     }
 
-    return [0, 0]
+    return res
 }
-
-console.log(lk([1, 1], [2, 2]))
 
 export {
     lk
