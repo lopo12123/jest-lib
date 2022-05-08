@@ -48,43 +48,25 @@
 //     }
 // }
 
-function lk(bills: number[]): boolean {
-    const iHave = new Map<number, number>()
+function lk(nums: number[]): number[] {
+    const n = nums.length
 
-    for (let i = 0; i < bills.length; i ++) {
-        const allMy5 = iHave.get(5) ?? 0
-        const allMy10 = iHave.get(10) ?? 0
-
-        switch (bills[i]) {
-            case 5:
-                iHave.set(5, allMy5 + 1)
-                break
-            case 10:
-                if(allMy5 === 0) return false
-                else {
-                    iHave.set(5, allMy5 - 1)
-                    iHave.set(10, allMy10 + 1)
-                }
-                break
-            case 20:
-                if(allMy5 === 0 || (allMy10 === 0 && allMy5 < 3)) return false
-                else {
-                    if(allMy10 > 0) {
-                        iHave.set(5, allMy5 - 1)
-                        iHave.set(10, allMy10 - 1)
-                    }
-                    else {
-                        iHave.set(5, allMy5 - 3)
-                    }
-                }
-                break
+    const res: number[] = []
+    for (let i = 0; i < n; i++) {
+        if(nums[i] > 0) {
+            if(nums[nums[i] - 1] <= 0) res.push(nums[i])
+            else nums[nums[i] - 1] -= n
         }
+        else {
+            if(nums[nums[i] + n - 1] <= 0) res.push(nums[i] + n)
+            else nums[nums[i] + n - 1] -= n
+        }
+        console.log(i, nums)
     }
-
-    return true
+    return res
 }
 
-console.log(lk([5,5,5,10,20]))
+console.log(lk([2, 2]))
 
 export {
     lk
