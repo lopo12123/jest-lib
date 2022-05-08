@@ -48,24 +48,22 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    let even = 0, odd = 1, temp
-
-    while (odd < nums.length && even < nums.length - 1) {
-        if(nums[odd] % 2 === 0 && nums[even] % 2 === 1) {
-            temp = nums[odd]
-            nums[odd] = nums[even]
-            nums[even] = temp
-
-            odd += 2
-            even += 2
+function lk(nums: number[]): boolean {
+    let flag = 0
+    for (let i = 1; i < nums.length; i ++) {
+        if(flag === 0 && (nums[i] - nums[i - 1]) !== 0) {
+            flag = nums[i] - nums[i - 1]
         }
-        else if(nums[odd] % 2 === 1) odd += 2
-        else if(nums[even] % 2 === 0) even += 2
+        else {
+            if(flag * (nums[i] - nums[i - 1]) < 0) return false
+        }
+        console.log(flag)
     }
 
-    return nums
+    return true
 }
+
+console.log(lk([6, 5, 4, 4]))
 
 export {
     lk
