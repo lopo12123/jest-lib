@@ -48,29 +48,21 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const res_arr: string[] = new Array(s.length)
+function lk(nums: number[]): number[] {
+    let even = 0, odd = 1
 
-    let l = 0, r = s.length - 1
-
-    while (l <= r) {
-        if(!/[a-zA-Z]/.test(s[l])) {
-            res_arr[l] = s[l]
-            l += 1
-        }
-        else if(!/[a-zA-Z]/.test(s[r])) {
-            res_arr[r] = s[r]
-            r -= 1
+    const res: number[] = []
+    for (let i = 0; i < nums.length; i ++) {
+        if(nums[i] % 2 === 0) {
+            res[even] = nums[i]
+            even += 2
         }
         else {
-            res_arr[l] = s[r]
-            res_arr[r] = s[l]
-            l += 1
-            r -= 1
+            res[odd] = nums[i]
+            odd += 2
         }
     }
-
-    return res_arr.join('')
+    return res
 }
 
 export {
