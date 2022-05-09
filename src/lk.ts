@@ -48,19 +48,16 @@ class ListNode {
 //     }
 // }
 
-function lk(head: ListNode | null): ListNode | null {
-    if(head === null) return null
+function lk(head: ListNode): ListNode | null {
+    const vals = JSON.stringify(head).match(/[0-9]+/g)!
 
-    let quick = head, slow = head
-
-    while (quick.next && quick.next.next) {
-        quick = quick.next.next
-        slow = slow.next!
+    const res = new ListNode(parseInt(vals[Math.floor(vals.length / 2)]))
+    let p = res
+    for (let i = Math.floor(vals.length / 2) + 1; i < vals.length; i ++) {
+        p.next = new ListNode(parseInt(vals[i]))
+        p = p.next
     }
-
-    if(quick.next) slow = slow.next!
-
-    return slow
+    return res
 }
 
 export {
