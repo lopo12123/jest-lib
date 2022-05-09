@@ -48,29 +48,46 @@
 //     }
 // }
 
-function lk(num: number[], k: number): number[] {
-    const ks: number[] = []
-    while (k > 0) {
-        ks.unshift(k % 10)
-        k = Math.floor(k / 10)
+function lk(board: string[][]): number {
+    let count = 0
+    for (let y = 0; y < 8; y ++) {
+        count = 0
+        for (let x = 0; x < 8; x ++) {
+            if(board[y][x] === 'p') count = 1
+            else if(board[y][x] === 'B') count = 0
+            else if(board[y][x] === 'R') {
+                for (let x_r = x + 1; x_r < 8; x_r ++) {
+                    if(board[y][x_r] === 'p') {
+                        count += 1
+                        break
+                    }
+                    else if(board[y][x_r] === 'B') {
+                        break
+                    }
+                }
+                for (let y_l = y - 1; y_l >= 0; y_l --) {
+                    if(board[y_l][x] === 'p') {
+                        count += 1
+                        break
+                    }
+                    else if(board[y_l][x] === 'B') {
+                        break
+                    }
+                }
+                for (let y_r = y + 1; y_r < 8; y_r ++) {
+                    if(board[y_r][x] === 'p') {
+                        count += 1
+                        break
+                    }
+                    else if(board[y_r][x] === 'B') {
+                        break
+                    }
+                }
+                return count
+            }
+        }
     }
-
-    if(num[0] === 0) return ks
-
-    const num_len = num.length
-    const k_len = ks.length
-    const res: number[] = []
-    let plus = 0
-    let temp = 0
-    for (let i = 0; i < Math.max(num.length, ks.length); i ++) {
-         temp = (num[num_len - 1 - i] ?? 0) + (ks[k_len - 1 - i] ?? 0) + plus
-        res.unshift(temp % 10)
-        plus = temp >= 10 ? 1 : 0
-    }
-
-    if(plus) res.unshift(plus)
-
-    return res
+    return count
 }
 
 export {
