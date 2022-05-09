@@ -38,54 +38,26 @@
 //     }
 // }
 
-class Node {
-    val: number
-    children: Node[]
+// class Node {
+//     val: number
+//     children: Node[]
+//
+//     constructor(val?: number, children?: Node[]) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.children = (children === undefined ? [] : children)
+//     }
+// }
 
-    constructor(val?: number, children?: Node[]) {
-        this.val = (val === undefined ? 0 : val)
-        this.children = (children === undefined ? [] : children)
-    }
+function lk(emails: string[]): number {
+    const set = new Set<string>()
+
+    emails.forEach(email => {
+        let [local, remote] = email.split('@')
+        set.add(local.split('+')[0].split('.').join('') + '-' + remote)
+    })
+
+    return set.size
 }
-
-function lk(root: Node | null): number[] {
-    const can: number[] = []
-
-    const root_first = (sub: Node | null) => {
-        if(sub === null) return
-        else {
-            sub.children.forEach(sub_root => {
-                root_first(sub_root)
-            })
-            can.push(sub.val)
-        }
-    }
-
-    root_first(root)
-
-    return can
-}
-
-const root = new Node(1)
-let sub1 = new Node(2)
-sub1.children = [
-    new Node(3),
-    new Node(4),
-]
-
-let sub2 = new Node(5)
-sub2.children = [
-    new Node(6),
-    new Node(7),
-]
-root.children = [
-    sub1,
-    sub2,
-    new Node(8),
-    new Node(9)
-]
-
-console.log(lk(root))
 
 export {
     lk
