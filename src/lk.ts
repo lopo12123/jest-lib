@@ -48,8 +48,8 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    return nums.sort((a, b) => Math.abs(a) - Math.abs(b)).map(x => x * x)
+function lk(num: number[], k: number): number[] {
+    return [...(BigInt(num.join('')) + BigInt(k) +'')].map(x => parseInt(x))
 }
 
 export {
