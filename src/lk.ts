@@ -1,24 +1,24 @@
-class ListNode {
-    val: number
-    next: ListNode | null
-
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
-    }
-}
-
-// class TreeNode {
+// class ListNode {
 //     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
+//     next: ListNode | null
 //
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//     constructor(val?: number, next?: ListNode | null) {
 //         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
+//         this.next = (next === undefined ? null : next)
 //     }
 // }
+
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -48,16 +48,22 @@ class ListNode {
 //     }
 // }
 
-function lk(head: ListNode): ListNode | null {
-    const vals = JSON.stringify(head).match(/[0-9]+/g)!
+function lk(root: TreeNode): TreeNode | null {
+    const pre = new TreeNode(0)
+    let p = pre
 
-    const res = new ListNode(parseInt(vals[Math.floor(vals.length / 2)]))
-    let p = res
-    for (let i = Math.floor(vals.length / 2) + 1; i < vals.length; i ++) {
-        p.next = new ListNode(parseInt(vals[i]))
-        p = p.next
+    const mid_root = (sub: TreeNode | null) => {
+        if(sub === null) return
+        else {
+            mid_root(sub.left)
+            p.right = new TreeNode(sub.val)
+            p = p.right
+            mid_root(sub.right)
+        }
     }
-    return res
+    mid_root(root)
+
+    return pre.right
 }
 
 export {
