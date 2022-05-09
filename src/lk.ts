@@ -48,23 +48,39 @@
 //     }
 // }
 
-function lk(strs: string[]): number {
-    let count = 0
-    const x_len = strs[0].length, y_len = strs.length
+function lk(words: string[], order: string): boolean {
+    if(words.length === 1) return true
 
-    if(y_len === 1) return 0
+    const map: { [k: string]: number } = {}
 
-    for (let x = 0; x < x_len; x ++) {
-        for (let y = 1; y < y_len; y ++) {
-            if(strs[y][x] < strs[y - 1][x]) {
-                count += 1
-                break
-            }
-        }
+    for (let i = 0; i < 26; i++) {
+        map[order[i]] = i
     }
 
-    return count
+    const ifInOrder = (small: string, big: string) => {
+        const len = Math.max(small.length, big.length)
+        for (let i = 0; i < len; i++) {
+            if(big[i] === undefined) {
+                return false
+            }
+            if(map[small[i]] > map[big[i]]) {
+                return false
+            }
+            else if(map[small[i]] < map[big[i]]){
+                return true
+            }
+        }
+        return true
+    }
+
+    for (let i = 1; i < words.length; i++) {
+        if(!ifInOrder(words[i - 1], words[i])) return false
+    }
+    return true
 }
+
+console.log(lk(["ubg","kwh"],
+"qcipyamwvdjtesbghlorufnkzx"))
 
 export {
     lk
