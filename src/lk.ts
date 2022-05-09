@@ -48,23 +48,23 @@
 //     }
 // }
 
-function lk(arr: number[]): boolean {
-    if(arr.length <= 2) return false
+function lk(strs: string[]): number {
+    let count = 0
+    const x_len = strs[0].length, y_len = strs.length
 
-    let findTop = -1
-    for (let i = 1; i < arr.length; i ++) {
-        if(arr[i] === arr[i - 1]) return false
+    if(y_len === 1) return 0
 
-        if(findTop < 0 && arr[i] < arr[i - 1]) {
-            findTop = i - 1
-            if(i === 1) return false
+    for (let x = 0; x < x_len; x ++) {
+        for (let y = 1; y < y_len; y ++) {
+            if(strs[y][x] < strs[y - 1][x]) {
+                count += 1
+                break
+            }
         }
-        if(findTop > 0 && arr[i] > arr[i - 1]) return false
     }
-    return findTop !== (arr.length - 1) && findTop !== -1
-}
 
-console.log(lk([0,1,2,3,4]))
+    return count
+}
 
 export {
     lk
