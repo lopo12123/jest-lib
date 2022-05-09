@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -48,22 +48,23 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null, low: number, high: number): number {
-    let sum = 0
+function lk(arr: number[]): boolean {
+    if(arr.length <= 2) return false
 
-    const dfs_sum = (sub: TreeNode | null) => {
-        if(sub === null) return
-        else {
-            dfs_sum(sub.left)
-            if(sub.val >= low && sub.val <= high) sum += sub.val
-            if(sub.val <= high) dfs_sum(sub.right)
+    let findTop = -1
+    for (let i = 1; i < arr.length; i ++) {
+        if(arr[i] === arr[i - 1]) return false
+
+        if(findTop < 0 && arr[i] < arr[i - 1]) {
+            findTop = i - 1
+            if(i === 1) return false
         }
+        if(findTop > 0 && arr[i] > arr[i - 1]) return false
     }
-
-    dfs_sum(root)
-
-    return sum
+    return findTop !== (arr.length - 1) && findTop !== -1
 }
+
+console.log(lk([0,1,2,3,4]))
 
 export {
     lk
