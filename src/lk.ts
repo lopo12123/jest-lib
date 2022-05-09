@@ -54,10 +54,10 @@ function lk(root: Node | null): number[] {
     const root_first = (sub: Node | null) => {
         if(sub === null) return
         else {
-            can.push(sub.val)
             sub.children.forEach(sub_root => {
                 root_first(sub_root)
             })
+            can.push(sub.val)
         }
     }
 
