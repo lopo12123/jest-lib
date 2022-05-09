@@ -1,38 +1,44 @@
 fn main() {
-    println!("res: {}", lk(&vec![10, 5, 2, 6], 100));
-    println!("res: {}", lk(&vec![1, 2, 3, 4, 5], 8));
+    println!("result: {:?}", lk("IDIIDDIDDDIIII"));
+    println!("result: {:?}", lk("IIDIDIDI"));
+    println!("result: {:?}", lk("IDIDIDDDDDIIDIIDD"));
+    println!("result: {:?}", lk("DDIIIIIDIDDD"));
+    println!("result: {:?}", lk("IDII"));
 }
 
-fn lk(nums: &Vec<i32>, k: i32) -> i32 {
-    if k == 0 {
-        return 0;
-    }
+fn lk(s: &str) -> Vec<i32> {
+    let s_len = s.len();
 
-    let mut count = 0;
-    let mut prod = 1;
-    let mut left = 0;
+    let mut res: Vec<i32> = vec![];
+    let mut d_count = 0;
 
-    let len = nums.len();
+    // 统计 D 的数量
     let mut i = 0;
-    while i < len {
-        prod *= nums[i];
-
-        while prod >= k && left <= i {
-            if left == i {
-                prod = 1;
-                left = i + 1;
-                break;
-            }
-            prod /= nums[left];
-            left += 1;
-        }
-
-        if prod < k {
-            count += i - left + 1
+    while i < s_len {
+        if let "D" = &s[i..(i + 1)] {
+            d_count += 1
         }
 
         i += 1;
     }
 
-    return count as i32;
+    res.push(d_count);
+
+    let mut curr_i = d_count + 1;
+    let mut curr_d = d_count - 1;
+
+    i = 0;
+    while i < s_len {
+        if &s[i..(i + 1)] == "D" {
+            res.push(curr_d);
+            curr_d -= 1;
+        } else {
+            res.push(curr_i);
+            curr_i += 1;
+        }
+
+        i += 1;
+    }
+
+    return res;
 }
