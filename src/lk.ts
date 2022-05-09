@@ -48,39 +48,15 @@
 //     }
 // }
 
-function lk(words: string[], order: string): boolean {
-    if(words.length === 1) return true
+function lk(nums: number[]): number {
+    nums.sort((a, b) => b - a)
 
-    const map: { [k: string]: number } = {}
-
-    for (let i = 0; i < 26; i++) {
-        map[order[i]] = i
+    for (let i = 2; i < nums.length; i ++) {
+        if(nums[i] + nums[i - 1] > nums[i - 2]) return nums[i] + nums[i - 1] + nums[i - 2]
     }
 
-    const ifInOrder = (small: string, big: string) => {
-        const len = Math.max(small.length, big.length)
-        for (let i = 0; i < len; i++) {
-            if(big[i] === undefined) {
-                return false
-            }
-            if(map[small[i]] > map[big[i]]) {
-                return false
-            }
-            else if(map[small[i]] < map[big[i]]){
-                return true
-            }
-        }
-        return true
-    }
-
-    for (let i = 1; i < words.length; i++) {
-        if(!ifInOrder(words[i - 1], words[i])) return false
-    }
-    return true
+    return 0
 }
-
-console.log(lk(["ubg","kwh"],
-"qcipyamwvdjtesbghlorufnkzx"))
 
 export {
     lk
