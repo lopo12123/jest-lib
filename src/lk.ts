@@ -49,7 +49,28 @@
 // }
 
 function lk(num: number[], k: number): number[] {
-    return [...(BigInt(num.join('')) + BigInt(k) +'')].map(x => parseInt(x))
+    const ks: number[] = []
+    while (k > 0) {
+        ks.unshift(k % 10)
+        k = Math.floor(k / 10)
+    }
+
+    if(num[0] === 0) return ks
+
+    const num_len = num.length
+    const k_len = ks.length
+    const res: number[] = []
+    let plus = 0
+    let temp = 0
+    for (let i = 0; i < Math.max(num.length, ks.length); i ++) {
+         temp = (num[num_len - 1 - i] ?? 0) + (ks[k_len - 1 - i] ?? 0) + plus
+        res.unshift(temp % 10)
+        plus = temp >= 10 ? 1 : 0
+    }
+
+    if(plus) res.unshift(plus)
+
+    return res
 }
 
 export {
