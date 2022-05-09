@@ -1,12 +1,12 @@
-// class ListNode {
-//     val: number
-//     next: ListNode | null
-//
-//     constructor(val?: number, next?: ListNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.next = (next === undefined ? null : next)
-//     }
-// }
+class ListNode {
+    val: number
+    next: ListNode | null
+
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.next = (next === undefined ? null : next)
+    }
+}
 
 // class TreeNode {
 //     val: number
@@ -48,15 +48,19 @@
 //     }
 // }
 
-function lk(emails: string[]): number {
-    const set = new Set<string>()
+function lk(head: ListNode | null): ListNode | null {
+    if(head === null) return null
 
-    emails.forEach(email => {
-        let [local, remote] = email.split('@')
-        set.add(local.split('+')[0].split('.').join('') + '-' + remote)
-    })
+    let quick = head, slow = head
 
-    return set.size
+    while (quick.next && quick.next.next) {
+        quick = quick.next.next
+        slow = slow.next!
+    }
+
+    if(quick.next) slow = slow.next!
+
+    return slow
 }
 
 export {
