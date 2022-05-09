@@ -48,32 +48,28 @@
 //     }
 // }
 
-function lk(name: string, typed: string): boolean {
-    const len_name = name.length
-    const len_typed = typed.length
-    if(len_typed < len_name || name[0] !== typed[0]) return false
+function lk(s: string): number[] {
+    // D [0,d_count - 1] 降序； I [d_count + 1,n] 增序;
+    // res[0] === d_count
+    const n = s.length
+    const res: number[] = []
 
-    let n = 1, t = 1
-    while (n < len_name && t < len_typed) {
-        if(name[n] === typed[t]) {
-            n += 1
-            t += 1
-        }
-        else if(typed[t] === typed[t - 1]) t += 1
-        else return false
+    // const d_count = (s.match(/[D]/g) ?? []).join('').length
+    let d_count = 0
+    for (let i = 0; i < n; i ++) {
+        if(s[i] === 'D') d_count += 1
     }
 
-    while (n < len_name) {
-        if(name[n] !== name[n - 1]) return false
-        else n += 1
+    res[0] = d_count
+
+    let curr_i = d_count + 1, curr_d = d_count - 1
+
+    for (let i = 0; i < n; i++) {
+        if(s[i] === 'I') res.push(curr_i++)
+        else res.push(curr_d--)
     }
 
-    while (t < len_typed) {
-        if(typed[t] !== typed[t - 1]) return false
-        else t += 1
-    }
-
-    return true
+    return res
 }
 
 export {

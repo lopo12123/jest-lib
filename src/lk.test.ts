@@ -1,12 +1,33 @@
 import { lk } from "./lk"
 
+const generate = () => {
+    let str = ''
+    const len = Math.floor(Math.random() * 20 + 1)
+    for (let i = 0; i < len; i++) {
+        str += (Math.random() > 0.5 ? 'I' : 'D')
+    }
+    return str
+}
+
+const solve = (arr: number[]) => {
+    let res = ''
+
+    for (let i = 1; i < arr.length; i++) {
+        if(arr[i] > arr[i - 1]) res += 'I'
+        else res += 'D'
+    }
+
+    return res
+}
+
 test('test sum', () => {
-    expect(lk([
-        [ 1, 2, 2, 3, 5 ],
-        [ 3, 2, 3, 4, 4 ],
-        [ 2, 4, 5, 3, 1 ],
-        [ 6, 7, 1, 4, 5 ],
-        [ 5, 1, 1, 2, 4 ]
-    ]))
-        .toEqual(expect.arrayContaining([[ 0, 4 ], [ 1, 3 ], [ 1, 4 ], [ 2, 2 ], [ 3, 0 ], [ 3, 1 ], [ 4, 0 ] ]))
+    const toTest: string[] = []
+    for (let i = 0; i < 10; i++) {
+        toTest.push(generate())
+    }
+
+    for (let i = 0; i < 10; i++) {
+        console.log(toTest[i])
+        expect(solve(lk(toTest[i]))).toEqual(toTest[i])
+    }
 })
