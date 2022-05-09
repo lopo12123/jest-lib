@@ -49,7 +49,7 @@
 // }
 
 function lk(nums: number[]): number[] {
-    return nums.map(x => x * x).sort((a, b) => a - b)
+    return nums.sort((a, b) => Math.abs(a) - Math.abs(b)).map(x => x * x)
 }
 
 export {
