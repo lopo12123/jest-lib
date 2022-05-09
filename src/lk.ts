@@ -48,22 +48,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): TreeNode | null {
-    const pre = new TreeNode(0)
-    let p = pre
+function lk(root: TreeNode | null, low: number, high: number): number {
+    let sum = 0
 
-    const mid_root = (sub: TreeNode | null) => {
+    const dfs_sum = (sub: TreeNode | null) => {
         if(sub === null) return
         else {
-            mid_root(sub.left)
-            p.right = new TreeNode(sub.val)
-            p = p.right
-            mid_root(sub.right)
+            dfs_sum(sub.left)
+            if(sub.val >= low && sub.val <= high) sum += sub.val
+            if(sub.val <= high) dfs_sum(sub.right)
         }
     }
-    mid_root(root)
 
-    return pre.right
+    dfs_sum(root)
+
+    return sum
 }
 
 export {
