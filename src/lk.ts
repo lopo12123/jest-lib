@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -48,48 +48,42 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): boolean {
-    // return new Set(JSON.stringify(root).match(/[0-9]+/g) ?? []).size === 1
+const showTime = (fn: () => void) => {
+    console.time('fn')
+    fn()
+    console.timeEnd('fn')
+}
 
-    const val = root.val
-    let res=  true
+function lk(words: string[]): string[] {
+    let chs: string[] = [ ...(words[0] ?? []) ].sort()
 
-    const dfs = (sub: TreeNode | null) => {
-        if(sub === null) return
-        else {
-            if(sub.val !== val) {
-                res = false
+    const in_common = (s1: string[], s2: string[]) => {
+        const common: string[] = []
+        let i1 = 0, i2 = 0
+
+        while (i1 < s1.length && i2 < s2.length) {
+            if(s1[i1] === s2[i2]) {
+                common.push(s1[i1])
+                i1 += 1
+                i2 += 1
             }
-            else {
-                dfs(sub.left)
-                dfs(sub.right)
-            }
+            else if(s1[i1] < s2[i2]) i1 += 1
+            else if(s1[i1] > s2[i2]) i2 += 1
         }
+
+        return common
     }
-    dfs(root)
 
-    return res
+    for (let i = 1; i < words.length; i++) {
+        chs = in_common(chs, words[i].split('').sort())
+    }
+
+    return chs
 }
 
-let a: TreeNode = {
-    val: 1,
-    left: {
-        val: 1,
-        left: null,
-        right: null
-    },
-    right: {
-        val: 1,
-        left: {
-            val: 1,
-            left: null,
-            right: null
-        },
-        right: null
-    },
-}
-
-console.log(lk(a))
+showTime(() => {
+    console.log(lk([ 'daeabc', 'aaeb', 'abacdc' ]))
+})
 
 export {
     lk
