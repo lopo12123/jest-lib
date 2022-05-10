@@ -54,22 +54,8 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(s: string): string {
-    let ss = ''
-    let stack_depth = 0
-
-    let prev = 0
-    for (let i = 0; i < s.length; i ++) {
-        if(s[i] === '(') stack_depth += 1
-        else if(s[i] === ')') stack_depth -= 1
-
-        if(stack_depth === 0) {
-            ss += s.slice(prev+1, i)
-            prev = i + 1
-        }
-    }
-
-    return ss
+function lk(points: number[][]): boolean {
+    return (points[2][1] - points[1][1]) * (points[2][0] - points[0][0]) !== (points[2][1] - points[0][1]) * (points[2][0] - points[1][0])
 }
 
 // showTime(() => {
