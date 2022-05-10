@@ -54,30 +54,16 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(arr: number[]): boolean {
-    const sum = arr.reduce((prev, curr) => {
-        return prev + curr
-    })
-
-    if(sum % 3 !== 0) return false
-    else {
-        let part = 0
-        let need = sum / 3
-
-        for (let i = 0; i < arr.length - 1; i ++) {
-            need -= arr[i]
-            if(need === 0) {
-                need = sum / 3
-                part += 1
-            }
-            if(part === 2) return true
-        }
-
-        return false
-    }
+function lk(nums: number[]): boolean[] {
+    nums.reduce((prev, curr, i, arr) => {
+        // @ts-ignore
+        arr[i] = (prev * 2 + curr) % 5 === 0
+        return (prev * 2 + curr) % 5
+    }, 0)
+    // @ts-ignore
+    return nums
 }
 
-console.log(lk([0,2,1,-6,6,-7,9,1,2,0,1]))
 // showTime(() => {
 //     // console.log(lk([ 'daeabc', 'aaeb', 'abacdc' ]))
 // })
