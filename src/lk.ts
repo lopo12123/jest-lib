@@ -54,36 +54,19 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(words: string[]): string[] {
-    let chs: string[] = [ ...(words[0] ?? []) ].sort()
-
-    const in_common = (s1: string[], s2: string[]) => {
-        const common: string[] = []
-        let i1 = 0, i2 = 0
-
-        while (i1 < s1.length && i2 < s2.length) {
-            if(s1[i1] === s2[i2]) {
-                common.push(s1[i1])
-                i1 += 1
-                i2 += 1
-            }
-            else if(s1[i1] < s2[i2]) i1 += 1
-            else if(s1[i1] > s2[i2]) i2 += 1
-        }
-
-        return common
+function lk(nums: number[]): number {
+    let set = new Set<number>()
+    for (let i = 0; i < nums.length / 2 + 2; i++) {
+        if(set.has(nums[i])) return nums[i]
+        else set.add(nums[i])
     }
-
-    for (let i = 1; i < words.length; i++) {
-        chs = in_common(chs, words[i].split('').sort())
-    }
-
-    return chs
+    return 0
 }
 
-showTime(() => {
-    console.log(lk([ 'daeabc', 'aaeb', 'abacdc' ]))
-})
+// showTime(() => {
+//     // console.log(lk([ 'daeabc', 'aaeb', 'abacdc' ]))
+// })
+console.log(lk([1,2,3,4,1,1]))
 
 export {
     lk
