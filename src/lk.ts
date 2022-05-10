@@ -54,8 +54,19 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(points: number[][]): boolean {
-    return (points[2][1] - points[1][1]) * (points[2][0] - points[0][0]) !== (points[2][1] - points[0][1]) * (points[2][0] - points[1][0])
+function lk(rows: number, cols: number, rCenter: number, cCenter: number): number[][] {
+    const res: [number, number][][] = []
+
+    let dis = 0
+    for (let r = 0; r < rows; r ++) {
+        for (let c = 0; c < cols; c ++) {
+            dis = Math.abs(r - rCenter) + Math.abs(c - cCenter)
+            if(!res[dis]) res[dis] = [[r, c]]
+            else res[dis].push([r, c])
+        }
+    }
+
+    return res.flat()
 }
 
 // showTime(() => {
