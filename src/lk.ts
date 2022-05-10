@@ -54,30 +54,8 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(nums: number[], k: number): number {
-    if(nums.length === 0) return (k % 2 === 0 ? 1 : -1) * nums[0]
-
-    let sum = nums.reduce((prev, curr) => {
-        return prev + curr
-    })
-    nums.sort((a, b) => a - b)  // 小到大排序
-
-    if(nums[0] >= 0) return (k % 2 === 0) ? sum : (sum - 2 * nums[0])
-
-    let i = 0
-    while (k > 0) {
-        if(nums[i] < 0 && i < nums.length - 1) {
-            sum -= nums[i] * 2
-            i += 1
-            k -= 1
-        }
-        else {
-            sum -= (k % 2 === 0) ? 0 : Math.min(Math.abs(nums[i]), Math.abs(nums[i - 1])) * 2
-            break
-        }
-    }
-
-    return sum
+function lk(n: number): number {
+    return Math.pow(2, n.toString(2).length) - 1 - n
 }
 
 // showTime(() => {
