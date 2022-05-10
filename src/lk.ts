@@ -54,14 +54,22 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(nums: number[]): boolean[] {
-    nums.reduce((prev, curr, i, arr) => {
-        // @ts-ignore
-        arr[i] = (prev * 2 + curr) % 5 === 0
-        return (prev * 2 + curr) % 5
-    }, 0)
-    // @ts-ignore
-    return nums
+function lk(s: string): string {
+    let ss = ''
+    let stack_depth = 0
+
+    let prev = 0
+    for (let i = 0; i < s.length; i ++) {
+        if(s[i] === '(') stack_depth += 1
+        else if(s[i] === ')') stack_depth -= 1
+
+        if(stack_depth === 0) {
+            ss += s.slice(prev+1, i)
+            prev = i + 1
+        }
+    }
+
+    return ss
 }
 
 // showTime(() => {
