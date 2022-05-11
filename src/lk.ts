@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -48,130 +48,14 @@ class TreeNode {
 //     }
 // }
 
-function lk(root1: TreeNode | null, root2: TreeNode | null): boolean {
-    const leaf1: number[] = []
-
-    let flag = true
-
-    const dfs = (sub: TreeNode | null) => {
-        if(sub === null) return
-        else {
-            if(sub.left === null && sub.right === null) {
-                leaf1.push(sub.val)
-            }
-            else {
-                if(sub.left) dfs(sub.left)
-                if(sub.right) dfs(sub.right)
-            }
-        }
-    }
-    const dfs_compare = (sub: TreeNode | null) => {
-        if(sub === null) return
-        else {
-            if(sub.left === null && sub.right === null) {
-                if(leaf1.length === 0) flag = false
-                else if(sub.val === leaf1[0]) leaf1.shift()
-                else return
-            }
-            else {
-                if(sub.left) dfs_compare(sub.left)
-                if(sub.right) dfs_compare(sub.right)
-            }
-        }
-    }
-
-    dfs(root1)
-    dfs_compare(root2)
-
-    console.log(leaf1, flag)
-
-    return leaf1.length === 0 && flag
+function lk(text: string, first: string, second: string): string[] {
+    // return text.match(new RegExp('(?<=\\b' + first + ' ' + second + ' ).+', 'g')) ?? []
+    return text.match(new RegExp(`(?<=\\b${first} ${second} )[a-zA-Z]+`, 'g')) ?? []
 }
 
-const root1: TreeNode = {
-    val: 3,
-    left: {
-        val: 5,
-        left: {
-            val: 6,
-            left: null,
-            right: null
-        },
-        right: {
-            val: 2,
-            left: {
-                val: 7,
-                left: null,
-                right: null
-            },
-            right: {
-                val: 4,
-                left: null,
-                right: null
-            }
-        }
-    },
-    right: {
-        val: 1,
-        left: {
-            val: 9,
-            left: null,
-            right: null
-        },
-        right: {
-            val: 8,
-            left: null,
-            right: null
-        }
-    }
-}
-const root2: TreeNode = {
-    val: 3,
-    left: {
-        val: 5,
-        left: {
-            val: 6,
-            left: null,
-            right: null
-        },
-        right: {
-            val: 7,
-            left: null,
-            right: null
-        }
-    },
-    right: {
-        val: 1,
-        left: {
-            val: 4,
-            left: null,
-            right: null
-        },
-        right: {
-            val: 2,
-            left: {
-                val: 9,
-                left: null,
-                right: null
-            },
-            right: {
-                val: 11,
-                left: {
-                    val: 8,
-                    left: null,
-                    right: null
-                },
-                right: {
-                    val: 10,
-                    left: null,
-                    right: null
-                }
-            }
-        }
-    }
-}
-
-lk(root1, root2)
+console.log(lk("alice is a good girl she is a good student",
+"a",
+"good"))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
