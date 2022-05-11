@@ -48,20 +48,23 @@
 //     }
 // }
 
-function lk(n: number): number {
-    let t = [0, 1, 1]
+function lk(date: string): number {
+    const table = [
+        31, 28, 31,
+        30, 31, 30,
+        31, 31, 30,
+        31, 30, 31
+    ]
+    let [ year, month, day ] = date.split('-').map(x => parseInt(x))
 
-    for (let i = 0; i < n ; i ++) {
-        t[3] = t[0] + t[1] + t[2]
-        t[0] = t[1]
-        t[1] = t[2]
-        t[2] = t[3]
+    const ifMore1 = year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0)
+
+    let count = 0
+    for (let i = 0; i < month - 1; i++) {
+        count += table[i]
     }
-
-    return t[0]
+    return count + day + (month > 2 ? (ifMore1 ? 1 : 0) : 0)
 }
-
-console.log(lk(4))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
