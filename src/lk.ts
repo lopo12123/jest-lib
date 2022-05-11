@@ -55,14 +55,14 @@ const showTime = (fn: () => void) => {
 }
 
 function lk(rows: number, cols: number, rCenter: number, cCenter: number): number[][] {
-    const res: [number, number][][] = []
+    const res: [ number, number ][][] = []
 
     let dis = 0
-    for (let r = 0; r < rows; r ++) {
-        for (let c = 0; c < cols; c ++) {
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
             dis = Math.abs(r - rCenter) + Math.abs(c - cCenter)
-            if(!res[dis]) res[dis] = [[r, c]]
-            else res[dis].push([r, c])
+            if(!res[dis]) res[dis] = [ [ r, c ] ]
+            else res[dis].push([ r, c ])
         }
     }
 
@@ -85,16 +85,84 @@ function lk(rows: number, cols: number, rCenter: number, cCenter: number): numbe
 
 
 function serialize(root: TreeNode | null): string {
-    return JSON.stringify(root)
+    if(root === null) return ''
+
+    let s = ''
+
+    const dfs = (sub: TreeNode | null) => {
+        if(sub === null) s += ','
+        else {
+            s += sub.val + ','
+            dfs(sub.left)
+            dfs(sub.right)
+        }
+    }
+    dfs(root)
+
+    return s
 }
 
 function deserialize(data: string): TreeNode | null {
-    return JSON.parse(data)
+    if(data === '') return null
+
+    const vals = data.split(',')
+
+    const root = new TreeNode(parseInt(vals[0]))
+    let p = 1
+
+    const dfs = (parent: TreeNode | null) => {
+        if(p >= vals.length || parent === null) return
+
+        parent.left = vals[p] === '' ? null : new TreeNode(parseInt(vals[p]))
+        p += 1
+        dfs(parent.left)
+
+        parent.right = vals[p] === '' ? null : new TreeNode(parseInt(vals[p]))
+        p += 1
+        dfs(parent.right)
+    }
+
+    dfs(root)
+
+    return root
 }
 
 // showTime(() => {
 //     // console.log(lk([ 'daeabc', 'aaeb', 'abacdc' ]))
 // })
+
+let root: TreeNode = {
+    val: 1,
+    left: {
+        val: 2,
+        left: {
+            val: 3,
+            left: null,
+            right: null
+        },
+        right: null
+    },
+    right: {
+        val: 4,
+        left: {
+            val: 5,
+            left: {
+                val: 6,
+                left: null,
+                right: null
+            },
+            right: null
+        },
+        right: null
+    }
+}
+
+let s = serialize(root)
+let d = deserialize(s)
+
+console.log(s)
+console.log(d)
+console.log(JSON.stringify(root) === JSON.stringify(d))
 
 export {
     lk
