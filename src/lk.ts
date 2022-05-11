@@ -48,16 +48,19 @@ class TreeNode {
 //     }
 // }
 
-const showTime = (fn: () => void) => {
-    console.time('fn')
-    fn()
-    console.timeEnd('fn')
+function lk(heights: number[]): number {
+    let expect = [...heights].sort((a, b) => a - b)
+
+    return expect.reduce((prev, curr, idx) => {
+        return prev + (curr === heights[idx] ? 0 : 1)
+    }, 0)
 }
 
-function lk(address: string): string {
-    return address.replace(/[.]/g, '[.]')
-}
-
+// const showTime = (fn: () => void) => {
+//     console.time('fn')
+//     fn()
+//     console.timeEnd('fn')
+// }
 // showTime(() => {
 //     // console.log(lk([ 'daeabc', 'aaeb', 'abacdc' ]))
 // })
