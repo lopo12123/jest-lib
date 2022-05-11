@@ -48,13 +48,130 @@ class TreeNode {
 //     }
 // }
 
-function lk(heights: number[]): number {
-    let expect = [...heights].sort((a, b) => a - b)
+function lk(root1: TreeNode | null, root2: TreeNode | null): boolean {
+    const leaf1: number[] = []
 
-    return expect.reduce((prev, curr, idx) => {
-        return prev + (curr === heights[idx] ? 0 : 1)
-    }, 0)
+    let flag = true
+
+    const dfs = (sub: TreeNode | null) => {
+        if(sub === null) return
+        else {
+            if(sub.left === null && sub.right === null) {
+                leaf1.push(sub.val)
+            }
+            else {
+                if(sub.left) dfs(sub.left)
+                if(sub.right) dfs(sub.right)
+            }
+        }
+    }
+    const dfs_compare = (sub: TreeNode | null) => {
+        if(sub === null) return
+        else {
+            if(sub.left === null && sub.right === null) {
+                if(leaf1.length === 0) flag = false
+                else if(sub.val === leaf1[0]) leaf1.shift()
+                else return
+            }
+            else {
+                if(sub.left) dfs_compare(sub.left)
+                if(sub.right) dfs_compare(sub.right)
+            }
+        }
+    }
+
+    dfs(root1)
+    dfs_compare(root2)
+
+    console.log(leaf1, flag)
+
+    return leaf1.length === 0 && flag
 }
+
+const root1: TreeNode = {
+    val: 3,
+    left: {
+        val: 5,
+        left: {
+            val: 6,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 2,
+            left: {
+                val: 7,
+                left: null,
+                right: null
+            },
+            right: {
+                val: 4,
+                left: null,
+                right: null
+            }
+        }
+    },
+    right: {
+        val: 1,
+        left: {
+            val: 9,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 8,
+            left: null,
+            right: null
+        }
+    }
+}
+const root2: TreeNode = {
+    val: 3,
+    left: {
+        val: 5,
+        left: {
+            val: 6,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 7,
+            left: null,
+            right: null
+        }
+    },
+    right: {
+        val: 1,
+        left: {
+            val: 4,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 2,
+            left: {
+                val: 9,
+                left: null,
+                right: null
+            },
+            right: {
+                val: 11,
+                left: {
+                    val: 8,
+                    left: null,
+                    right: null
+                },
+                right: {
+                    val: 10,
+                    left: null,
+                    right: null
+                }
+            }
+        }
+    }
+}
+
+lk(root1, root2)
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
