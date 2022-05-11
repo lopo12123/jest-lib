@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -67,6 +67,29 @@ function lk(rows: number, cols: number, rCenter: number, cCenter: number): numbe
     }
 
     return res.flat()
+}
+
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+
+
+function serialize(root: TreeNode | null): string {
+    return JSON.stringify(root)
+}
+
+function deserialize(data: string): TreeNode | null {
+    return JSON.parse(data)
 }
 
 // showTime(() => {
