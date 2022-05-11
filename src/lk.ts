@@ -55,14 +55,20 @@ const showTime = (fn: () => void) => {
 }
 
 function lk(s: string): string {
-    const stack: string[] = []
+    const stack: number[] = []
 
     for (let i = 0; i < s.length; i++) {
-        if(stack.at(-1) === s[i]) stack.pop()
-        else stack.push(s[i])
+        let top = stack.at(-1)
+        if(top !== undefined && s[top] === s[i]) stack.pop()
+        else stack.push(i)
     }
 
-    return stack.join('')
+    let ss = ''
+    stack.forEach((idx) => {
+        ss += s[idx]
+    })
+
+    return ss
 }
 
 // showTime(() => {
