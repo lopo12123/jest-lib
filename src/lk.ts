@@ -48,16 +48,20 @@
 //     }
 // }
 
-function lk(arr1: number[], arr2: number[]): number[] {
-    return [
-        ...arr1.filter(x => arr2.includes(x)).sort((a, b) => {
-            let id1 = arr2.indexOf(a)
-            let id2 = arr2.indexOf(b)
-            return id1 - id2
-        }),
-        ...arr1.filter(x => !arr2.includes(x)).sort((a, b) => a - b)
-    ]
+function lk(n: number): number {
+    let t = [0, 1, 1]
+
+    for (let i = 0; i < n ; i ++) {
+        t[3] = t[0] + t[1] + t[2]
+        t[0] = t[1]
+        t[1] = t[2]
+        t[2] = t[3]
+    }
+
+    return t[0]
 }
+
+console.log(lk(4))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
