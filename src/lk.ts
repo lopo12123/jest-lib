@@ -54,21 +54,8 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(s: string): string {
-    const stack: number[] = []
-
-    for (let i = 0; i < s.length; i++) {
-        let top = stack.at(-1)
-        if(top !== undefined && s[top] === s[i]) stack.pop()
-        else stack.push(i)
-    }
-
-    let ss = ''
-    stack.forEach((idx) => {
-        ss += s[idx]
-    })
-
-    return ss
+function lk(address: string): string {
+    return address.replace(/[.]/g, '[.]')
 }
 
 // showTime(() => {
