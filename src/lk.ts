@@ -48,27 +48,16 @@
 //     }
 // }
 
-function lk(str1: string, str2: string): string {
-    const part1: string[] = []
-    let double = str1 + str1
-    let len = str1.length, i = Math.floor(Math.sqrt(len))
-    while (i >= 1) {
-        if(Math.floor(len / i) === len / i) {
-            if(str1 === double.slice(i, i + len)) part1.push(str1.slice(0, i))
-            if(i !== len / i && str1 === double.slice(len / i, len / i + len)) part1.unshift(str1.slice(0, len / i))
-        }
-        i -= 1
-    }
-
-    len = str2.length
-    for (let i = 0; i < part1.length; i++) {
-        if(str2 === (str2.slice(part1[i].length) + part1[i]) && (len / part1[i].length === Math.floor(len / part1[i].length))) return part1[i]
-    }
-
-    return ''
+function lk(arr1: number[], arr2: number[]): number[] {
+    return [
+        ...arr1.filter(x => arr2.includes(x)).sort((a, b) => {
+            let id1 = arr2.indexOf(a)
+            let id2 = arr2.indexOf(b)
+            return id1 - id2
+        }),
+        ...arr1.filter(x => !arr2.includes(x)).sort((a, b) => a - b)
+    ]
 }
-
-console.log(lk('leet', 'code'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
