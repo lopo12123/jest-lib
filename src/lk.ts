@@ -48,34 +48,32 @@ class TreeNode {
 //     }
 // }
 
-function lk(dominoes: number[][]): number {
-    dominoes.sort((a, b) => {
-        let min_a = a[0] < a[1] ? a[0] : a[1]
-        let max_a = a[0] < a[1] ? a[1] : a[0]
-        let min_b = b[0] < b[1] ? b[0] : b[1]
-        let max_b = b[0] < b[1] ? b[1] : b[0]
-        if(min_a !== min_b) return min_a - min_b
-        else return max_a - max_b
-    })
-
-    let sum = 0
-    let groupCount = 1
-    dominoes.reduce((prev, curr) => {
-        if(prev[0] === curr[0] && prev[1] === curr[1]
-            ||prev[0] === curr[1] && prev[1] === curr[0]) groupCount += 1
-        else {
-            sum += groupCount * (groupCount - 1)
-            groupCount = 1
+function lk(words: string[], chars: string): number {
+    const countChar = (s: string) => {
+        const ihave: { [k: string]: number } = {}
+        for (let i = 0; i < s.length; i++) {
+            ihave[s[i]] = (ihave[s[i]] ?? 0) + 1
         }
+        return ihave
+    }
+    const ifEnough = (ineed: { [k: string]: number }, ihave: { [k: string]: number }) => {
+        for (let k in ineed) {
+            if(ihave[k] === undefined || ihave[k] < ineed[k]) return false
+        }
+        return true
+    }
 
-        return curr
-    })
-    sum += groupCount * (groupCount - 1)
+    const iHave = countChar(chars)
 
-    return sum / 2
+    return words.reduce((prev, curr) => {
+        if(ifEnough(countChar(curr), iHave)) prev += curr.length
+        return prev
+    }, 0)
 }
 
-console.log(lk([[2,2],[1,2],[1,2],[1,1],[1,2],[1,1],[2,2]]))
+console.log(lk([ "cat", "bt", "hat", "tree" ],
+    "atach"))
+
 
 // const root: TreeNode = {
 //     val: 1,
