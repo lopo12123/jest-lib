@@ -48,36 +48,17 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode, x: number, y: number): boolean {
-    if(root.val === x || root.val === y) return false
+function lk(candies: number, num_people: number): number[] {
+    const status: number[] = new Array(num_people).fill(0)
+    let i = 0
 
-    let layer_x: number | undefined = undefined, parent_x: number | undefined = undefined
-    let layer_y: number | undefined = undefined, parent_y: number | undefined = undefined
-
-    const dfs = (sub: TreeNode | null, layer: number, parent: number) => {
-        if(sub === null) return
-        else {
-            if(sub.val === x) {
-                layer_x = layer
-                parent_x = parent
-            }
-            else if(sub.val === y) {
-                layer_y = layer
-                parent_y = parent
-            }
-
-            if(layer_x !== undefined && layer_y !== undefined) return;
-            else {
-                dfs(sub.left, layer + 1, sub.val)
-                dfs(sub.right, layer + 1, sub.val)
-            }
-        }
+    while (candies > 0) {
+        status[i % num_people] += Math.min(i + 1, candies)
+        candies -= i + 1
+        i += 1
     }
 
-    dfs(root.left, 1, root.val)
-    dfs(root.right, 1, root.val)
-
-    return layer_x === layer_y && parent_x !== parent_y
+    return status
 }
 
 // const root: TreeNode = {
@@ -109,25 +90,7 @@ function lk(root: TreeNode, x: number, y: number): boolean {
 //         }
 //     }
 // }
-const root: TreeNode = {
-    val: 1,
-    left: {
-        val: 2,
-        left: null,
-        right: {
-            val: 4,
-            left: null,
-            right: null
-        }
-    },
-    right: {
-        val: 3,
-        left: null,
-        right: null
-    }
-}
 
-console.log(lk(root, 2, 3))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
