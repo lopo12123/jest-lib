@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -48,23 +48,39 @@
 //     }
 // }
 
-function lk(date: string): number {
-    const table = [
-        31, 28, 31,
-        30, 31, 30,
-        31, 31, 30,
-        31, 30, 31
-    ]
-    let [ year, month, day ] = date.split('-').map(x => parseInt(x))
+function lk(root: TreeNode): number {
+    let sum = 0
 
-    const ifMore1 = year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0)
-
-    let count = 0
-    for (let i = 0; i < month - 1; i++) {
-        count += table[i]
+    const dfs = (sub: TreeNode | null, prev: number) => {
+        if(sub === null) return
+        else {
+            if(sub.left === null && sub.right === null) sum += prev * 2 + sub.val
+            else {
+                dfs(sub.left, prev * 2 + sub.val)
+                dfs(sub.right, prev * 2 + sub.val)
+            }
+        }
     }
-    return count + day + (month > 2 ? (ifMore1 ? 1 : 0) : 0)
+
+    dfs(root, 0)
+
+    return sum
 }
+
+const root: TreeNode = {
+    val: 1,
+    left: {
+        val: 1,
+        left: null,
+        right: null
+    },
+    right: {
+        val: 1,
+        left: null,
+        right: null
+    }
+}
+console.log(lk(root))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
