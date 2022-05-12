@@ -58,7 +58,7 @@ function lk(root: TreeNode, x: number, y: number): boolean {
         if(sub === null) return
         else {
             if((sub.left?.val === x || sub.left?.val === y)
-                && (sub.right?.val === x || sub.right?.val === x)) {
+                && (sub.right?.val === x || sub.right?.val === y)) {
                 res = false
                 return;
             }
@@ -93,15 +93,40 @@ function lk(root: TreeNode, x: number, y: number): boolean {
     return res
 }
 
+// const root: TreeNode = {
+//     val: 1,
+//     left: {
+//         val: 2,
+//         left: {
+//             val: 3,
+//             left: null,
+//             right: null
+//         },
+//         right: {
+//             val: 4,
+//             left: null,
+//             right: null
+//         }
+//     },
+//     right: {
+//         val: 5,
+//         left: {
+//             val: 6,
+//             left: null,
+//             right: null
+//         },
+//         right: {
+//             val: 7,
+//             left: null,
+//             right: null
+//         }
+//     }
+// }
 const root: TreeNode = {
     val: 1,
     left: {
         val: 2,
-        left: {
-            val: 3,
-            left: null,
-            right: null
-        },
+        left: null,
         right: {
             val: 4,
             left: null,
@@ -109,21 +134,13 @@ const root: TreeNode = {
         }
     },
     right: {
-        val: 5,
-        left: {
-            val: 6,
-            left: null,
-            right: null
-        },
-        right: {
-            val: 7,
-            left: null,
-            right: null
-        }
+        val: 3,
+        left: null,
+        right: null
     }
 }
 
-console.log(lk(root, 4, 3))
+console.log(lk(root, 2, 3))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
