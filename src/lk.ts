@@ -48,33 +48,82 @@ class TreeNode {
 //     }
 // }
 
-function lk(arr: number[]) {
-    let p = 0, leftEnd = arr.length - 1
-    let zeroStart = -1, zeroEnd = 0
-    while (p < leftEnd) {
-        if(arr[p] === 0) {
-            leftEnd -= 1
-            if(zeroStart < 0) zeroStart = p
-            zeroEnd = p
+function lk(root: TreeNode, x: number, y: number): boolean {
+    if(root.val === x || root.val === y) return false
+
+    let layer_1 = -1
+    let res: boolean = false
+
+    const dfs = (sub: TreeNode | null, layer: number) => {
+        if(sub === null) return
+        else {
+            if((sub.left?.val === x || sub.left?.val === y)
+                && (sub.right?.val === x || sub.right?.val === x)) {
+                res = false
+                return;
+            }
+            else {
+                if(sub.left?.val === x || sub.left?.val === y) {
+                    if(layer_1 === layer) {
+                        res = true
+                        return
+                    }
+                    else {
+                        layer_1 = layer
+                    }
+                }
+                if(sub.right?.val === x || sub.right?.val === y) {
+                    if(layer_1 === layer) {
+                        res = true
+                        return
+                    }
+                    else {
+                        layer_1 = layer
+                    }
+                }
+
+                dfs(sub.left, layer +1)
+                dfs(sub.right, layer + 1)
+            }
         }
-        p += 1
     }
 
-    if(zeroStart >= 0) {
-        for (let i = arr.length - 1; i >= zeroStart; i--) {
-            arr[i] = arr[leftEnd]
-            if(arr[leftEnd] === 0 && leftEnd <= zeroEnd) {
-                arr[i - 1] = 0
-                i -= 1
-            }
-            leftEnd -= 1
+    dfs(root, 1)
+
+    return res
+}
+
+const root: TreeNode = {
+    val: 1,
+    left: {
+        val: 2,
+        left: {
+            val: 3,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 4,
+            left: null,
+            right: null
+        }
+    },
+    right: {
+        val: 5,
+        left: {
+            val: 6,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 7,
+            left: null,
+            right: null
         }
     }
 }
 
-let arr = [ 1, 1, 0, 2, 0, 3 ]  // 1 1 0 0 2 0
-lk(arr)
-console.log(arr)
+console.log(lk(root, 4, 3))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
