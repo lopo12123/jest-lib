@@ -48,12 +48,29 @@ class TreeNode {
 //     }
 // }
 
-function lk(day: number, month: number, year: number): string {
-    const map = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    return map[new Date(`${year}-${month}-${day}`).getDay()]
+function lk(text: string): number {
+    const count = new Map<string, number>()
+    for (let ch of text) {
+        if('balon'.includes(ch)) count.set(ch, (count.get(ch) ?? 0) + 1)
+    }
+
+    console.log(
+        (count.get('b') ?? 0),
+        (count.get('a') ?? 0),
+        (count.get('l') ?? 0) / 2,
+        (count.get('o') ?? 0) / 2,
+        (count.get('n') ?? 0),)
+
+    return Math.floor(Math.min(
+        (count.get('b') ?? 0),
+        (count.get('a') ?? 0),
+        (count.get('l') ?? 0) / 2,
+        (count.get('o') ?? 0) / 2,
+        (count.get('n') ?? 0),
+    ))
 }
 
-console.log(lk(31, 8, 2019))
+console.log(lk("balon"))
 
 // const root: TreeNode = {
 //     val: 1,
