@@ -48,80 +48,33 @@ class TreeNode {
 //     }
 // }
 
-class Heap_big_root {
-    readonly #heap: number[] = []  // 大 - 小
-
-    /**
-     * @description an copy of inner heap store
-     */
-    get heap() {
-        return this.#heap.slice()
-    }
-
-    get size() {
-        return this.#heap.length
-    }
-
-    constructor(nums: number[]) {
-        this.#heap = nums.sort((a, b) => b - a)
-    }
-
-    add(val: number) {
-        let p = this.#heap.length
-        this.#heap[p] = val
-
-        let parentIdx = Math.floor((p - 1) / 2)
-        while (p > 0) {
-            if(this.#heap[parentIdx] >= val) return;
-            else {
-                this.#heap[p] = this.#heap[parentIdx]
-                this.#heap[parentIdx] = val
-                p = parentIdx
-                parentIdx = Math.floor((p - 1) / 2)
-            }
+function lk(arr: number[]) {
+    let p = 0, leftEnd = arr.length - 1
+    let zeroStart = -1, zeroEnd = 0
+    while (p < leftEnd) {
+        if(arr[p] === 0) {
+            leftEnd -= 1
+            if(zeroStart < 0) zeroStart = p
+            zeroEnd = p
         }
+        p += 1
     }
 
-    delete() {
-        if(this.size <= 2) {
-            return this.#heap.shift()
-        }
-        else {
-            const head = this.#heap[0]
-            const val = this.#heap.pop()!
-            this.#heap[0] = val
-
-            let p = 0
-            let largeChildIdx = this.#heap[2 * p + 1] > (this.#heap[2 * p + 2] ?? -Infinity) ? (2 * p + 1) : (2 * p + 2)
-
-            while (largeChildIdx < this.size) {
-                if(this.#heap[p] >= this.#heap[largeChildIdx]) return head
-                else {
-                    this.#heap[p] = this.#heap[largeChildIdx]
-                    this.#heap[largeChildIdx] = val
-                    p = largeChildIdx
-                    largeChildIdx = (this.#heap[2 * p + 1] ?? Infinity) > (this.#heap[2 * p + 2] ?? -Infinity) ? (2 * p + 1) : (2 * p + 2)
-                }
+    if(zeroStart >= 0) {
+        for (let i = arr.length - 1; i >= zeroStart; i--) {
+            arr[i] = arr[leftEnd]
+            if(arr[leftEnd] === 0 && leftEnd <= zeroEnd) {
+                arr[i - 1] = 0
+                i -= 1
             }
-
-            return head
+            leftEnd -= 1
         }
     }
 }
 
-function lk(stones: number[]): number {
-    const queue = new Heap_big_root(stones)
-
-    while (queue.size > 1) {
-        let t1 = queue.delete()!
-        let t2 = queue.delete()!
-        if(t1 !== t2) queue.add(Math.abs(t1 - t2))
-    }
-
-    return queue.delete() ?? 0
-}
-
-console.log(lk([ 3, 3, 2, 1, ]))
+let arr = [ 1, 1, 0, 2, 0, 3 ]  // 1 1 0 0 2 0
+lk(arr)
+console.log(arr)
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
