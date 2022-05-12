@@ -48,32 +48,12 @@ class TreeNode {
 //     }
 // }
 
-function lk(words: string[], chars: string): number {
-    const countChar = (s: string) => {
-        const ihave: { [k: string]: number } = {}
-        for (let i = 0; i < s.length; i++) {
-            ihave[s[i]] = (ihave[s[i]] ?? 0) + 1
-        }
-        return ihave
-    }
-    const ifEnough = (ineed: { [k: string]: number }, ihave: { [k: string]: number }) => {
-        for (let k in ineed) {
-            if(ihave[k] === undefined || ihave[k] < ineed[k]) return false
-        }
-        return true
-    }
-
-    const iHave = countChar(chars)
-
-    return words.reduce((prev, curr) => {
-        if(ifEnough(countChar(curr), iHave)) prev += curr.length
-        return prev
-    }, 0)
+function lk(day: number, month: number, year: number): string {
+    const map = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    return map[new Date(`${year}-${month}-${day}`).getDay()]
 }
 
-console.log(lk([ "cat", "bt", "hat", "tree" ],
-    "atach"))
-
+console.log(lk(31, 8, 2019))
 
 // const root: TreeNode = {
 //     val: 1,
