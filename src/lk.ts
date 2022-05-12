@@ -48,29 +48,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(text: string): number {
-    const count = new Map<string, number>()
-    for (let ch of text) {
-        if('balon'.includes(ch)) count.set(ch, (count.get(ch) ?? 0) + 1)
+function lk(arr: number[]): number[][] {
+    arr.sort((a, b) => a - b)
+
+    let res: [ number, number ][] = []
+    let min: number = Infinity
+
+    for (let i = 1; i < arr.length; i++) {
+        if(arr[i] - arr[i - 1] < min) {
+            res = [ [ arr[i - 1], arr[i] ] ]
+            min = arr[i] - arr[i - 1]
+        }
+        else if(arr[i] - arr[i - 1] === min) res.push([ arr[i - 1], arr[i] ])
     }
-
-    console.log(
-        (count.get('b') ?? 0),
-        (count.get('a') ?? 0),
-        (count.get('l') ?? 0) / 2,
-        (count.get('o') ?? 0) / 2,
-        (count.get('n') ?? 0),)
-
-    return Math.floor(Math.min(
-        (count.get('b') ?? 0),
-        (count.get('a') ?? 0),
-        (count.get('l') ?? 0) / 2,
-        (count.get('o') ?? 0) / 2,
-        (count.get('n') ?? 0),
-    ))
+    return res
 }
-
-console.log(lk("balon"))
 
 // const root: TreeNode = {
 //     val: 1,
