@@ -51,46 +51,33 @@ class TreeNode {
 function lk(root: TreeNode, x: number, y: number): boolean {
     if(root.val === x || root.val === y) return false
 
-    let layer_1 = -1
-    let res: boolean = false
+    let layer_x: number | undefined = undefined, parent_x: number | undefined = undefined
+    let layer_y: number | undefined = undefined, parent_y: number | undefined = undefined
 
-    const dfs = (sub: TreeNode | null, layer: number) => {
+    const dfs = (sub: TreeNode | null, layer: number, parent: number) => {
         if(sub === null) return
         else {
-            if((sub.left?.val === x || sub.left?.val === y)
-                && (sub.right?.val === x || sub.right?.val === y)) {
-                res = false
-                return;
+            if(sub.val === x) {
+                layer_x = layer
+                parent_x = parent
             }
-            else {
-                if(sub.left?.val === x || sub.left?.val === y) {
-                    if(layer_1 === layer) {
-                        res = true
-                        return
-                    }
-                    else {
-                        layer_1 = layer
-                    }
-                }
-                if(sub.right?.val === x || sub.right?.val === y) {
-                    if(layer_1 === layer) {
-                        res = true
-                        return
-                    }
-                    else {
-                        layer_1 = layer
-                    }
-                }
+            else if(sub.val === y) {
+                layer_y = layer
+                parent_y = parent
+            }
 
-                dfs(sub.left, layer +1)
-                dfs(sub.right, layer + 1)
+            if(layer_x !== undefined && layer_y !== undefined) return;
+            else {
+                dfs(sub.left, layer + 1, sub.val)
+                dfs(sub.right, layer + 1, sub.val)
             }
         }
     }
 
-    dfs(root, 1)
+    dfs(root.left, 1, root.val)
+    dfs(root.right, 1, root.val)
 
-    return res
+    return layer_x === layer_y && parent_x !== parent_y
 }
 
 // const root: TreeNode = {
