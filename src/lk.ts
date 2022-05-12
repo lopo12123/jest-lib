@@ -48,18 +48,34 @@ class TreeNode {
 //     }
 // }
 
-function lk(candies: number, num_people: number): number[] {
-    const status: number[] = new Array(num_people).fill(0)
-    let i = 0
+function lk(dominoes: number[][]): number {
+    dominoes.sort((a, b) => {
+        let min_a = a[0] < a[1] ? a[0] : a[1]
+        let max_a = a[0] < a[1] ? a[1] : a[0]
+        let min_b = b[0] < b[1] ? b[0] : b[1]
+        let max_b = b[0] < b[1] ? b[1] : b[0]
+        if(min_a !== min_b) return min_a - min_b
+        else return max_a - max_b
+    })
 
-    while (candies > 0) {
-        status[i % num_people] += Math.min(i + 1, candies)
-        candies -= i + 1
-        i += 1
-    }
+    let sum = 0
+    let groupCount = 1
+    dominoes.reduce((prev, curr) => {
+        if(prev[0] === curr[0] && prev[1] === curr[1]
+            ||prev[0] === curr[1] && prev[1] === curr[0]) groupCount += 1
+        else {
+            sum += groupCount * (groupCount - 1)
+            groupCount = 1
+        }
 
-    return status
+        return curr
+    })
+    sum += groupCount * (groupCount - 1)
+
+    return sum / 2
 }
+
+console.log(lk([[2,2],[1,2],[1,2],[1,1],[1,2],[1,1],[2,2]]))
 
 // const root: TreeNode = {
 //     val: 1,
