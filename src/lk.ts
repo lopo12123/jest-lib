@@ -78,41 +78,20 @@ class TreeNode {
 //     }
 // }
 
-function lk(first: string, second: string): boolean {
-    if(first.length === second.length) {
-        let diff = 0
-        for (let i = 0; i < first.length; i++) {
-            if(first[i] !== second[i]) {
-                if(diff === 1) return false
-                else diff = 1
-            }
-        }
-        return true
+function lk(s: string): number {
+    let sum = 0
+    let stack = 0
+    for (let i = 0; i < s.length; i ++) {
+        if(s[i] === 'L') stack += 1
+        else if(s[i] === 'R') stack -= 1
+
+        if(stack === 0) sum += 1
     }
-    else {
-        if(Math.abs(first.length - second.length) === 1) {
-            let op = 0
-            let p1 = 0, p2 = 0
-            while (p1 < first.length && p2 < second.length) {
-                if(first[p1] === second[p2]) {
-                    p1 += 1
-                    p2 += 1
-                }
-                else {
-                    if(op === 1) return false
-                    else {
-                        first.length > second.length ? (p1 += 1) : (p2 += 1)
-                        op = 1
-                    }
-                }
-            }
-            return true
-        }
-        else return false
-    }
+    return sum
 }
 
-console.log(lk('pla', 'ple'))
+console.log(lk('RLRRLLRLRL'))
+
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
 //     fn()
