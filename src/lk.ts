@@ -78,31 +78,10 @@ class TreeNode {
 //     }
 // }
 
-function lk(moves: number[][]): string {
-    if(moves.length <= 4) return 'Pending'
-
-    const table: number[][] = [ [], [], [] ]
-    // 偶数A 奇数B
-    const win = (y: number, x: number, me: number) => {
-        let count = [ 0, 0, 0, 0 ]
-        for (let i = -2; i <= 2; i++) {
-            if(table[y + i]?.[x + i] === me) count[0] += 1
-            if(table[y + i]?.[x - i] === me) count[1] += 1
-            if(table[y + i]?.[x] === me) count[2] += 1
-            if(table[y]?.[x + i] === me) count[3] += 1
-        }
-        return Math.max(...count) === 3
-    }
-    for (let i = 0; i < 4; i++) {
-        table[moves[i][0]][moves[i][1]] = i % 2
-    }
-
-    for (let i = 4; i < moves.length; i++) {
-        table[moves[i][0]][moves[i][1]] = i % 2
-        if(win(moves[i][0], moves[i][1], i % 2)) return i % 2 === 0 ? 'A' : 'B'
-    }
-
-    return moves.length === 9 ? 'Draw' : 'Pending'
+function lk(num: string): string {
+    return num.match(/([0-9])\1\1/g)?.sort((a, b) => {
+        return parseInt(b) - parseInt(a)
+    })[0] ?? ''
 }
 
 // const showTime = (fn: () => void) => {
