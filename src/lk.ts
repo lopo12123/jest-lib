@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -78,25 +78,22 @@
 //     }
 // }
 
-function lk(arr: number[]): boolean {
-    arr.sort((a, b) => a - b)
+function lk(root: TreeNode | null): boolean {
+    const dfs = (sub: TreeNode | null): number => {
+        if(sub === null) return 0
+        else {
+            let l = dfs(sub.left)
 
-    const countSet = new Set<number>()
-    let count = 1
-    for (let i = 1; i < arr.length; i ++) {
-        if(arr[i] !== arr[i - 1]) {
-            if(countSet.has(count)) return false
-            else {
-                countSet.add(count)
-                count = 1
-            }
+            if(l < 0) return -1
+
+            let r = dfs(sub.right)
+
+            return r < 0 ? -1 : (Math.abs(l - r) > 1 ? -1 : Math.max(l, r) + 1)
         }
-        else count += 1
     }
-    return !countSet.has(count)
-}
 
-console.log(lk([1,2,2, 1,1, 3]))
+    return dfs(root) >= 0
+}
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
