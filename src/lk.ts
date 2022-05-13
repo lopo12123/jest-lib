@@ -78,22 +78,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null): boolean {
-    const dfs = (sub: TreeNode | null): number => {
-        if(sub === null) return 0
-        else {
-            let l = dfs(sub.left)
-
-            if(l < 0) return -1
-
-            let r = dfs(sub.right)
-
-            return r < 0 ? -1 : (Math.abs(l - r) > 1 ? -1 : Math.max(l, r) + 1)
+function lk(coordinates: number[][]): boolean {
+    if(coordinates.length === 2) return true
+    else {
+        const k = (coordinates[1][1] - coordinates[0][1]) / (coordinates[1][0] - coordinates[0][0])
+        for (let i = 2; i < coordinates.length; i++) {
+            let _k = (coordinates[i][1] - coordinates[0][1]) / (coordinates[i][0] - coordinates[0][0])
+            if(_k === k || k === Infinity && _k === -Infinity || k === -Infinity && _k === Infinity) continue
+            else return false
         }
+        return true
     }
-
-    return dfs(root) >= 0
 }
+
+console.log(lk([[0,0],[0,1],[0,-1]]))
+// console.log(lk([[1,1],[2,2],[2,0]]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
