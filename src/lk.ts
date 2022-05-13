@@ -78,18 +78,25 @@
 //     }
 // }
 
-function lk(distance: number[], start: number, destination: number): number {
-    const sum = distance.reduce((prev, curr) => {
-        return prev + curr
-    })
+function lk(arr: number[]): boolean {
+    arr.sort((a, b) => a - b)
 
-    let inner = 0
-    for (let i = Math.min(start, destination); i < Math.max(start, destination); i ++) {
-        inner += distance[i]
+    const countSet = new Set<number>()
+    let count = 1
+    for (let i = 1; i < arr.length; i ++) {
+        if(arr[i] !== arr[i - 1]) {
+            if(countSet.has(count)) return false
+            else {
+                countSet.add(count)
+                count = 1
+            }
+        }
+        else count += 1
     }
-
-    return Math.min(inner, sum - inner)
+    return !countSet.has(count)
 }
+
+console.log(lk([1,2,2, 1,1, 3]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
