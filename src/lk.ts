@@ -78,19 +78,16 @@ class TreeNode {
 //     }
 // }
 
-function lk(s: string): number {
-    let sum = 0
-    let stack = 0
-    for (let i = 0; i < s.length; i ++) {
-        if(s[i] === 'L') stack += 1
-        else if(s[i] === 'R') stack -= 1
+function lk(position: number[]): number {
+    let odd = 0, even = 0
 
-        if(stack === 0) sum += 1
+    for (let i = 0; i < position.length; i ++) {
+        odd += position[i] % 2
+        even += (position[i] + 1) % 2
     }
-    return sum
-}
 
-console.log(lk('RLRRLLRLRL'))
+    return Math.min(odd, even)
+}
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
