@@ -48,22 +48,6 @@ class TreeNode {
 //     }
 // }
 
-function lk(arr: number[]): number[][] {
-    arr.sort((a, b) => a - b)
-
-    let res: [ number, number ][] = []
-    let min: number = Infinity
-
-    for (let i = 1; i < arr.length; i++) {
-        if(arr[i] - arr[i - 1] < min) {
-            res = [ [ arr[i - 1], arr[i] ] ]
-            min = arr[i] - arr[i - 1]
-        }
-        else if(arr[i] - arr[i - 1] === min) res.push([ arr[i - 1], arr[i] ])
-    }
-    return res
-}
-
 // const root: TreeNode = {
 //     val: 1,
 //     left: {
@@ -94,14 +78,48 @@ function lk(arr: number[]): number[][] {
 //     }
 // }
 
+function lk(first: string, second: string): boolean {
+    if(first.length === second.length) {
+        let diff = 0
+        for (let i = 0; i < first.length; i++) {
+            if(first[i] !== second[i]) {
+                if(diff === 1) return false
+                else diff = 1
+            }
+        }
+        return true
+    }
+    else {
+        if(Math.abs(first.length - second.length) === 1) {
+            let op = 0
+            let p1 = 0, p2 = 0
+            while (p1 < first.length && p2 < second.length) {
+                if(first[p1] === second[p2]) {
+                    p1 += 1
+                    p2 += 1
+                }
+                else {
+                    if(op === 1) return false
+                    else {
+                        first.length > second.length ? (p1 += 1) : (p2 += 1)
+                        op = 1
+                    }
+                }
+            }
+            return true
+        }
+        else return false
+    }
+}
 
+console.log(lk('pla', 'ple'))
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
 //     fn()
 //     console.timeEnd('fn')
 // }
 // showTime(() => {
-//     // console.log(lk([ 'daeabc', 'aaeb', 'abacdc' ]))
+//     console.log(lk('pale', 'ple'))
 // })
 
 export {
