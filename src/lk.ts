@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -78,16 +78,36 @@ class TreeNode {
 //     }
 // }
 
-function lk(position: number[]): number {
-    let odd = 0, even = 0
+function lk(n: number): number {
+    const list: number[] = []
+    const visited: boolean[] = new Array(n + 1).fill(false)
+    for (let curr_num = 2; curr_num <= n; curr_num++) {
+        if(!visited[curr_num]) {
+            list.push(curr_num)
+        }
 
-    for (let i = 0; i < position.length; i ++) {
-        odd += position[i] % 2
-        even += (position[i] + 1) % 2
+        // 当前数 * 比当前质数小的质数 全都置为 visited
+        for (let prime_idx = 0; prime_idx < list.length && curr_num * list[prime_idx] <= n; prime_idx++) {
+            visited[curr_num * list[prime_idx]] = true
+
+            if(curr_num % list[prime_idx] === 0) break
+        }
     }
 
-    return Math.min(odd, even)
+    // 质数数量: list.length, 其他数量: n - list.length
+    let all = 1
+    let mod = 10 ** 9 + 7
+    for (let i = 1; i <= list.length; i++) {
+        all = all * i % mod
+    }
+    for (let j = 1; j <= n - list.length; j++) {
+        all = all * j % mod
+    }
+    return all
 }
+
+console.log(lk(5))
+console.log(lk(100))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
