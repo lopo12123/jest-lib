@@ -78,30 +78,34 @@ class TreeNode {
 //     }
 // }
 
-function lk(cards: number[], cnt: number): number {
-    cards.sort((a, b) => b - a)
+function lk(source: number[][], target: number[][]): number {
+    const len_y = source.length, len_x = source[0].length
+    const count: number[] = []
 
-    let last_odd = 0, last_even = 0
-    let sum = 0
-    for (let i = 0; i < cnt; i++) {
-        sum += cards[i]
-
-        if(cards[i] % 2 === 0) last_even = cards[i]
-        else last_odd = cards[i]
+    for (let y = 0; y < len_y; y ++) {
+        for (let x = 0; x < len_x; x ++) {
+            count[source[y][x]] =(count[source[y][x]] ?? 0) + 1
+        }
     }
 
-    if(sum % 2 === 0) return sum
+    console.log(count)
 
-    let replace_odd = 0, replace_even = 0
-    for (let i = cnt; i < cards.length; i++) {
-        if(last_odd > 0 && cards[i] % 2 === 0 && replace_odd === 0) replace_odd = sum - last_odd + cards[i]
-        if(last_even > 0 && cards[i] % 2 === 1 && replace_even === 0) replace_even = sum - last_even + cards[i]
+    for (let y = 0; y < len_y; y ++) {
+        for (let x = 0; x < len_x; x ++) {
+            if(count[target[y][x]] !== undefined) count[target[y][x]] -=1
+        }
     }
 
-    return Math.max(replace_odd, replace_even)
+    return count.reduce((prev, curr) => {
+        return prev + (curr > 0 ? curr : 0)
+    }, 0)
 }
 
-console.log(lk([ 1, 2, 8, 9 ], 3))
+
+console.log(lk([[1,3],[5,4]],
+    [[3,1],[6,4]]))
+
+
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
