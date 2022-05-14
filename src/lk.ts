@@ -78,9 +78,30 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): number {
-    return new Set(JSON.stringify(root).match(/[0-9]+/g) ?? []).size
+function lk(cards: number[], cnt: number): number {
+    cards.sort((a, b) => b - a)
+
+    let last_odd = 0, last_even = 0
+    let sum = 0
+    for (let i = 0; i < cnt; i++) {
+        sum += cards[i]
+
+        if(cards[i] % 2 === 0) last_even = cards[i]
+        else last_odd = cards[i]
+    }
+
+    if(sum % 2 === 0) return sum
+
+    let replace_odd = 0, replace_even = 0
+    for (let i = cnt; i < cards.length; i++) {
+        if(last_odd > 0 && cards[i] % 2 === 0 && replace_odd === 0) replace_odd = sum - last_odd + cards[i]
+        if(last_even > 0 && cards[i] % 2 === 1 && replace_even === 0) replace_even = sum - last_even + cards[i]
+    }
+
+    return Math.max(replace_odd, replace_even)
 }
+
+console.log(lk([ 1, 2, 8, 9 ], 3))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
