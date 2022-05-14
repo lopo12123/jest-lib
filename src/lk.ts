@@ -78,33 +78,20 @@ class TreeNode {
 //     }
 // }
 
-function lk(source: number[][], target: number[][]): number {
-    const len_y = source.length, len_x = source[0].length
-    const count: number[] = []
+function lk(nums: number[], target: number): number[] {
+    let l = 0, r = nums.length - 1
 
-    for (let y = 0; y < len_y; y ++) {
-        for (let x = 0; x < len_x; x ++) {
-            count[source[y][x]] =(count[source[y][x]] ?? 0) + 1
-        }
+    let sum = nums[l] + nums[r]
+    while (sum !== target && l < r) {
+        if(sum > target) r -= 1
+        else l += 1
+        sum = nums[l] + nums[r]
     }
 
-    console.log(count)
-
-    for (let y = 0; y < len_y; y ++) {
-        for (let x = 0; x < len_x; x ++) {
-            if(count[target[y][x]] !== undefined) count[target[y][x]] -=1
-        }
-    }
-
-    return count.reduce((prev, curr) => {
-        return prev + (curr > 0 ? curr : 0)
-    }, 0)
+    return [nums[l], nums[r]]
 }
 
-
-console.log(lk([[1,3],[5,4]],
-    [[3,1],[6,4]]))
-
+console.log(lk([2,7,11,15], 9))
 
 
 // const showTime = (fn: () => void) => {
