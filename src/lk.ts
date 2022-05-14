@@ -78,10 +78,17 @@ class TreeNode {
 //     }
 // }
 
-function lk(time: number[], fruits: number[][], limit: number): number {
-    return fruits.reduce((prev, curr) => {
-        return prev + time[curr[0]] * Math.ceil(curr[1] / limit)
-    }, 0)
+function lk(nums: number[]): number[][] {
+    const collect: number[][] = [[]]
+
+    nums.forEach(newItem => {
+        let l = collect.length
+        for (let i = 0; i < l; i ++) {
+            collect.push([...collect[i], newItem])
+        }
+    })
+
+    return collect
 }
 
 // const showTime = (fn: () => void) => {
