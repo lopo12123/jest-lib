@@ -78,19 +78,8 @@ class TreeNode {
 //     }
 // }
 
-function lk(questions: number[]): number {
-    const count = new Map<number, number>()
-    questions.forEach((type) => {
-        count.set(type, (count.get(type) ?? 0) + 1)
-    })
-    const sort_type_by_times = [ ...count ].map((pair) => pair[1]).sort((a, b) => b - a)
-
-    let sum = 0, toSelect = questions.length / 2
-    while (toSelect > 0) {
-        toSelect -= sort_type_by_times.shift()!
-        sum += 1
-    }
-    return sum
+function lk(n: number): number {
+    return Math.ceil(Math.log2(n)) + 1
 }
 
 // const showTime = (fn: () => void) => {
