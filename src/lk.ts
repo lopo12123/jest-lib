@@ -78,21 +78,8 @@ class TreeNode {
 //     }
 // }
 
-function lk(gem: number[], operations: number[][]): number {
-    operations.forEach(([x, y]) => {
-        let delta = Math.floor(gem[x] / 2)
-        gem[x] -= delta
-        gem[y] += delta
-    })
-
-    let max = gem[0], min = gem[0]
-
-    for (let i = 1; i < gem.length; i ++) {
-        if(gem[i] > max) max = gem[i]
-        if(gem[i] < min) min = gem[i]
-    }
-
-    return max - min
+function lk(root: TreeNode): number {
+    return new Set(JSON.stringify(root).match(/[0-9]+/g) ?? []).size
 }
 
 // const showTime = (fn: () => void) => {
