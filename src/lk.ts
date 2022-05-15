@@ -78,14 +78,12 @@ class TreeNode {
 //     }
 // }
 
-function lk(sentence: string): number {
-    return sentence.match(/(?<=(^| ))(([!.,])|([a-z]+(-[a-z]+)?[!.,]?))(?=($| ))/g)?.length ?? 0
+function lk(nums: number[]): number {
+    for (let i = 0; i < nums.length; i++) {
+        if(i % 10 === nums[i]) return i
+    }
+    return -1
 }
-
-console.log(lk(","))
-console.log(lk("cat and  dog"))
-console.log(lk("!this  1-s b8d!"))
-console.log(lk("alice and  bob are playing stone-game10"))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
