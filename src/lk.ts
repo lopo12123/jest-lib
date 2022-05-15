@@ -78,13 +78,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(s: string): boolean {
-    const nums = s.match(/[0-9]+/g)!
+function lk(colors: number[]): number {
+    const l_0 = colors[0], r_0 = colors.at(-1)
 
-    for (let i = 1; i < nums.length; i ++) {
-        if(parseInt(nums[i - 1]) >= parseInt(nums[i])) return false
+    let l = 0, r = colors.length - 1
+
+    let find = 0
+    while (find < 2) {
+        if(l_0 !== colors[r])find += 1
+        else r -= 1
+
+        if(r_0 !== colors[l]) find += 1
+        else l += 1
     }
-    return true
+
+    return Math.max(r, colors.length - l - 1)
 }
 
 // const showTime = (fn: () => void) => {
