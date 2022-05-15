@@ -78,8 +78,10 @@ class TreeNode {
 //     }
 // }
 
-function lk(scores: number[]): number {
-    return new Set(scores).size
+function lk(coins: number[]): number {
+    return coins.reduce((prev, curr) => {
+        return prev + Math.ceil(curr / 2)
+    }, 0)
 }
 
 
