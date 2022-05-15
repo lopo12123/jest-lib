@@ -78,25 +78,36 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[], target: number): number {
-    const mod = 10 ** 9 + 7
-    nums.sort((a, b) => a - b)
+function lk(n: number, k: number): number {
+    const selects = (m: number) => {
+        if(m === 0) return 1
 
-    let sum = 0
-    let last_big_idx = nums.length - 1
-    for (let small = 0; small < last_big_idx; small++) {
-        if(nums[small] + nums[last_big_idx] > target) {
-            last_big_idx -= 1
-            small -= 1
+        let all = 1
+        for (let i = n; i > m; i--) {
+            all *= i
         }
-        else {
-            sum = (sum + last_big_idx - small) % mod
+        for (let j = (n - m); j > 1; j--) {
+            all /= j
         }
+        return all
     }
-    return sum
+    if(k === 0 || k === n * n) return 1
+    else {
+        let count = 0
+        for (let x = 0; x < n; x++) {
+            for (let y = 0; y < n; y++) {
+                if((n * x + n * y - x * y) === k) {
+                    if(x === n) count += selects(y)
+                    else if(y === n) count += selects(x)
+                    else count += selects(x) * selects(y)
+                }
+            }
+        }
+        return count
+    }
 }
 
-console.log(lk([ 2, 5, 3, 5 ], 6))
+console.log(lk(2, 4))
 
 
 // const showTime = (fn: () => void) => {
