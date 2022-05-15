@@ -78,8 +78,16 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): number {
-    return nums.findIndex((val, idx) => idx % 10 === val)
+function lk(arr: string[], k: number): string {
+    const hash = new Map<string, number>()
+    arr.forEach((str) => {
+        hash.set(str, (hash.get(str) ?? 0) + 1)
+    })
+    for (let i = 0; i < arr.length; i ++) {
+        if(hash.get(arr[i]) === 1) k -= 1
+        if(k === 0) return arr[i]
+    }
+    return  ''
 }
 
 // const showTime = (fn: () => void) => {
