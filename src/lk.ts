@@ -78,26 +78,15 @@ class TreeNode {
 //     }
 // }
 
-function lk(staple: number[], drinks: number[], x: number): number {
-    staple.sort((a, b) => a - b)
-    drinks.sort((a, b) => a - b)
+function lk(s: string): number {
+    let x = 1, y = 0
 
-    if(staple[0] + drinks[0] > x) return 0
-
-    let choices = 0
-    let last_drink_idx = drinks.length - 1
-    for (let i = 0; i < staple.length; i ++) {
-
-        if(staple[i] + drinks[last_drink_idx] > x) {
-            last_drink_idx -= 1
-            i -= 1
-        }
-        else {
-            choices = (choices + last_drink_idx + 1) % 1000000007
-        }
+    for (let ch of s) {
+        if(ch === 'A') x = 2 * x + y
+        else y = 2 * y + x
     }
 
-    return choices
+    return x + y
 }
 
 
