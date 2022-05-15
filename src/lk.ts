@@ -78,15 +78,8 @@ class TreeNode {
 //     }
 // }
 
-function lk(s: string): number {
-    let x = 1, y = 0
-
-    for (let ch of s) {
-        if(ch === 'A') x = 2 * x + y
-        else y = 2 * y + x
-    }
-
-    return x + y
+function lk(scores: number[]): number {
+    return new Set(scores).size
 }
 
 
