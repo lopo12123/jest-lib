@@ -78,21 +78,14 @@ class TreeNode {
 //     }
 // }
 
-function lk(cont: number[]): number[] {
-    if(cont.length === 1) return [ cont[0], 1 ]
-    else {
-        const gcd = (x: number, y: number): number => {
-            return y === 0 ? x : gcd(y, x % y)
-        }
-        let [ x, y ] = [ 1, cont[cont.length - 1] ]
-        for (let p = cont.length - 2; p >= 0; p--) {
-            let max_common = gcd(y, cont[p] * y + x)
-            ;[ x, y ] = [ y / max_common, (cont[p] * y + x) / max_common ]
-        }
-        return [y, x]
-    }
+function lk(sentence: string): number {
+    return sentence.match(/(?<=(^| ))(([!.,])|([a-z]+(-[a-z]+)?[!.,]?))(?=($| ))/g)?.length ?? 0
 }
 
+console.log(lk(","))
+console.log(lk("cat and  dog"))
+console.log(lk("!this  1-s b8d!"))
+console.log(lk("alice and  bob are playing stone-game10"))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
