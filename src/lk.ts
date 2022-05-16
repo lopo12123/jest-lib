@@ -78,43 +78,17 @@ const root: TreeNode = {
     }
 }
 
-function lk(grid: number[][]): number {
-    const m = grid.length, n = grid[0].length
-
-    if(grid[0][0] < 0) return m * n
-
+function lk(num: number): number {
     let count = 0
-    let lastP = n - 1
-    for (let i = 0; i < m; i ++) {
-        if(grid[i][0] < 0) {
-            count += (m - i) * n
-            break
-        }
-        else if(grid[i][n - 1] >= 0) continue
-        else {
-            for (let j = lastP; j >=0; j --) {
-                if(grid[i][j] >= 0) {
-                    count += n - (j + 1)
-                    lastP = j + 1
-                    break
-                }
-            }
-        }
+    while (num !== 0) {
+        if(num % 2 === 0) num /= 2
+        else num -= 1
+        count += 1
     }
-
     return count
 }
 
-console.log(lk([
-    [4,3,2,-1],
-    [3,2,1,-1],
-    [1,1,-1,-2],
-    [-1,-1,-2,-3]
-]))
-console.log(lk([
-    [3,2],
-    [1,0]
-]))
+console.log(lk(14))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
