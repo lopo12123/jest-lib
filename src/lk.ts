@@ -78,8 +78,9 @@ class TreeNode {
 //     }
 // }
 
-function lk(num: number): boolean {
-    return num === 0 || num % 10 !== 0
+function lk(s: string): boolean {
+    let idx_a = s.lastIndexOf('a'), idx_b = s.indexOf('b')
+    return idx_a === -1 || idx_b === -1 || idx_a < idx_b
 }
 
 // const showTime = (fn: () => void) => {
