@@ -48,52 +48,60 @@ class TreeNode {
 //     }
 // }
 
-// const root: TreeNode = {
-//     val: 1,
-//     left: {
-//         val: 2,
-//         left: {
-//             val: 3,
-//             left: null,
-//             right: null
-//         },
-//         right: {
-//             val: 4,
-//             left: null,
-//             right: null
-//         }
-//     },
-//     right: {
-//         val: 5,
-//         left: {
-//             val: 6,
-//             left: null,
-//             right: null
-//         },
-//         right: {
-//             val: 7,
-//             left: null,
-//             right: null
-//         }
-//     }
-// }
-
-function lk(colors: number[]): number {
-    const l_0 = colors[0], r_0 = colors.at(-1)
-
-    let l = 0, r = colors.length - 1
-
-    let find = 0
-    while (find < 2) {
-        if(l_0 !== colors[r])find += 1
-        else r -= 1
-
-        if(r_0 !== colors[l]) find += 1
-        else l += 1
+const root: TreeNode = {
+    val: 4,
+    left: {
+        val: 2,
+        left: {
+            val: 1,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 3,
+            left: null,
+            right: null
+        }
+    },
+    right: {
+        val: 6,
+        left: {
+            val: 5,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 7,
+            left: null,
+            right: null
+        }
     }
-
-    return Math.max(r, colors.length - l - 1)
 }
+
+function lk(root: TreeNode | null, p: number): TreeNode | null {
+    let t: TreeNode | null = null
+
+    let findP = false
+    const dfs = (sub: TreeNode | null) => {
+        if(t !== null || sub === null) return;
+        else {
+            dfs(sub.left)
+
+            if(findP) {
+                if(t === null) t = sub
+            }
+            else {
+                if(sub.val === p) findP = true
+                dfs(sub.right)
+            }
+        }
+    }
+    dfs(root)
+
+    return t
+}
+
+console.log(lk(root, 4))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
