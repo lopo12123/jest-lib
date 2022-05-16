@@ -78,26 +78,10 @@ class TreeNode {
 //     }
 // }
 
-function lk(logs: number[][]): number {
-    const num_of_year: number[] = new Array(101).fill(0)
-
-    for (let log of logs) {
-        num_of_year[log[0] - 1950] += 1
-        num_of_year[log[1] - 1950] -= 1
-    }
-
-    let max = 0, maxYear = 0
-    let curr = 0
-
-    num_of_year.forEach((delta, year) => {
-        curr += delta
-        if(curr > max) {
-            max = curr
-            maxYear = year
-        }
-    })
-
-    return maxYear + 1950
+function lk(s: string): string {
+    return s.split(' ').sort((a, b) => {
+        return a.match(/[1-9]/)! < b.match(/[1-9]/)! ? -1 : 1
+    }).map(_ => _.replace(/[1-9]/, '')).join(' ')
 }
 
 // const showTime = (fn: () => void) => {
