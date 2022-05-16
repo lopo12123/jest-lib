@@ -78,10 +78,14 @@ class TreeNode {
 //     }
 // }
 
-function lk(s: string): string {
-    return s.split(' ').sort((a, b) => {
-        return a.match(/[1-9]/)! < b.match(/[1-9]/)! ? -1 : 1
-    }).map(_ => _.replace(/[1-9]/, '')).join(' ')
+function lk(num: string): string {
+    let p = num.length
+    while (p > 0) {
+        if(/[13579]/.test(num[p - 1])) return num.slice(0, p)
+        else p -= 1
+    }
+
+    return ''
 }
 
 // const showTime = (fn: () => void) => {
