@@ -78,17 +78,31 @@ const root: TreeNode = {
     }
 }
 
-function lk(num: number): number {
-    let count = 0
-    while (num !== 0) {
-        if(num % 2 === 0) num /= 2
-        else num -= 1
-        count += 1
+function lk(root: TreeNode | null, p: TreeNode): TreeNode | null {
+    let t: TreeNode | null = null
+
+    let findP = false
+    const dfs = (sub: TreeNode | null) => {
+        if(t !== null || sub === null) return;
+        else {
+            dfs(sub.left)
+
+            if(findP) {
+                if(t === null) t = sub
+            }
+            else {
+                if(sub.val === p.val) findP = true
+                dfs(sub.right)
+            }
+        }
     }
-    return count
+    dfs(root)
+
+    return t
 }
 
-console.log(lk(14))
+let res = lk(root, 4)
+console.log(res, res === root.right?.left)
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
