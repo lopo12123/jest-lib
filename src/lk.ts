@@ -78,18 +78,26 @@ const root: TreeNode = {
     }
 }
 
-function lk(n: number): number[] {
-    const has_zero = (n: number) => {
-        return /0/.test(n.toString())
+function lk(mat: number[][], k: number): number[] {
+    const row = mat.length, column = mat[0].length
+    const row_with_strength: [ idx: number, strength: number ][] = []
+    let sum
+    for (let i = 0; i < row; i++) {
+        sum = 0
+        for (let j = 0; j < column; j++) {
+            sum += mat[i][j]
+        }
+        row_with_strength.push([ i, sum ])
     }
+    row_with_strength.sort((a, b) => a[1] - b[1])
 
-    for (let i = 1; i <= n / 2; i++) {
-        if(!has_zero(i) && !has_zero(n - i)) return [ i, n - i ]
+    const res: number[] = []
+    if(k > row) k = row
+    for (let i = 0; i < k; i++) {
+        res.push(row_with_strength[i][0])
     }
-    return [ 1, 1 ]
+    return res
 }
-
-console.log(lk(11))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
