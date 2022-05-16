@@ -78,29 +78,27 @@ class TreeNode {
 //     }
 // }
 
-function lk(matrix: number[][]): boolean {
-    const n = matrix.length
-    const set_x = new Array(n).fill(0).map(_ => new Set())
-    const set_y = new Array(n).fill(0).map(_ => new Set())
+function lk(logs: number[][]): number {
+    const num_of_year: number[] = new Array(101).fill(0)
 
-    for (let y = 0; y < n; y++) {
-        for (let x = 0; x < n; x++) {
-            if(set_x[x].has(matrix[y][x])) return false
-            else set_x[x].add(matrix[y][x])
-
-            if(set_y[y].has(matrix[y][x])) return false
-            else set_y[y].add(matrix[y][x])
-        }
+    for (let log of logs) {
+        num_of_year[log[0] - 1950] += 1
+        num_of_year[log[1] - 1950] -= 1
     }
 
-    return true
-}
+    let max = 0, maxYear = 0
+    let curr = 0
 
-console.log(lk([
-    [ 1, 2, 3 ],
-    [ 3, 1, 2 ],
-    [ 2, 3, 1 ]
-]))
+    num_of_year.forEach((delta, year) => {
+        curr += delta
+        if(curr > max) {
+            max = curr
+            maxYear = year
+        }
+    })
+
+    return maxYear + 1950
+}
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
