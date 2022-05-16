@@ -78,26 +78,43 @@ const root: TreeNode = {
     }
 }
 
-function lk(mat: number[][], k: number): number[] {
-    const row = mat.length, column = mat[0].length
-    const row_with_strength: [ idx: number, strength: number ][] = []
-    let sum
-    for (let i = 0; i < row; i++) {
-        sum = 0
-        for (let j = 0; j < column; j++) {
-            sum += mat[i][j]
-        }
-        row_with_strength.push([ i, sum ])
-    }
-    row_with_strength.sort((a, b) => a[1] - b[1])
+function lk(grid: number[][]): number {
+    const m = grid.length, n = grid[0].length
 
-    const res: number[] = []
-    if(k > row) k = row
-    for (let i = 0; i < k; i++) {
-        res.push(row_with_strength[i][0])
+    if(grid[0][0] < 0) return m * n
+
+    let count = 0
+    let lastP = n - 1
+    for (let i = 0; i < m; i ++) {
+        if(grid[i][0] < 0) {
+            count += (m - i) * n
+            break
+        }
+        else if(grid[i][n - 1] >= 0) continue
+        else {
+            for (let j = lastP; j >=0; j --) {
+                if(grid[i][j] >= 0) {
+                    count += n - (j + 1)
+                    lastP = j + 1
+                    break
+                }
+            }
+        }
     }
-    return res
+
+    return count
 }
+
+console.log(lk([
+    [4,3,2,-1],
+    [3,2,1,-1],
+    [1,1,-1,-2],
+    [-1,-1,-2,-3]
+]))
+console.log(lk([
+    [3,2],
+    [1,0]
+]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
