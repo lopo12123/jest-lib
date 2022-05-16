@@ -78,30 +78,15 @@ const root: TreeNode = {
     }
 }
 
-function lk(root: TreeNode | null, p: number): TreeNode | null {
-    let t: TreeNode | null = null
-
-    let findP = false
-    const dfs = (sub: TreeNode | null) => {
-        if(t !== null || sub === null) return;
-        else {
-            dfs(sub.left)
-
-            if(findP) {
-                if(t === null) t = sub
-            }
-            else {
-                if(sub.val === p) findP = true
-                dfs(sub.right)
-            }
-        }
-    }
-    dfs(root)
-
-    return t
+function lk(arr: number[]): number[] {
+    const num_with_order = new Map<number, number>()
+    ;[ ...new Set(arr) ].sort((a, b) => a - b).forEach((val, idx) => {
+        num_with_order.set(val, idx + 1)
+    })
+    return arr.map(val => {
+        return num_with_order.get(val)!
+    })
 }
-
-console.log(lk(root, 4))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
