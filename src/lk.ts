@@ -48,61 +48,39 @@ class TreeNode {
 //     }
 // }
 
-const root: TreeNode = {
-    val: 4,
-    left: {
-        val: 2,
-        left: {
-            val: 1,
-            left: null,
-            right: null
-        },
-        right: {
-            val: 3,
-            left: null,
-            right: null
-        }
-    },
-    right: {
-        val: 6,
-        left: {
-            val: 5,
-            left: null,
-            right: null
-        },
-        right: {
-            val: 7,
-            left: null,
-            right: null
-        }
-    }
+// const root: TreeNode = {
+//     val: 4,
+//     left: {
+//         val: 2,
+//         left: {
+//             val: 1,
+//             left: null,
+//             right: null
+//         },
+//         right: {
+//             val: 3,
+//             left: null,
+//             right: null
+//         }
+//     },
+//     right: {
+//         val: 6,
+//         left: {
+//             val: 5,
+//             left: null,
+//             right: null
+//         },
+//         right: {
+//             val: 7,
+//             left: null,
+//             right: null
+//         }
+//     }
+// }
+
+function lk(num: number): boolean {
+    return num === 0 || num % 10 !== 0
 }
-
-function lk(root: TreeNode | null, p: TreeNode): TreeNode | null {
-    let t: TreeNode | null = null
-
-    let findP = false
-    const dfs = (sub: TreeNode | null) => {
-        if(t !== null || sub === null) return;
-        else {
-            dfs(sub.left)
-
-            if(findP) {
-                if(t === null) t = sub
-            }
-            else {
-                if(sub.val === p.val) findP = true
-                dfs(sub.right)
-            }
-        }
-    }
-    dfs(root)
-
-    return t
-}
-
-let res = lk(root, 4)
-console.log(res, res === root.right?.left)
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
