@@ -78,9 +78,11 @@ class TreeNode {
 //     }
 // }
 
-function lk(s: string): boolean {
-    let idx_a = s.lastIndexOf('a'), idx_b = s.indexOf('b')
-    return idx_a === -1 || idx_b === -1 || idx_a < idx_b
+function lk(title: string): string {
+    return title.split(' ').map((str) => {
+        if(str.length <= 2) return str.toLowerCase()
+        else return str[0].toUpperCase() + str.slice(1).toLowerCase()
+    }).join(' ')
 }
 
 // const showTime = (fn: () => void) => {
