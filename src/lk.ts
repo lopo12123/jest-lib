@@ -78,15 +78,18 @@ const root: TreeNode = {
     }
 }
 
-function lk(arr: number[]): number[] {
-    const num_with_order = new Map<number, number>()
-    ;[ ...new Set(arr) ].sort((a, b) => a - b).forEach((val, idx) => {
-        num_with_order.set(val, idx + 1)
-    })
-    return arr.map(val => {
-        return num_with_order.get(val)!
-    })
+function lk(n: number): number[] {
+    const has_zero = (n: number) => {
+        return /0/.test(n.toString())
+    }
+
+    for (let i = 1; i <= n / 2; i++) {
+        if(!has_zero(i) && !has_zero(n - i)) return [ i, n - i ]
+    }
+    return [ 1, 1 ]
 }
+
+console.log(lk(11))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
