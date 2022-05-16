@@ -78,12 +78,29 @@ class TreeNode {
 //     }
 // }
 
-function lk(title: string): string {
-    return title.split(' ').map((str) => {
-        if(str.length <= 2) return str.toLowerCase()
-        else return str[0].toUpperCase() + str.slice(1).toLowerCase()
-    }).join(' ')
+function lk(matrix: number[][]): boolean {
+    const n = matrix.length
+    const set_x = new Array(n).fill(0).map(_ => new Set())
+    const set_y = new Array(n).fill(0).map(_ => new Set())
+
+    for (let y = 0; y < n; y++) {
+        for (let x = 0; x < n; x++) {
+            if(set_x[x].has(matrix[y][x])) return false
+            else set_x[x].add(matrix[y][x])
+
+            if(set_y[y].has(matrix[y][x])) return false
+            else set_y[y].add(matrix[y][x])
+        }
+    }
+
+    return true
 }
+
+console.log(lk([
+    [ 1, 2, 3 ],
+    [ 3, 1, 2 ],
+    [ 2, 3, 1 ]
+]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
