@@ -78,20 +78,18 @@
 //     }
 // }
 
-function lk(prices: number[]): number[] {
-    const stack: number[] = [ 0 ]
-    const final_price: number[] = []
-    for (let i = prices.length - 1; i >= 0; i--) {
-        while (stack[0] && stack[0] > prices[i]) stack.shift()
+function lk(nums: number[], n: number): number[] {
+    const grouped: number[] = []
 
-        if(stack[0]) final_price[i] = prices[i] - stack[0]
-        else final_price[i] = prices[i]
-        stack.unshift(prices[i])
+    for (let i = 0; i < n; i++) {
+        grouped.push(nums[i], nums[i + n])
     }
-    return final_price
+
+    return grouped
 }
 
-console.log(lk([ 8, 4, 6, 2, 3 ]))
+console.log(lk([ 2, 5, 1, 3, 4, 7 ], 3))
+console.log(lk([ 1, 2, 3, 4, 4, 3, 2, 1 ], 4))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
