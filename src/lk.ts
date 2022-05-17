@@ -78,18 +78,20 @@
 //     }
 // }
 
-function lk(nums: number[], n: number): number[] {
-    const grouped: number[] = []
-
-    for (let i = 0; i < n; i++) {
-        grouped.push(nums[i], nums[i + n])
+function lk(target: number[], arr: number[]): boolean {
+    const count = new Map()
+    for (let num of target) {
+        count.set(num, (count.get(num) ?? 0) + 1)
     }
-
-    return grouped
+    for (let num of arr) {
+        let remain = count.get(num)
+        if(!remain) return false
+        else count.set(num, remain - 1)
+    }
+    return true
 }
 
-console.log(lk([ 2, 5, 1, 3, 4, 7 ], 3))
-console.log(lk([ 1, 2, 3, 4, 4, 3, 2, 1 ], 4))
+console.log(lk([7], [6]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
