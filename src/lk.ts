@@ -78,27 +78,13 @@ class ListNode {
 //     }
 // }
 
-function lk(head: ListNode | null): number {
-    let sum = 0
-    while (head !== null) {
-        sum = sum * 2 + head.val
-        head = head.next
-    }
-    return sum
+function lk(nums: number[]): number {
+    return nums.reduce((prev, curr) => {
+        return prev + Math.floor(Math.log10(curr)) % 2
+    }, 0)
 }
 
-const list = {
-    val: 1,
-    next: {
-        val: 0,
-        next: {
-            val: 1,
-            next: null
-        }
-    }
-}
-
-console.log(lk(list))
+console.log(lk([12, 345, 2,6,7896]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
