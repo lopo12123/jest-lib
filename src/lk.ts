@@ -79,15 +79,19 @@
 // }
 
 function lk(prices: number[]): number[] {
-    return prices.map((curr, idx) => {
-        for (let i = idx + 1; i < prices.length; i ++) {
-            if(prices[i] <= curr) return curr - prices[i]
-        }
-        return curr
-    })
+    const stack: number[] = [ 0 ]
+    const final_price: number[] = []
+    for (let i = prices.length - 1; i >= 0; i--) {
+        while (stack[0] && stack[0] > prices[i]) stack.shift()
+
+        if(stack[0]) final_price[i] = prices[i] - stack[0]
+        else final_price[i] = prices[i]
+        stack.unshift(prices[i])
+    }
+    return final_price
 }
 
-console.log(lk([8,4,6,2,3]))
+console.log(lk([ 8, 4, 6, 2, 3 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
