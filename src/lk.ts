@@ -78,12 +78,38 @@
 //     }
 // }
 
-function lk(date1: string, date2: string): number {
-    return Math.abs((new Date(date1).getTime() - new Date(date2).getTime()) / 86400000)
+function lk(s: string): string {
+    const count: number[] = new Array(26).fill(0)
+
+    for (let i = 0; i < s.length; i++) {
+        count[s.charCodeAt(i) - 97] += 1
+    }
+
+    let remain = s.length
+    let new_s = ''
+
+    while (remain > 0) {
+        for (let i = 0; i < 26; i++) {
+            if(count[i] > 0) {
+                new_s += String.fromCharCode(i + 97)
+                count[i] -= 1
+                remain -= 1
+            }
+        }
+        if(remain === 0) break
+        for (let j = 25; j >= 0; j--) {
+            if(count[j] > 0) {
+                new_s += String.fromCharCode(j + 97)
+                count[j] -= 1
+                remain -= 1
+            }
+        }
+    }
+
+    return new_s
 }
 
-console.log(lk('2019-06-29', '2019-06-30'))
-console.log(lk('2020-01-15', '2019-12-31'))
+console.log(lk('aaaabbbbcccc'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
