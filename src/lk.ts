@@ -1,12 +1,12 @@
-class ListNode {
-    val: number
-    next: ListNode | null
-
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
-    }
-}
+// class ListNode {
+//     val: number
+//     next: ListNode | null
+//
+//     constructor(val?: number, next?: ListNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.next = (next === undefined ? null : next)
+//     }
+// }
 
 // class TreeNode {
 //     val: number
@@ -78,16 +78,24 @@ class ListNode {
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    const res: number[] = []
-    for (let i = 0; i < nums.length; i += 2) {
-        res.push(...new Array(nums[i]).fill(nums[i + 1]))
-    }
-    return res
+function lk(m: number, n: number, indices: [ ri: number, ci: number ][]): number {
+    const set_r = new Set(), set_c = new Set()
+
+    indices.forEach(([ r, c ]) => {
+        set_r.has(r) ? set_r.delete(r) : set_r.add(r)
+        set_c.has(c) ? set_c.delete(c) : set_c.add(c)
+    })
+
+    console.log(set_r, set_c)
+    return set_r.size * n + set_c.size * m - set_r.size * set_c.size * 2
 }
 
-console.log(lk([1,2,3,4]))
-console.log(lk([1,1,2,3]))
+console.log(lk(2, 2,[
+    [1,1], [0,0]
+]))
+console.log(lk(2, 3,[
+    [0,1], [1,1]
+]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
