@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -78,15 +78,16 @@ class TreeNode {
 //     }
 // }
 
-function lk(num: string): string {
-    let p = num.length
-    while (p > 0) {
-        if(/[13579]/.test(num[p - 1])) return num.slice(0, p)
-        else p -= 1
-    }
-
-    return ''
+function lk(prices: number[]): number[] {
+    return prices.map((curr, idx) => {
+        for (let i = idx + 1; i < prices.length; i ++) {
+            if(prices[i] <= curr) return curr - prices[i]
+        }
+        return curr
+    })
 }
+
+console.log(lk([8,4,6,2,3]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
