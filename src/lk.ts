@@ -78,13 +78,21 @@ class ListNode {
 //     }
 // }
 
-function lk(nums: number[]): number {
-    return nums.reduce((prev, curr) => {
-        return prev + Math.floor(Math.log10(curr)) % 2
-    }, 0)
+function lk(nums: number): number[] {
+    const res: number[] = []
+
+    if(nums % 2 === 1) res.push(0)
+
+    for (let i = 1; i <= nums / 2; i ++) {
+        res.push(-i, i)
+    }
+
+    return res
 }
 
-console.log(lk([12, 345, 2,6,7896]))
+console.log(lk(1))
+console.log(lk(4))
+console.log(lk(5))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
