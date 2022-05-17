@@ -78,20 +78,19 @@
 //     }
 // }
 
-function lk(target: number[], arr: number[]): boolean {
-    const count = new Map()
-    for (let num of target) {
-        count.set(num, (count.get(num) ?? 0) + 1)
+function lk(s: string): number {
+    let max = 0
+    for (let i = 0; i < s.length - 1; i++) {
+        let score = 0
+        for (let j = 0; j < s.length; j++) {
+            if(j <= i && s[j] === '0' || j > i && s[j] === '1') score += 1
+        }
+        max = Math.max(max, score)
     }
-    for (let num of arr) {
-        let remain = count.get(num)
-        if(!remain) return false
-        else count.set(num, remain - 1)
-    }
-    return true
+    return max
 }
 
-console.log(lk([7], [6]))
+console.log(lk('00111'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
