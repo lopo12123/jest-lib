@@ -1,12 +1,12 @@
-// class ListNode {
-//     val: number
-//     next: ListNode | null
-//
-//     constructor(val?: number, next?: ListNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.next = (next === undefined ? null : next)
-//     }
-// }
+class ListNode {
+    val: number
+    next: ListNode | null
+
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.next = (next === undefined ? null : next)
+    }
+}
 
 // class TreeNode {
 //     val: number
@@ -78,22 +78,27 @@
 //     }
 // }
 
-function lk(n: number): number {
-    let mul = 1
+function lk(head: ListNode | null): number {
     let sum = 0
-
-    while (n > 0) {
-        let tail = n % 10
-        mul *= tail
-        sum += tail
-        n = (n - tail) / 10
+    while (head !== null) {
+        sum = sum * 2 + head.val
+        head = head.next
     }
-
-    return mul - sum
+    return sum
 }
 
-console.log(lk(234))
-console.log(lk(4421))
+const list = {
+    val: 1,
+    next: {
+        val: 0,
+        next: {
+            val: 1,
+            next: null
+        }
+    }
+}
+
+console.log(lk(list))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
