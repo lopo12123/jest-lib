@@ -78,20 +78,22 @@
 //     }
 // }
 
-function lk(m: number, n: number, indices: [ ri: number, ci: number ][]): number {
-    const set_r = new Set(), set_c = new Set()
+function lk(n: number): number {
+    let mul = 1
+    let sum = 0
 
-    indices.forEach(([ r, c ]) => {
-        set_r.has(r) ? set_r.delete(r) : set_r.add(r)
-        set_c.has(c) ? set_c.delete(c) : set_c.add(c)
-    })
+    while (n > 0) {
+        let tail = n % 10
+        mul *= tail
+        sum += tail
+        n = (n - tail) / 10
+    }
 
-    return set_r.size * n + set_c.size * m - set_r.size * set_c.size
+    return mul - sum
 }
 
-console.log(lk(2, 3,[
-    [0,1], [1,1]
-]))
+console.log(lk(234))
+console.log(lk(4421))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
