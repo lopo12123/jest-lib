@@ -78,25 +78,20 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    const num_in_order_with_idx = nums.map((val, idx) => [ val, idx ])
-        .sort((a, b) => a[0] - b[0])
+function lk(m: number, n: number, indices: [ ri: number, ci: number ][]): number {
+    const set_r = new Set(), set_c = new Set()
 
-    const res: number[] = []
-    res[num_in_order_with_idx[0][1]] = 0
+    indices.forEach(([ r, c ]) => {
+        set_r.has(r) ? set_r.delete(r) : set_r.add(r)
+        set_c.has(c) ? set_c.delete(c) : set_c.add(c)
+    })
 
-    for (let i = 1; i < num_in_order_with_idx.length; i++) {
-        if(num_in_order_with_idx[i][0] === num_in_order_with_idx[i - 1][0]) {
-            res[num_in_order_with_idx[i][1]] = res[num_in_order_with_idx[i - 1][1]]
-        }
-        else {
-            res[num_in_order_with_idx[i][1]] = i
-        }
-    }
-    return res
+    return set_r.size * n + set_c.size * m - set_r.size * set_c.size
 }
 
-console.log(lk([ 8, 1, 2, 2, 3 ]))
+console.log(lk(2, 3,[
+    [0,1], [1,1]
+]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
