@@ -78,21 +78,16 @@ class ListNode {
 //     }
 // }
 
-function lk(nums: number): number[] {
+function lk(nums: number[]): number[] {
     const res: number[] = []
-
-    if(nums % 2 === 1) res.push(0)
-
-    for (let i = 1; i <= nums / 2; i ++) {
-        res.push(-i, i)
+    for (let i = 0; i < nums.length; i += 2) {
+        res.push(...new Array(nums[i]).fill(nums[i + 1]))
     }
-
     return res
 }
 
-console.log(lk(1))
-console.log(lk(4))
-console.log(lk(5))
+console.log(lk([1,2,3,4]))
+console.log(lk([1,1,2,3]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
