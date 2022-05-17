@@ -79,17 +79,23 @@
 // }
 
 function lk(s: string): number {
-    let max = 0
-    for (let i = 0; i < s.length - 1; i++) {
-        let score = 0
-        for (let j = 0; j < s.length; j++) {
-            if(j <= i && s[j] === '0' || j > i && s[j] === '1') score += 1
-        }
-        max = Math.max(max, score)
+    const zero_one: [ number, number ] = [0, 0]
+    for (let i = 0; i < s.length; i ++) {
+        // @ts-ignore
+        zero_one[s[i]] += 1
     }
-    return max
+    // @ts-ignore
+    let score = (s[0] === '0') + zero_one[1] - (s[0] === '1')
+
+    let max_score = score
+    for (let i = 1; i < s.length - 1; i ++) {
+        score += (s[i] === '0' ? 1 : -1)
+        max_score = Math.max(max_score, score)
+    }
+    return max_score
 }
 
+console.log(lk('011101'))
 console.log(lk('00111'))
 
 // const showTime = (fn: () => void) => {
