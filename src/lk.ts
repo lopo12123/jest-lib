@@ -78,25 +78,12 @@
 //     }
 // }
 
-function lk(s: string): number {
-    const zero_one: [ number, number ] = [0, 0]
-    for (let i = 0; i < s.length; i ++) {
-        // @ts-ignore
-        zero_one[s[i]] += 1
-    }
-    // @ts-ignore
-    let score = (s[0] === '0') + zero_one[1] - (s[0] === '1')
-
-    let max_score = score
-    for (let i = 1; i < s.length - 1; i ++) {
-        score += (s[i] === '0' ? 1 : -1)
-        max_score = Math.max(max_score, score)
-    }
-    return max_score
+function lk(date1: string, date2: string): number {
+    return Math.abs((new Date(date1).getTime() - new Date(date2).getTime()) / 86400000)
 }
 
-console.log(lk('011101'))
-console.log(lk('00111'))
+console.log(lk('2019-06-29', '2019-06-30'))
+console.log(lk('2020-01-15', '2019-12-31'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
