@@ -1,12 +1,53 @@
-class ListNode {
-    val: number
-    next: ListNode | null
+// region 小于n的数字个数
+// region 无边界
+// const below_me = (me: number) => {
+//     me -= 1
+//     let count = Math.ceil(me / 2)
+//     for (let i = Math.floor(me / 2); i >= 1; i--) {
+//         count += Math.floor(me / i)
+//     }
+//     return count
+// }
+// console.log('1', below_me(1))  // 0
+// console.log('2', below_me(2))  // 1
+// console.log('3', below_me(3))  // 3
+// console.log('4', below_me(4))  // 5
+// console.log('5', below_me(5))  // 8
+// console.log('6', below_me(6))  // 10
+// console.log('7', below_me(7))  // 14
+// console.log('8', below_me(8))  // 16
+// endregion
 
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
+// region 有边界
+const below_me_limit = (me: number, row: number, col: number) => {
+    me -= 1
+    // 完整的行数
+    let count = Math.floor(me / col) * col
+    for (let i = Math.floor(me / col) + 1; i <= row; i++) {
+        count += Math.floor(me / i)
     }
+    return count
 }
+// console.log('1', below_me_limit(1, 3, 3))  // 0
+// console.log('2', below_me_limit(2, 3, 3))  // 1
+// console.log('3', below_me_limit(3, 3, 3))  // 3
+// console.log('4', below_me_limit(4, 3, 3))  // 5
+// console.log('5', below_me_limit(5, 3, 3))  // 6
+// console.log('6', below_me_limit(6, 3, 3))  // 6
+// console.log('7', below_me_limit(7, 3, 3))  // 8
+// console.log('8', below_me_limit(8, 3, 3))  // 8
+// endregion
+// endregion
+
+// class ListNode {
+//     val: number
+//     next: ListNode | null
+//
+//     constructor(val?: number, next?: ListNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.next = (next === undefined ? null : next)
+//     }
+// }
 
 // class TreeNode {
 //     val: number
@@ -78,85 +119,15 @@ class ListNode {
 //     }
 // }
 
-function lk(m: number, n: number, k: number): number {
-    if(n === 1 || m === 1) return k
+function lk(nums: number[]): number {
+    nums.sort((a, b) => b - a)
 
-    /**
-     * @description 小于等于 me 的数字的个数
-     */
-    const not_bigger_then_me_limit = (me: number, row: number, col: number) => {
-        // 完整的行数
-        let count = Math.floor(me / col) * col
-        for (let i = Math.floor(me / col) + 1; i <= row; i++) {
-            count += Math.floor(me / i)
-        }
-        return count
-    }
-
-    let l = 1, r = m * n, mid = Math.floor((l + r) / 2)
-
-    while (l < r) {
-        // 若小于等于目标数字的个数大于等于k - 第k小的数可能为mid
-        if(not_bigger_then_me_limit(mid, m, n) >= k) r = mid
-        else l = mid + 1
-        mid = Math.floor((l + r) / 2)
-    }
-
-    return l
+    return (nums[0] - 1) * (nums[1] - 1)
 }
 
-console.log(lk(1, 3, 3))  // 8
-
-// region 小于n的数字个数
-// region 无边界
-// const below_me = (me: number) => {
-//     me -= 1
-//     let count = Math.ceil(me / 2)
-//     for (let i = Math.floor(me / 2); i >= 1; i--) {
-//         count += Math.floor(me / i)
-//     }
-//     return count
-// }
-// console.log('1', below_me(1))  // 0
-// console.log('2', below_me(2))  // 1
-// console.log('3', below_me(3))  // 3
-// console.log('4', below_me(4))  // 5
-// console.log('5', below_me(5))  // 8
-// console.log('6', below_me(6))  // 10
-// console.log('7', below_me(7))  // 14
-// console.log('8', below_me(8))  // 16
-// endregion
-
-// region 有边界
-const below_me_limit = (me: number, row: number, col: number) => {
-    me -= 1
-    // 完整的行数
-    let count = Math.floor(me / col) * col
-    for (let i = Math.floor(me / col) + 1; i <= row; i++) {
-        count += Math.floor(me / i)
-    }
-    return count
-}
-// console.log('1', below_me_limit(1, 3, 3))  // 0
-// console.log('2', below_me_limit(2, 3, 3))  // 1
-// console.log('3', below_me_limit(3, 3, 3))  // 3
-// console.log('4', below_me_limit(4, 3, 3))  // 5
-// console.log('5', below_me_limit(5, 3, 3))  // 6
-// console.log('6', below_me_limit(6, 3, 3))  // 6
-// console.log('7', below_me_limit(7, 3, 3))  // 8
-// console.log('8', below_me_limit(8, 3, 3))  // 8
-// endregion
-// endregion
-
-/**
- * 1   2   3   4   5   6   7   8   9
- * 2   4   6   8   10  12  14  16  18
- * 3   6   9   12  15  18  21  24  27
- * 4   8   12  16  20  24  28  32  36
- * 5   10  15  20  25  30  35  40  45
- *
- * 6   12  18  24  30  36  42  48  54
- */
+console.log(lk([ 3, 4, 5, 2 ]))
+console.log(lk([ 1, 5, 4, 5 ]))
+console.log(lk([ 3, 7 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
