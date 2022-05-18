@@ -119,16 +119,19 @@
 //     }
 // }
 
-function lk(arr: number[]): number[] {
-    return arr.sort((a, b) => {
-        return (
-            a.toString(2).replace(/0/g, '').length
-            - b.toString(2).replace(/0/g, '').length
-        ) || (a - b)
-    })
+function lk(s: string): string {
+    const chs: number[] = []
+    for (let i = s.length - 1; i >= 0; i--) {
+        if(s[i] !== '#') chs.unshift(parseInt(s[i]) + 96)
+        else {
+            chs.unshift(parseInt(s.slice(i - 2, i)) + 96)
+            i -= 2
+        }
+    }
+    return String.fromCharCode(...chs)
 }
 
-console.log(lk([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]))
+console.log(lk('10#11#12'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
