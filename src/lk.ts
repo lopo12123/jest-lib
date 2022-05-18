@@ -119,14 +119,16 @@
 //     }
 // }
 
-function lk(n: number): string {
-    if(n % 2 === 1) return String.fromCharCode(...new Array(n).fill(97))
-    else return String.fromCharCode(...new Array(n - 1).fill(97), 98)
+function lk(arr: number[]): number[] {
+    return arr.sort((a, b) => {
+        return (
+            a.toString(2).replace(/0/g, '').length
+            - b.toString(2).replace(/0/g, '').length
+        ) || (a - b)
+    })
 }
 
-console.log(lk(4))
-console.log(lk(2))
-console.log(lk(7))
+console.log(lk([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
