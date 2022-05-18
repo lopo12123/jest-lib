@@ -19,15 +19,15 @@
 // endregion
 
 // region 有边界
-const below_me_limit = (me: number, row: number, col: number) => {
-    me -= 1
-    // 完整的行数
-    let count = Math.floor(me / col) * col
-    for (let i = Math.floor(me / col) + 1; i <= row; i++) {
-        count += Math.floor(me / i)
-    }
-    return count
-}
+// const below_me_limit = (me: number, row: number, col: number) => {
+//     me -= 1
+//     // 完整的行数
+//     let count = Math.floor(me / col) * col
+//     for (let i = Math.floor(me / col) + 1; i <= row; i++) {
+//         count += Math.floor(me / i)
+//     }
+//     return count
+// }
 // console.log('1', below_me_limit(1, 3, 3))  // 0
 // console.log('2', below_me_limit(2, 3, 3))  // 1
 // console.log('3', below_me_limit(3, 3, 3))  // 3
@@ -120,9 +120,20 @@ const below_me_limit = (me: number, row: number, col: number) => {
 // }
 
 function lk(nums: number[]): number {
-    nums.sort((a, b) => b - a)
+    let max = nums[0] > nums[1] ? nums[0] : nums[1]
+    let second = nums[0] > nums[1] ? nums[1] : nums[0]
 
-    return (nums[0] - 1) * (nums[1] - 1)
+    for (let i = 2; i < nums.length; i ++) {
+        if(nums[i] > max) {
+            second = max
+            max = nums[i]
+        }
+        else if(nums[i] > second) {
+            second = nums[i]
+        }
+    }
+
+    return (max - 1) * (second - 1)
 }
 
 console.log(lk([ 3, 4, 5, 2 ]))
