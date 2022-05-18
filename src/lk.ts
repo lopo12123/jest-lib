@@ -119,19 +119,15 @@
 //     }
 // }
 
-function lk(n: number, start: number): number {
-    return new Array(n)
-        .fill(0).map((_, i) => {
-            return start + 2 * i
-        })
-        .reduce((prev, curr) => {
-            return prev ^ curr
-        })
+function lk(candies: number[], extraCandies: number): boolean[] {
+    let max = candies[0]
+    for (let i = 0; i < candies.length; i++) {
+        max = Math.max(max, candies[i])
+    }
+    return candies.map(me => me + extraCandies >= max)
 }
 
-console.log(lk(5, 0))  // 8
-console.log(lk(4, 3))  // 8
-console.log(lk(1, 7))  // 7
+console.log(lk([ 2, 3, 5, 1, 3 ], 3))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
