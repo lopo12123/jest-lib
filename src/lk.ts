@@ -119,26 +119,19 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let max = nums[0] > nums[1] ? nums[0] : nums[1]
-    let second = nums[0] > nums[1] ? nums[1] : nums[0]
-
-    for (let i = 2; i < nums.length; i ++) {
-        if(nums[i] > max) {
-            second = max
-            max = nums[i]
-        }
-        else if(nums[i] > second) {
-            second = nums[i]
-        }
-    }
-
-    return (max - 1) * (second - 1)
+function lk(n: number, start: number): number {
+    return new Array(n)
+        .fill(0).map((_, i) => {
+            return start + 2 * i
+        })
+        .reduce((prev, curr) => {
+            return prev ^ curr
+        })
 }
 
-console.log(lk([ 3, 4, 5, 2 ]))
-console.log(lk([ 1, 5, 4, 5 ]))
-console.log(lk([ 3, 7 ]))
+console.log(lk(5, 0))  // 8
+console.log(lk(4, 3))  // 8
+console.log(lk(1, 7))  // 7
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
