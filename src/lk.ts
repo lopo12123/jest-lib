@@ -119,21 +119,38 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    nums.sort((a, b) => b - a)
-    const sum = nums.reduce((prev, curr) => prev + curr)
-
-    let sum_part = 0
-    for (let i = 0; i < nums.length; i++) {
-        sum_part += nums[i]
-        if(sum_part > sum / 2) return nums.slice(0, i + 1)
+function lk(n: number): number {
+    const sum_of_num = (t: number) => {
+        let sum = 0
+        while (t > 0) {
+            sum += t % 10
+            t = Math.floor(t / 10)
+        }
+        return sum
     }
-    return []
+
+    const map: number[][] = []
+
+    for (let i = 1; i <= n; i++) {
+        if(map[sum_of_num(i)]) map[sum_of_num(i)].push(i)
+        else map[sum_of_num(i)] = [ i ]
+    }
+    let max_group_count = 0
+    let max_group_size = 0
+    map.forEach((group) => {
+        if(max_group_size === group.length) max_group_count += 1
+        else if(max_group_size < group.length) {
+            max_group_size = group.length
+            max_group_count = 1
+        }
+    })
+
+    return max_group_count
 }
 
-console.log(lk([ 4, 3, 10, 9, 8 ]))
-console.log(lk([ 4, 4, 7, 6, 7 ]))
-console.log(lk([ 1, 2, 3, 4 ]))
+console.log(lk(13))  // 4
+console.log(lk(2))  // 2
+console.log(lk(15))  // 6
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
