@@ -1,44 +1,3 @@
-// region 小于n的数字个数
-// region 无边界
-// const below_me = (me: number) => {
-//     me -= 1
-//     let count = Math.ceil(me / 2)
-//     for (let i = Math.floor(me / 2); i >= 1; i--) {
-//         count += Math.floor(me / i)
-//     }
-//     return count
-// }
-// console.log('1', below_me(1))  // 0
-// console.log('2', below_me(2))  // 1
-// console.log('3', below_me(3))  // 3
-// console.log('4', below_me(4))  // 5
-// console.log('5', below_me(5))  // 8
-// console.log('6', below_me(6))  // 10
-// console.log('7', below_me(7))  // 14
-// console.log('8', below_me(8))  // 16
-// endregion
-
-// region 有边界
-// const below_me_limit = (me: number, row: number, col: number) => {
-//     me -= 1
-//     // 完整的行数
-//     let count = Math.floor(me / col) * col
-//     for (let i = Math.floor(me / col) + 1; i <= row; i++) {
-//         count += Math.floor(me / i)
-//     }
-//     return count
-// }
-// console.log('1', below_me_limit(1, 3, 3))  // 0
-// console.log('2', below_me_limit(2, 3, 3))  // 1
-// console.log('3', below_me_limit(3, 3, 3))  // 3
-// console.log('4', below_me_limit(4, 3, 3))  // 5
-// console.log('5', below_me_limit(5, 3, 3))  // 6
-// console.log('6', below_me_limit(6, 3, 3))  // 6
-// console.log('7', below_me_limit(7, 3, 3))  // 8
-// console.log('8', below_me_limit(8, 3, 3))  // 8
-// endregion
-// endregion
-
 // class ListNode {
 //     val: number
 //     next: ListNode | null
@@ -119,25 +78,24 @@
 //     }
 // }
 
-function lk(num: number): number {
-    let num_to_reduce = num
-    let num_to_pow = Math.floor(Math.log10(num))
+function lk(m: number, n: number, indices: [ ri: number, ci: number ][]): number {
+    const set_r = new Set(), set_c = new Set()
 
-    while (num_to_reduce > 0) {
-        if(num_to_reduce / Math.pow(10, num_to_pow) < 9)
-            return num + 3 * Math.pow(10, num_to_pow)
-        else {
-            num_to_reduce %= Math.pow(10, num_to_pow)
-            num_to_pow -= 1
-        }
-    }
+    indices.forEach(([ r, c ]) => {
+        set_r.has(r) ? set_r.delete(r) : set_r.add(r)
+        set_c.has(c) ? set_c.delete(c) : set_c.add(c)
+    })
 
-    return num
+    console.log(set_r, set_c)
+    return set_r.size * n + set_c.size * m - set_r.size * set_c.size * 2
 }
 
-console.log(lk(9669))  // 9969
-console.log(lk(9996))  // 9999
-console.log(lk(9999))  // 9999
+console.log(lk(2, 2,[
+    [1,1], [0,0]
+]))
+console.log(lk(2, 3,[
+    [0,1], [1,1]
+]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
