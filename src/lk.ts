@@ -119,19 +119,25 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const chs: number[] = []
-    for (let i = s.length - 1; i >= 0; i--) {
-        if(s[i] !== '#') chs.unshift(parseInt(s[i]) + 96)
+function lk(num: number): number {
+    let num_to_reduce = num
+    let num_to_pow = Math.floor(Math.log10(num))
+
+    while (num_to_reduce > 0) {
+        if(num_to_reduce / Math.pow(10, num_to_pow) < 9)
+            return num + 3 * Math.pow(10, num_to_pow)
         else {
-            chs.unshift(parseInt(s.slice(i - 2, i)) + 96)
-            i -= 2
+            num_to_reduce %= Math.pow(10, num_to_pow)
+            num_to_pow -= 1
         }
     }
-    return String.fromCharCode(...chs)
+
+    return num
 }
 
-console.log(lk('10#11#12'))
+console.log(lk(9669))  // 9969
+console.log(lk(9996))  // 9999
+console.log(lk(9999))  // 9999
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
