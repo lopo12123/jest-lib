@@ -119,52 +119,21 @@
 //     }
 // }
 
-function lk(n: number, start: number): number {
-    // define: fn_xor(start, end)
-    // fn_xor(a, b) = fn_xor(0, b) ^ fn_xor(0,a - 1)
+function lk(nums: number[]): number[] {
+    nums.sort((a, b) => b - a)
+    const sum = nums.reduce((prev, curr) => prev + curr)
 
-    // define: fn(n) = fn_xor(0, n)
-    // [n >= 0]
-    // fn(4n) = 4n
-    // fn(4n+1) = 1
-    // fn(4n+2) = 4n+3
-    // fn(4n+3) = 0
-    const fn = (n: number) => {
-        if(n === -1) return 0
-        switch(n % 4) {
-            case 3:
-                return 0
-            case 2:
-                return n + 1
-            case 1:
-                return 1
-            default:
-                return n
-        }
+    let sum_part = 0
+    for (let i = 0; i < nums.length; i++) {
+        sum_part += nums[i]
+        if(sum_part > sum / 2) return nums.slice(0, i + 1)
     }
-
-    // (a<<x)^(b<<x)^...^(n<<X) = (a^b^...^n)<<x
-
-    // 偶数序列: /2 => fn => *2
-    if(start % 2 === 0) return 2 * (fn(n - 1 + start / 2) ^ fn(start / 2 - 1))
-    // 奇数序列 - 奇数个: -1 => /2 => fn => * 2 + 1
-    // 奇数序列 - 偶数个: -1 => /2 => fn => * 2
-    else return 2 * (fn(n - 1 + (start - 1) / 2) ^ fn((start - 1) / 2 - 1)) + n % 2
+    return []
 }
 
-// [0,2,4,6,8] => [0,1,2,3,4]
-console.log('5,0: ', lk(5, 0))  // 8
-// [2,4,6,8,10] => [1,2,3,4,5]
-console.log('5,2: ', lk(5, 2))  // 8
-// [3,5,7,9] => [2,4,6,8] => [1,2,3,4]
-console.log(lk(4, 3))  // 8
-// [7] => [6] => [3]
-console.log(lk(1, 7))  // 7
-
-// n = 4, start = 5
-// [5, 7, 9, 11]
-// [2, 3, 4, 5]
-// [4, 5, 6, 7]
+console.log(lk([ 4, 3, 10, 9, 8 ]))
+console.log(lk([ 4, 4, 7, 6, 7 ]))
+console.log(lk([ 1, 2, 3, 4 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
