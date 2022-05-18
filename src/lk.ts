@@ -119,24 +119,14 @@
 //     }
 // }
 
-function lk(arr1: number[], arr2: number[], d: number): number {
-    if(d <= 0) return arr1.length
-
-    let count = 0
-    for (let i = 0; i < arr1.length; i++) {
-        count += 1
-        for (let j = 0; j < arr2.length; j++) {
-            if(Math.abs(arr1[i] - arr2[j]) <= d) {
-                count -= 1
-                break
-            }
-        }
-    }
-
-    return count
+function lk(n: number): string {
+    if(n % 2 === 1) return String.fromCharCode(...new Array(n).fill(97))
+    else return String.fromCharCode(...new Array(n - 1).fill(97), 98)
 }
 
-console.log(lk([ 4, 5, 8 ], [ 10, 9, 1, 8 ], 2))
+console.log(lk(4))
+console.log(lk(2))
+console.log(lk(7))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
