@@ -78,15 +78,39 @@
 //     }
 // }
 
-function lk(logs: string[]): number {
-    return logs.reduce((prev, curr) => {
-        if(curr === './') return prev
-        else if(curr === '../') return Math.max(prev - 1, 0)
-        else return prev + 1
-    }, 0)
+function lk(arr: number[]): number {
+    let sum = 0;
+    const n = arr.length;
+    for (let i = 0; i < n; i++) {
+        const leftCount = i, rightCount = n - i - 1;
+        const leftOdd = Math.floor((leftCount + 1) / 2);
+        const rightOdd = Math.floor((rightCount + 1) / 2);
+        const leftEven = Math.floor(leftCount / 2) + 1;
+        const rightEven = Math.floor(rightCount / 2) + 1;
+        sum += arr[i] * (leftOdd * rightOdd + leftEven * rightEven);
+    }
+    return sum
 }
 
-console.log(lk([ 'd1/', 'd2/', '../', 'd21/', './' ]))
+console.log(lk([ 1, 4, 2, 5, 3 ]))  // 58
+console.log(lk([ 10, 11, 12 ]))  // 66
+console.log(lk([ 1, 2 ]))  // 3
+
+// [1, 2, 3, 4]
+//  2  3  3  2
+// 1 + 2 + 3 + 4
+// 1+2+3 + 2+3+4
+
+// [10, 11, 12]
+//  2   2   2
+
+// [1, 2, 3, 4, 5]
+//  3  4  5  4  3
+/**
+ * 1 + 2 + 3 + 4 + 5
+ * 1+2+3 + 2+3+4 + 3+4+5
+ * 1+2+3+4+5
+ */
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
