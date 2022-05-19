@@ -78,21 +78,31 @@
 //     }
 // }
 
-function lk(s: string): number {
-    let max = 0, curr = 0
-    for (let ch of s) {
-        if(ch === '(') curr += 1
-        else if(ch === ')') curr -= 1
+function lk(arr: number[]): number {
+    let len = arr.length, mid = len / 2
+    let times = Math.ceil(arr.length / 2) - 1
 
-        max = Math.max(max, curr)
-    }
-    return max
+    return arr.reduce((prev, curr, idx) => {
+        if(idx > mid) times -= 1
+        else if(idx < mid) times += 1
+        return prev + curr * times
+    }, 0)
 }
 
-console.log(lk(''))  // 0
-console.log(lk('a'))  // 0
-console.log(lk('()()'))  // 1
-console.log(lk('(()(()))'))  // 3
+console.log(lk([ 1, 4, 2, 5, 3 ]))
+
+// [1, 2, 3, 4]
+//  2  3  3  2
+// 1 + 2 + 3 + 4
+// 1+2+3 + 2+3+4
+
+// [1, 2, 3, 4, 5]
+//  3  4  5  4  3
+/**
+ * 1 + 2 + 3 + 4 + 5
+ * 1+2+3 + 2+3+4 + 3+4+5
+ * 1+2+3+4+5
+ */
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
