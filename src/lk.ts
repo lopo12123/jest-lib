@@ -78,12 +78,19 @@
 //     }
 // }
 
-function lk(coordinates: string): boolean {
-    return (coordinates.charCodeAt(0) % 2 ^ coordinates.charCodeAt(1) % 2) === 1
+function lk(nums: number[]): number {
+    let prod = 1
+    for (let i = 0; i < nums.length; i++) {
+        if(nums[i] === 0) return 0
+
+        if(nums[i] < 0) prod *= -1
+    }
+    return prod
 }
 
-console.log(lk('a1'))  // false
-console.log(lk('c2'))  // true
+console.log(lk([ -1, -2, -3, -4, 3, 2, 1 ]))  // 1
+console.log(lk([ 1, 5, 0, 2, -3 ]))  // 0
+console.log(lk([ 1, 5, 2, 2, -3 ]))  // -1
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
