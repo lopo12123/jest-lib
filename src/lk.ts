@@ -78,25 +78,19 @@
 //     }
 // }
 
-function lk(s: string): number {
-    const map = new Map<string, [ number, number ]>()
+function lk(arr: number[]): number {
+    arr.sort((a, b) => a - b)
 
-    for (let i = 0; i < s.length; i++) {
-        const ori_pos = map.get(s[i])
-        if(!ori_pos) map.set(s[i], [ i, -1 ])
-        else map.set(s[i], [ ori_pos[0], i ])
+    let sum = 0
+    for (let i = arr.length * 0.05; i <= arr.length * 0.95 - 1; i++) {
+        sum += arr[i]
     }
 
-    let max = -1
-    map.forEach(([ first, last ]) => {
-        if(last >= 0 && (last - first - 1) > max) max = last - first - 1
-    })
-    return max
+    return sum / (arr.length * 0.9)
 }
 
-console.log(lk('aa'))  // 0
-console.log(lk('abca'))  // 2
-console.log(lk('cbzxy'))  // -1
+console.log(lk([ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3 ]))  // 2
+console.log(lk([ 6, 2, 7, 5, 1, 2, 0, 3, 10, 2, 5, 0, 5, 5, 0, 8, 7, 6, 8, 0 ]))  // 4
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
