@@ -78,24 +78,26 @@
 //     }
 // }
 
-function lk(m: number, n: number, indices: [ ri: number, ci: number ][]): number {
-    const set_r = new Set(), set_c = new Set()
+function lk(arr: number[], pieces: number[][]): boolean {
+    for (let i = 0; i < pieces.length; i++) {
+        // 找到头部对齐位置
+        let head = arr.findIndex((val) => val === pieces[i][0])
+        if(head === -1) return false
 
-    indices.forEach(([ r, c ]) => {
-        set_r.has(r) ? set_r.delete(r) : set_r.add(r)
-        set_c.has(c) ? set_c.delete(c) : set_c.add(c)
-    })
+        // 遍历此part进行比较
+        for (let offset = 0; offset < pieces[i].length; offset++) {
+            if(pieces[i][offset] !== arr[head + offset]) return false
+        }
 
-    console.log(set_r, set_c)
-    return set_r.size * n + set_c.size * m - set_r.size * set_c.size * 2
+        // 比较完删除该段
+        arr.splice(head, pieces[i].length)
+    }
+    return true
 }
 
-console.log(lk(2, 2,[
-    [1,1], [0,0]
-]))
-console.log(lk(2, 3,[
-    [0,1], [1,1]
-]))
+console.log(lk([ 15, 88 ], [ [ 88 ], [ 15 ] ]))  // true
+console.log(lk([ 49, 18, 16 ], [ [ 16, 18, 49 ] ]))  // false
+console.log(lk([ 91, 4, 64, 78 ], [ [ 78 ], [ 4, 64 ], [ 91 ] ]))  // true
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
