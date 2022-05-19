@@ -78,31 +78,22 @@
 //     }
 // }
 
-function lk(s1: string, s2: string): boolean {
-    let diff_count = 0
-    let diff_ch = [ '', '' ]
+function lk(edges: number[][]): number {
+    const set = new Set()
 
-    for (let i = 0; i < s1.length; i++) {
-        if(s1[i] !== s2[i]) {
-            if(diff_count === 0) {
-                diff_ch = [ s1[i], s2[i] ]
-                diff_count += 1
-            }
-            else if(diff_count === 1) {
-                if(diff_ch[0] !== s2[i] || diff_ch[1] !== s1[i]) return false
-                else diff_count += 1
-            }
-            else return false
+    for (let i = 0; i < edges.length; i++) {
+        if(set.has(edges[i][0])) return edges[i][0]
+        else if(set.has(edges[i][1])) return edges[i][1]
+        else {
+            set.add(edges[i][0])
+            set.add(edges[i][1])
         }
     }
 
-    return true
+    return -1
 }
 
-console.log(lk('bank', 'kanb'))
-console.log(lk('attack', 'defend'))
-console.log(lk('kelb', 'kelb'))
-console.log(lk('aabbcc', 'abcabc'))
+console.log(lk([ [ 1, 2 ], [ 2, 3 ], [ 4, 2 ] ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
