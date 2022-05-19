@@ -78,26 +78,25 @@
 //     }
 // }
 
-function lk(arr: number[], pieces: number[][]): boolean {
-    for (let i = 0; i < pieces.length; i++) {
-        // 找到头部对齐位置
-        let head = arr.findIndex((val) => val === pieces[i][0])
-        if(head === -1) return false
+function lk(s: string): number {
+    const map = new Map<string, [ number, number ]>()
 
-        // 遍历此part进行比较
-        for (let offset = 0; offset < pieces[i].length; offset++) {
-            if(pieces[i][offset] !== arr[head + offset]) return false
-        }
-
-        // 比较完删除该段
-        arr.splice(head, pieces[i].length)
+    for (let i = 0; i < s.length; i++) {
+        const ori_pos = map.get(s[i])
+        if(!ori_pos) map.set(s[i], [ i, -1 ])
+        else map.set(s[i], [ ori_pos[0], i ])
     }
-    return true
+
+    let max = -1
+    map.forEach(([ first, last ]) => {
+        if(last >= 0 && (last - first - 1) > max) max = last - first - 1
+    })
+    return max
 }
 
-console.log(lk([ 15, 88 ], [ [ 88 ], [ 15 ] ]))  // true
-console.log(lk([ 49, 18, 16 ], [ [ 16, 18, 49 ] ]))  // false
-console.log(lk([ 91, 4, 64, 78 ], [ [ 78 ], [ 4, 64 ], [ 91 ] ]))  // true
+console.log(lk('aa'))  // 0
+console.log(lk('abca'))  // 2
+console.log(lk('cbzxy'))  // -1
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
