@@ -78,13 +78,31 @@
 //     }
 // }
 
-function lk(s: string): boolean {
-    return /^1+0*$/.test(s)
+function lk(s1: string, s2: string): boolean {
+    let diff_count = 0
+    let diff_ch = [ '', '' ]
+
+    for (let i = 0; i < s1.length; i++) {
+        if(s1[i] !== s2[i]) {
+            if(diff_count === 0) {
+                diff_ch = [ s1[i], s2[i] ]
+                diff_count += 1
+            }
+            else if(diff_count === 1) {
+                if(diff_ch[0] !== s2[i] || diff_ch[1] !== s1[i]) return false
+                else diff_count += 1
+            }
+            else return false
+        }
+    }
+
+    return true
 }
 
-console.log(lk('1001'))
-console.log(lk('110'))
-console.log(lk('11000'))
+console.log(lk('bank', 'kanb'))
+console.log(lk('attack', 'defend'))
+console.log(lk('kelb', 'kelb'))
+console.log(lk('aabbcc', 'abcabc'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
