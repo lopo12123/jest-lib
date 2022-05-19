@@ -79,18 +79,22 @@
 // }
 
 function lk(nums: number[]): number {
-    let prod = 1
-    for (let i = 0; i < nums.length; i++) {
-        if(nums[i] === 0) return 0
+    // 全部转为中位数
+    nums.sort((a, b) => a - b)
 
-        if(nums[i] < 0) prod *= -1
-    }
-    return prod
+    let to = nums[Math.floor(nums.length / 2)]
+    return nums.reduce((prev, curr) => {
+        return prev + Math.abs(curr - to)
+    }, 0)
 }
 
-console.log(lk([ -1, -2, -3, -4, 3, 2, 1 ]))  // 1
-console.log(lk([ 1, 5, 0, 2, -3 ]))  // 0
-console.log(lk([ 1, 5, 2, 2, -3 ]))  // -1
+console.log(lk([ 1, 2, 3 ]))  // 2
+console.log(lk([ 1, 10, 2, 9 ]))  // 16
+
+//    1 2 3 4 7 13
+// 3: 2 1 0 1 4 10 = 18
+// 4: 3 2 1 0 3 9 = 18
+// 5: 4 3 2 1 2 8 = 20
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
