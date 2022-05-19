@@ -78,23 +78,15 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    // 全部转为中位数
-    nums.sort((a, b) => a - b)
-
-    let to = nums[Math.floor(nums.length / 2)]
-    return nums.reduce((prev, curr) => {
-        return prev + Math.abs(curr - to)
+function lk(logs: string[]): number {
+    return logs.reduce((prev, curr) => {
+        if(curr === './') return prev
+        else if(curr === '../') return Math.max(prev - 1, 0)
+        else return prev + 1
     }, 0)
 }
 
-console.log(lk([ 1, 2, 3 ]))  // 2
-console.log(lk([ 1, 10, 2, 9 ]))  // 16
-
-//    1 2 3 4 7 13
-// 3: 2 1 0 1 4 10 = 18
-// 4: 3 2 1 0 3 9 = 18
-// 5: 4 3 2 1 2 8 = 20
+console.log(lk([ 'd1/', 'd2/', '../', 'd21/', './' ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
