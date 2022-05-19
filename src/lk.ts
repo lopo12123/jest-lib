@@ -78,22 +78,12 @@
 //     }
 // }
 
-function lk(edges: number[][]): number {
-    const set = new Set()
-
-    for (let i = 0; i < edges.length; i++) {
-        if(set.has(edges[i][0])) return edges[i][0]
-        else if(set.has(edges[i][1])) return edges[i][1]
-        else {
-            set.add(edges[i][0])
-            set.add(edges[i][1])
-        }
-    }
-
-    return -1
+function lk(s: string): number {
+    return parseInt([ ...new Set(s.match(/[0-9]/g) ?? []) ].sort((a, b) => parseInt(b) - parseInt(a))[1] ?? '-1')
 }
 
-console.log(lk([ [ 1, 2 ], [ 2, 3 ], [ 4, 2 ] ]))
+console.log(lk('dfa12321afd'))  // 2
+console.log(lk('abc111'))  // -1
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
