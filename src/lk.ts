@@ -78,31 +78,15 @@
 //     }
 // }
 
-function lk(arr: number[]): number {
-    let len = arr.length, mid = len / 2
-    let times = Math.ceil(arr.length / 2) - 1
-
-    return arr.reduce((prev, curr, idx) => {
-        if(idx > mid) times -= 1
-        else if(idx < mid) times += 1
-        return prev + curr * times
+function lk(logs: string[]): number {
+    return logs.reduce((prev, curr) => {
+        if(curr === './') return prev
+        else if(curr === '../') return prev - 1
+        else return prev + 1
     }, 0)
 }
 
-console.log(lk([ 1, 4, 2, 5, 3 ]))
-
-// [1, 2, 3, 4]
-//  2  3  3  2
-// 1 + 2 + 3 + 4
-// 1+2+3 + 2+3+4
-
-// [1, 2, 3, 4, 5]
-//  3  4  5  4  3
-/**
- * 1 + 2 + 3 + 4 + 5
- * 1+2+3 + 2+3+4 + 3+4+5
- * 1+2+3+4+5
- */
+console.log(lk([ 'd1/', 'd2/', '../', 'd21/', './' ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
