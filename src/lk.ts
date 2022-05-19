@@ -78,26 +78,33 @@
 //     }
 // }
 
-function lk(text: string): string {
-    let blank_count = 0, word_count = 0
-    for (let i = 0; i < text.length; i++) {
-        if(text[i] === ' ') blank_count += 1
-        else if(text[i + 1] === ' ' || i === text.length - 1) word_count += 1
+function lk(s1: string, s2: string): boolean {
+    let diff_count = 0
+    let diff_ch = [ '', '' ]
+
+    for (let i = 0; i < s1.length; i++) {
+        if(s1[i] !== s2[i]) {
+            if(diff_count === 0) {
+                diff_ch = [ s1[i], s2[i] ]
+                diff_count += 1
+            }
+            else if(diff_count === 1) {
+                if(diff_ch[0] !== s2[i] || diff_ch[1] !== s1[i]) return false
+                else diff_count += 1
+            }
+            else return false
+        }
     }
 
-    if(blank_count === 0) return text
-    if(word_count === 1) return text.trim() + String.fromCharCode(...new Array(blank_count).fill(32))
-
-    return text.trim().replace(/[ ]+/g,
-            String.fromCharCode(...new Array(Math.floor(blank_count / (word_count - 1))).fill(32)))
-        + (blank_count % (word_count - 1) === 0 ? ''
-            : String.fromCharCode(...new Array(blank_count % (word_count - 1)).fill(32)))
+    return diff_count === 0 || diff_count === 2
 }
 
-console.log(lk('  this   is  a sentence '))  // blank: 9; ch: 15; word: 4
-console.log(lk(' a b c'))
-console.log(lk('a'))
-console.log(lk('a   '))
+console.log(lk('aa', 'ac'))
+console.log(lk('bank', 'kanb'))
+console.log(lk('attack', 'defend'))
+console.log(lk('kelb', 'kelb'))
+console.log(lk('aabbcc', 'abcabc'))
+
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
 //     fn()
