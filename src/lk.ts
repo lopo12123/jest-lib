@@ -79,7 +79,22 @@
 // }
 
 function lk(s: string): number {
-    return parseInt([ ...new Set(s.match(/[0-9]/g) ?? []) ].sort((a, b) => parseInt(b) - parseInt(a))[1] ?? '-1')
+    let num: number
+    let max = -1, second = -1
+    for (let i = 0; i < s.length; i++) {
+        num = parseInt(s[i])
+
+        if(!isNaN(num)) {
+            if(num > max) {
+                second = max
+                max = num
+            }
+            else if(num < max && num > second) {
+                second = num
+            }
+        }
+    }
+    return second
 }
 
 console.log(lk('dfa12321afd'))  // 2
