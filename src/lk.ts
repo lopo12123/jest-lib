@@ -78,19 +78,21 @@
 //     }
 // }
 
-function lk(arr: number[]): number {
-    arr.sort((a, b) => a - b)
+function lk(s: string): number {
+    let max = 0, curr = 0
+    for (let ch of s) {
+        if(ch === '(') curr += 1
+        else if(ch === ')') curr -= 1
 
-    let sum = 0
-    for (let i = arr.length * 0.05; i <= arr.length * 0.95 - 1; i++) {
-        sum += arr[i]
+        max = Math.max(max, curr)
     }
-
-    return sum / (arr.length * 0.9)
+    return max
 }
 
-console.log(lk([ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3 ]))  // 2
-console.log(lk([ 6, 2, 7, 5, 1, 2, 0, 3, 10, 2, 5, 0, 5, 5, 0, 8, 7, 6, 8, 0 ]))  // 4
+console.log(lk(''))  // 0
+console.log(lk('a'))  // 0
+console.log(lk('()()'))  // 1
+console.log(lk('(()(()))'))  // 3
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
