@@ -78,27 +78,12 @@
 //     }
 // }
 
-function lk(s: string): number {
-    let num: number
-    let max = -1, second = -1
-    for (let i = 0; i < s.length; i++) {
-        num = parseInt(s[i])
-
-        if(!isNaN(num)) {
-            if(num > max) {
-                second = max
-                max = num
-            }
-            else if(num < max && num > second) {
-                second = num
-            }
-        }
-    }
-    return second
+function lk(coordinates: string): boolean {
+    return (coordinates.charCodeAt(0) % 2 ^ coordinates.charCodeAt(1) % 2) === 1
 }
 
-console.log(lk('dfa12321afd'))  // 2
-console.log(lk('abc111'))  // -1
+console.log(lk('a1'))  // false
+console.log(lk('c2'))  // true
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
