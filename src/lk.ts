@@ -78,21 +78,14 @@
 //     }
 // }
 
-function lk(text: string): string {
-    let blank_count = 0, word_count = 0
-    for (let i = 0; i < text.length; i++) {
-        if(text[i] === ' ') blank_count += 1
-        else if(text[i + 1] === ' ' || i === text.length - 1) word_count += 1
-    }
-
-    return text.trim().replace(/[ ]+/g,
-            String.fromCharCode(...new Array(Math.floor(blank_count / (word_count - 1))).fill(32)))
-        + (blank_count % (word_count - 1) === 0 ? ''
-            : String.fromCharCode(...new Array(blank_count % (word_count - 1)).fill(32)))
+function lk(s: string): boolean {
+    return /^1+0*$/.test(s)
 }
 
-console.log(lk('  this   is  a sentence '))  // blank: 9; ch: 15; word: 4
-console.log(lk(' a b c'))
+console.log(lk('1001'))
+console.log(lk('110'))
+console.log(lk('11000'))
+
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
 //     fn()
