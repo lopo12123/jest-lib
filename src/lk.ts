@@ -78,38 +78,36 @@
 //     }
 // }
 
-function lk(matrix: number[][]): number[] {
-    const y_len = matrix.length, x_len = matrix[0].length
-    const all: number[] = []
+function lk(intervals: number[][]): number[] {
+    // [右界, 下标] 按右界小到大排序
+    const right_border_with_idx = intervals
+        .map((border, idx) => [ border[1], idx ])
+        .sort((a, b) => a[0] - b[0])
+    // 按左界小到大排序
+    const left_border_with_idx = intervals
+        .map((border, idx) => [ border[0], idx ])
+        .sort((a, b) => a[0] - b[0])
 
-    for (let y = 0; y < y_len; y++) {
-        let min = matrix[y][0], min_idx = 0
-        for (let x = 1; x < x_len; x++) {
-            if(matrix[y][x] < min) {
-                min = matrix[y][x]
-                min_idx = x
+    const len = right_border_with_idx.length
+    const res: number[] = []
+    let p = 0
+    for (let i = 0; i < len; i++) {
+        while (p < len) {
+            if(left_border_with_idx[p][0] >= right_border_with_idx[i][0]) {
+                res[right_border_with_idx[i][1]] = left_border_with_idx[p][1]
+                break
             }
+            else p += 1
         }
-        for (let p = 0; p < y_len; p++) {
-            if(matrix[p][min_idx] > min) break
-
-            if(p === y_len - 1) all.push(min)
-        }
+        if(p >= len) res[right_border_with_idx[i][1]] = -1
     }
 
-    return all
+    return res
 }
 
-console.log(lk([
-    [ 3, 7, 8 ],
-    [ 9, 11, 13 ],
-    [ 15, 16, 17 ]
-]))  // [ 15 ]
-console.log(lk([
-    [ 1, 10, 4, 2 ],
-    [ 9, 3, 8, 7 ],
-    [ 15, 16, 17, 12 ]
-]))  // [ 12 ]
+console.log(lk([ [ 1, 2 ] ]))  // [-1]
+console.log(lk([ [ 3, 4 ], [ 2, 3 ], [ 1, 2 ] ]))  // [-1,0,1]
+console.log(lk([ [ 1, 4 ], [ 2, 3 ], [ 3, 4 ] ]))  // [-1,2,-1]
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
