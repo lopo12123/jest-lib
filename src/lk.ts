@@ -78,14 +78,15 @@
 //     }
 // }
 
-function lk(nums: number[], original: number): number {
-    nums.sort((a, b) => a - b)
+function lk(num1: number, num2: number): number {
+    let count = 0
+    while (num1 !== 0 && num2 !== 0) {
+        if(num1 >= num2) num1 -= num2
+        else num2 -= num1
 
-    for (let i = 0; i < nums.length; i++) {
-        if(nums[i] === original) original *= 2
+        count += 1
     }
-
-    return original
+    return count
 }
 
 // const showTime = (fn: () => void) => {
