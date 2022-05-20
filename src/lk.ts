@@ -78,23 +78,29 @@
 //     }
 // }
 
-function lk(words: string[]): string {
-    const ifReverse = (s: string) => {
-        let l = 0, r = s.length - 1
+function lk(num: number): number {
+    const bits: number[] = []
 
-        while (l < r) {
-            if(s[l] !== s[r]) return false
-
-            l += 1
-            r -= 1
+    while (num > 0) {
+        if(num % 10 === 0) {
+            num /= 10
+            continue
         }
-        return true
+
+        bits.push(num % 10)
+        num = Math.floor(num / 10)
     }
 
-    for (let i = 0; i < words.length; i++) {
-        if(ifReverse(words[i])) return words[i]
+    bits.sort((a, b) => a - b)
+
+    if(bits.length === 4) {
+        return bits[0] * 10 + bits[1] * 10 + bits[2] + bits[3]
     }
-    return ''
+    else if(bits.length === 3) {
+        return bits[0] * 10 + bits[1] + bits[2]
+    }
+    else return bits[0] + (bits[1] ?? 0)
+
 }
 
 // const showTime = (fn: () => void) => {
