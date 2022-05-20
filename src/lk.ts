@@ -78,30 +78,20 @@
 //     }
 // }
 
-function lk(rings: string): number {
-    if(rings.length < 6) return 0
+function lk(paths: string[][]): string {
+    let targets = new Set<string>()
 
-    const bars = new Array(10).fill(0).map(() => [ 0, 0, 0 ])
+    paths.forEach(([ from, to ]) => {
+        targets.add(to)
+    })
+    paths.forEach(([ from, to ]) => {
+        targets.delete(from)
+    })
 
-    for (let i = 0; i < rings.length; i += 2) {
-        switch (rings[i]) {
-            case 'R':
-                bars[parseInt(rings[i + 1])][0] += 1
-                break
-            case 'G':
-                bars[parseInt(rings[i + 1])][1] += 1
-                break
-            case 'B':
-                bars[parseInt(rings[i + 1])][2] += 1
-                break
-        }
-    }
-
-    return bars.reduce((prev, curr) => {
-        if(curr[0] > 0 && curr[1] > 0 && curr[2] > 0) return prev + 1
-        else return prev
-    }, 0)
+    return [ ...targets ][0]
 }
+
+console.log(lk([['A', 'B'],[ 'C', 'D'],['D', 'A']]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
