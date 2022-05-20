@@ -78,16 +78,38 @@
 //     }
 // }
 
-function lk(nums: number[], index: number[]): number[] {
-    const target: number[] = []
+function lk(matrix: number[][]): number[] {
+    const y_len = matrix.length, x_len = matrix[0].length
+    const all: number[] = []
 
-    for (let i = 0; i < nums.length; i++) {
-        target.splice(index[i], 0, nums[i])
+    for (let y = 0; y < y_len; y++) {
+        let min = matrix[y][0], min_idx = 0
+        for (let x = 1; x < x_len; x++) {
+            if(matrix[y][x] < min) {
+                min = matrix[y][x]
+                min_idx = x
+            }
+        }
+        for (let p = 0; p < y_len; p++) {
+            if(matrix[p][min_idx] > min) break
+
+            if(p === y_len - 1) all.push(min)
+        }
     }
-    return target
+
+    return all
 }
 
-console.log(lk([ 0, 1, 2, 3, 4 ], [ 0, 1, 2, 2, 1 ]))
+console.log(lk([
+    [ 3, 7, 8 ],
+    [ 9, 11, 13 ],
+    [ 15, 16, 17 ]
+]))  // [ 15 ]
+console.log(lk([
+    [ 1, 10, 4, 2 ],
+    [ 9, 3, 8, 7 ],
+    [ 15, 16, 17, 12 ]
+]))  // [ 12 ]
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
