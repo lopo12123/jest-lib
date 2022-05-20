@@ -78,19 +78,13 @@
 //     }
 // }
 
-function lk(nums: number[], key: number, k: number): number[] {
-    const idxs: number[] = []
-
-    for (let i = 0; i < nums.length; i++) {
-        if(nums[i] === key) {
-            for (let p = Math.max((idxs.at(-1) ?? -1) + 1, i - k);
-                 p <= Math.min(nums.length - 1, i + k); p++) {
-                idxs.push(p)
-            }
-        }
+function lk(start: number, goal: number): number {
+    let count = 0, s = start ^ goal
+    while (s > 0) {
+        count += s % 2
+        s >>= 1
     }
-
-    return idxs
+    return count
 }
 
 // const showTime = (fn: () => void) => {
