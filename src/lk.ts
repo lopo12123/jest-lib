@@ -78,17 +78,21 @@
 //     }
 // }
 
-function lk(s: string, indices: number[]): string {
-    const new_s: string[] = []
-
-    for (let i = 0; i < s.length; i++) {
-        new_s[indices[i]] = s[i]
+function lk(arr: number[], a: number, b: number, c: number): number {
+    let count = 0
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            for (let k = j + 1; k < arr.length; k++) {
+                if(Math.abs(arr[i] - arr[j]) <= a
+                    && Math.abs(arr[j] - arr[k]) <= b
+                    && Math.abs(arr[i] - arr[k]) <= c) count += 1
+            }
+        }
     }
-
-    return new_s.join('')
+    return count
 }
 
-console.log(lk('codeleet', [ 4, 5, 6, 7, 0, 2, 1, 3 ]))
+console.log(lk([ 3, 0, 1, 1, 9, 7 ], 9, 2, 3))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
