@@ -78,20 +78,8 @@
 //     }
 // }
 
-function lk(nums1: number[], nums2: number[]): number[][] {
-    const set1 = new Set(nums1)
-    const set2 = new Set(nums2)
-
-    const res: number[][] = [ [], [] ]
-
-    set1.forEach((val) => {
-        if(!set2.has(val)) res[0].push(val)
-    })
-    set2.forEach((val) => {
-        if(!set1.has(val)) res[1].push(val)
-    })
-
-    return res
+function lk(sentences: string[]): number {
+    return Math.max(...sentences.map((sentence) => (sentence.match(/[ ]/g)?.length ?? 0) + 1))
 }
 
 // const showTime = (fn: () => void) => {
