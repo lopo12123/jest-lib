@@ -78,14 +78,17 @@
 //     }
 // }
 
-function lk(s: string): number {
-    return s.match(/([a-z])(\1)*/g)!
-        .sort((a, b) => b.length - a.length)[0].length
+function lk(nums: number[]): number {
+    let min = 0
+    let curr = 0
+    for (let i = 0; i < nums.length; i++) {
+        curr += nums[i]
+        min = Math.min(min, curr)
+    }
+    return 1 - min
 }
 
-console.log(lk('a'))  // 1
-console.log(lk('leetcode'))  // 2
-console.log(lk('aabbbccccdddeeeeeabs'))  // 5
+console.log(lk([ -3, 2, -3, 4, 2 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
