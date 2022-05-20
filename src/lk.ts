@@ -78,20 +78,15 @@
 //     }
 // }
 
-function lk(paths: string[][]): string {
-    let targets = new Set<string>()
+function lk(sentence: string, searchWord: string): number {
+    const words = sentence.split(' ')
 
-    paths.forEach(([ from, to ]) => {
-        targets.add(to)
-    })
-    paths.forEach(([ from, to ]) => {
-        targets.delete(from)
-    })
+    for (let i = 0; i < words.length; i++) {
+        if(words[i].startsWith(searchWord)) return i + 1
+    }
 
-    return [ ...targets ][0]
+    return -1
 }
-
-console.log(lk([['A', 'B'],[ 'C', 'D'],['D', 'A']]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
