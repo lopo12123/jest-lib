@@ -78,22 +78,17 @@
 //     }
 // }
 
-function lk(low: number, high: number): number {
-    const dis = high - low
-    return dis % 2 === 1
-        ? (dis + 1) / 2
-        : low % 2 === 0
-            ? dis / 2
-            : (dis / 2 + 1)
+function lk(s: string, indices: number[]): string {
+    const new_s: string[] = []
+
+    for (let i = 0; i < s.length; i++) {
+        new_s[indices[i]] = s[i]
+    }
+
+    return new_s.join('')
 }
 
-// 2 4 - 1
-// 1 3 - 2
-// 2 5 - 2
-// 1 4 - 2
-
-console.log(lk(3, 7))  // 3
-console.log(lk(8, 10))  // 1
+console.log(lk('codeleet', [ 4, 5, 6, 7, 0, 2, 1, 3 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
