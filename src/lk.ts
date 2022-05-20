@@ -78,29 +78,23 @@
 //     }
 // }
 
-function lk(num: number): number {
-    const bits: number[] = []
+function lk(nums: number[]): number[] {
+    const odd = nums.filter((val, idx) => idx % 2 === 1)
+    const even = nums.filter((val, idx) => idx % 2 === 0)
 
-    while (num > 0) {
-        if(num % 10 === 0) {
-            num /= 10
-            continue
-        }
+    odd.sort((a, b) => b - a)
+    even.sort((a, b) => a - b)
 
-        bits.push(num % 10)
-        num = Math.floor(num / 10)
-    }
+    const res: number[] = []
 
-    bits.sort((a, b) => a - b)
+    odd.forEach((val, idx) => {
+        res[idx * 2 + 1] = val
+    })
+    even.forEach((val, idx) => {
+        res[idx * 2] = val
+    })
 
-    if(bits.length === 4) {
-        return bits[0] * 10 + bits[1] * 10 + bits[2] + bits[3]
-    }
-    else if(bits.length === 3) {
-        return bits[0] * 10 + bits[1] + bits[2]
-    }
-    else return bits[0] + (bits[1] ?? 0)
-
+    return res
 }
 
 // const showTime = (fn: () => void) => {
