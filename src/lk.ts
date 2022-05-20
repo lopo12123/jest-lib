@@ -78,21 +78,30 @@
 //     }
 // }
 
-function lk(arr: number[], a: number, b: number, c: number): number {
-    let count = 0
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-            for (let k = j + 1; k < arr.length; k++) {
-                if(Math.abs(arr[i] - arr[j]) <= a
-                    && Math.abs(arr[j] - arr[k]) <= b
-                    && Math.abs(arr[i] - arr[k]) <= c) count += 1
-            }
+function lk(nums: number[]): number {
+    if(nums.length <= 2) return 0
+
+    let min = nums[0], min_count = 1
+    let max = nums[0], max_count = 1
+
+    for (let i = 1; i < nums.length; i++) {
+        if(nums[i] === max) max_count += 1
+        else if(nums[i] > max) {
+            max = nums[i]
+            max_count = 1
+        }
+
+        if(nums[i] === min) min_count += 1
+        else if(nums[i] < min) {
+            min = nums[i]
+            min_count = 1
         }
     }
-    return count
+    if(max === min) return 0
+    else return nums.length - max_count - min_count
 }
 
-console.log(lk([ 3, 0, 1, 1, 9, 7 ], 9, 2, 3))
+console.log(lk([-71,-71,93,-71,40]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
