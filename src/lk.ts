@@ -78,8 +78,19 @@
 //     }
 // }
 
-function lk(sentences: string[]): number {
-    return Math.max(...sentences.map((sentence) => (sentence.match(/[ ]/g)?.length ?? 0) + 1))
+function lk(nums: number[], key: number, k: number): number[] {
+    const idxs: number[] = []
+
+    for (let i = 0; i < nums.length; i++) {
+        if(nums[i] === key) {
+            for (let p = Math.max((idxs.at(-1) ?? -1) + 1, i - k);
+                 p <= Math.min(nums.length - 1, i + k); p++) {
+                idxs.push(p)
+            }
+        }
+    }
+
+    return idxs
 }
 
 // const showTime = (fn: () => void) => {
