@@ -78,20 +78,22 @@
 //     }
 // }
 
-function lk(numBottles: number, numExchange: number): number {
-    let sum = numBottles
-    let remain = numBottles
-
-    while (remain >= numExchange) {
-        sum += Math.floor(remain / numExchange)
-        remain = Math.floor(remain / numExchange) + remain % numExchange
-    }
-
-    return sum
+function lk(low: number, high: number): number {
+    const dis = high - low
+    return dis % 2 === 1
+        ? (dis + 1) / 2
+        : low % 2 === 0
+            ? dis / 2
+            : (dis / 2 + 1)
 }
 
-console.log(lk(9, 3))  // 13
-console.log(lk(9, 4))  // 11
+// 2 4 - 1
+// 1 3 - 2
+// 2 5 - 2
+// 1 4 - 2
+
+console.log(lk(3, 7))  // 3
+console.log(lk(8, 10))  // 1
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
