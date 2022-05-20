@@ -78,20 +78,17 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    const odd = nums.filter((val, idx) => idx % 2 === 1)
-    const even = nums.filter((val, idx) => idx % 2 === 0)
+function lk(nums1: number[], nums2: number[]): number[][] {
+    const set1 = new Set(nums1)
+    const set2 = new Set(nums2)
 
-    odd.sort((a, b) => b - a)
-    even.sort((a, b) => a - b)
+    const res: number[][] = [ [], [] ]
 
-    const res: number[] = []
-
-    odd.forEach((val, idx) => {
-        res[idx * 2 + 1] = val
+    set1.forEach((val) => {
+        if(!set2.has(val)) res[0].push(val)
     })
-    even.forEach((val, idx) => {
-        res[idx * 2] = val
+    set2.forEach((val) => {
+        if(!set1.has(val)) res[1].push(val)
     })
 
     return res
