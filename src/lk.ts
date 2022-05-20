@@ -78,6 +78,22 @@
 //     }
 // }
 
+class ParkingSystem {
+    #remain: [ number, number, number ]
+
+    constructor(big: number, medium: number, small: number) {
+        this.#remain = [ big, medium, small ]
+    }
+
+    addCar(carType: number) {
+        if(this.#remain[carType - 1] <= 0) return false
+        else {
+            this.#remain[carType - 1] -= 1
+            return true
+        }
+    }
+}
+
 function lk(mat: number[][]): number {
     const max = mat.length - 1
     let sum = 0
@@ -89,16 +105,16 @@ function lk(mat: number[][]): number {
 }
 
 console.log(lk([
-    [1,2,3],
-    [4,5,6],
-    [7,8,9],
+    [ 1, 2, 3 ],
+    [ 4, 5, 6 ],
+    [ 7, 8, 9 ],
 ]))  // 25
 
 console.log(lk([
-    [1,2,3,1],
-    [4,5,6,2],
-    [7,8,9,3],
-    [7,8,9,3],
+    [ 1, 2, 3, 1 ],
+    [ 4, 5, 6, 2 ],
+    [ 7, 8, 9, 3 ],
+    [ 7, 8, 9, 3 ],
 ]))  // 40
 
 // const showTime = (fn: () => void) => {
