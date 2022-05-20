@@ -78,36 +78,20 @@
 //     }
 // }
 
-function lk(intervals: number[][]): number[] {
-    // [右界, 下标] 按右界小到大排序
-    const right_border_with_idx = intervals
-        .map((border, idx) => [ border[1], idx ])
-        .sort((a, b) => a[0] - b[0])
-    // 按左界小到大排序
-    const left_border_with_idx = intervals
-        .map((border, idx) => [ border[0], idx ])
-        .sort((a, b) => a[0] - b[0])
-
-    const len = right_border_with_idx.length
-    const res: number[] = []
-    let p = 0
-    for (let i = 0; i < len; i++) {
-        while (p < len) {
-            if(left_border_with_idx[p][0] >= right_border_with_idx[i][0]) {
-                res[right_border_with_idx[i][1]] = left_border_with_idx[p][1]
-                break
-            }
-            else p += 1
+function lk(arr: number[]): boolean {
+    let count = 0
+    for (let i = 0; i < arr.length; i++) {
+        if(arr[i] % 2 === 0) count = 0
+        else if(count === 2) return true
+        else {
+            count += 1
         }
-        if(p >= len) res[right_border_with_idx[i][1]] = -1
     }
-
-    return res
+    return false
 }
 
-console.log(lk([ [ 1, 2 ] ]))  // [-1]
-console.log(lk([ [ 3, 4 ], [ 2, 3 ], [ 1, 2 ] ]))  // [-1,0,1]
-console.log(lk([ [ 1, 4 ], [ 2, 3 ], [ 3, 4 ] ]))  // [-1,2,-1]
+console.log(lk([ 2, 6, 4, 1 ]))
+console.log(lk([ 1, 2, 34, 3, 4, 5, 7, 23, 12 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
