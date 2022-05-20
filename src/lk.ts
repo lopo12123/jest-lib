@@ -78,15 +78,14 @@
 //     }
 // }
 
-function lk(sentence: string, searchWord: string): number {
-    const words = sentence.split(' ')
-
-    for (let i = 0; i < words.length; i++) {
-        if(words[i].startsWith(searchWord)) return i + 1
-    }
-
-    return -1
+function lk(s: string): number {
+    return s.match(/([a-z])(\1)*/g)!
+        .sort((a, b) => b.length - a.length)[0].length
 }
+
+console.log(lk('a'))  // 1
+console.log(lk('leetcode'))  // 2
+console.log(lk('aabbbccccdddeeeeeabs'))  // 5
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
