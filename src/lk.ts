@@ -78,44 +78,20 @@
 //     }
 // }
 
-class ParkingSystem {
-    #remain: [ number, number, number ]
+function lk(numBottles: number, numExchange: number): number {
+    let sum = numBottles
+    let remain = numBottles
 
-    constructor(big: number, medium: number, small: number) {
-        this.#remain = [ big, medium, small ]
+    while (remain >= numExchange) {
+        sum += Math.floor(remain / numExchange)
+        remain = Math.floor(remain / numExchange) + remain % numExchange
     }
 
-    addCar(carType: number) {
-        if(this.#remain[carType - 1] <= 0) return false
-        else {
-            this.#remain[carType - 1] -= 1
-            return true
-        }
-    }
+    return sum
 }
 
-function lk(mat: number[][]): number {
-    const max = mat.length - 1
-    let sum = 0
-    for (let i = 0; i <= max; i++) {
-        sum += mat[i][i] + mat[i][max - i]
-    }
-
-    return sum - (mat[max / 2]?.[max / 2] ?? 0)
-}
-
-console.log(lk([
-    [ 1, 2, 3 ],
-    [ 4, 5, 6 ],
-    [ 7, 8, 9 ],
-]))  // 25
-
-console.log(lk([
-    [ 1, 2, 3, 1 ],
-    [ 4, 5, 6, 2 ],
-    [ 7, 8, 9, 3 ],
-    [ 7, 8, 9, 3 ],
-]))  // 40
+console.log(lk(9, 3))  // 13
+console.log(lk(9, 4))  // 11
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
