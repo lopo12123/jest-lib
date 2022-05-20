@@ -78,30 +78,15 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    if(nums.length <= 2) return 0
+function lk(nums: number[], original: number): number {
+    nums.sort((a, b) => a - b)
 
-    let min = nums[0], min_count = 1
-    let max = nums[0], max_count = 1
-
-    for (let i = 1; i < nums.length; i++) {
-        if(nums[i] === max) max_count += 1
-        else if(nums[i] > max) {
-            max = nums[i]
-            max_count = 1
-        }
-
-        if(nums[i] === min) min_count += 1
-        else if(nums[i] < min) {
-            min = nums[i]
-            min_count = 1
-        }
+    for (let i = 0; i < nums.length; i++) {
+        if(nums[i] === original) original *= 2
     }
-    if(max === min) return 0
-    else return nums.length - max_count - min_count
-}
 
-console.log(lk([-71,-71,93,-71,40]))
+    return original
+}
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
