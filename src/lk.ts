@@ -78,15 +78,23 @@
 //     }
 // }
 
-function lk(num1: number, num2: number): number {
-    let count = 0
-    while (num1 !== 0 && num2 !== 0) {
-        if(num1 >= num2) num1 -= num2
-        else num2 -= num1
+function lk(words: string[]): string {
+    const ifReverse = (s: string) => {
+        let l = 0, r = s.length - 1
 
-        count += 1
+        while (l < r) {
+            if(s[l] !== s[r]) return false
+
+            l += 1
+            r -= 1
+        }
+        return true
     }
-    return count
+
+    for (let i = 0; i < words.length; i++) {
+        if(ifReverse(words[i])) return words[i]
+    }
+    return ''
 }
 
 // const showTime = (fn: () => void) => {
