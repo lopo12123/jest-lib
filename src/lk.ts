@@ -78,15 +78,8 @@
 //     }
 // }
 
-function lk(gain: number[]): number {
-    let max = 0, curr = 0
-
-    for (let i = 0; i < gain.length; i++) {
-        curr += gain[i]
-        max = Math.max(max, curr)
-    }
-
-    return max
+function lk(nums: number[]): number[] {
+    return [...nums, ...nums]
 }
 
 // const showTime = (fn: () => void) => {
