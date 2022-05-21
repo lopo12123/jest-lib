@@ -78,23 +78,17 @@
 //     }
 // }
 
-function lk(lowLimit: number, highLimit: number): number {
-    const box: number[] = []
+function lk(word1: string, word2: string): string {
+    let s = ''
+    let p1 = 0, p2 = 0
 
-    for (let i = lowLimit; i <= highLimit; i++) {
-        let box_id = 0, p = i
-        while (p > 0) {
-            box_id += p % 10
-            p = Math.floor(p / 10)
-        }
-        box[box_id] = (box[box_id] ?? 0) + 1
+    while (p1 < word1.length && p2 < word2.length) {
+        s += word1[p1] + word2[p2]
+        p1 += 1
+        p2 += 1
     }
 
-    let max = 0
-    box.forEach((num_of_ball) => {
-        max = Math.max(num_of_ball, max)
-    })
-    return max
+    return s + word1.slice(p1) + word2.slice(p2)
 }
 
 // const showTime = (fn: () => void) => {
