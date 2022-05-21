@@ -78,17 +78,15 @@
 //     }
 // }
 
-function lk(s: string, words: string[]): boolean {
-    let p_s = 0
-    let p = 0
-    while (p_s < s.length && p < words.length) {
-        if(s.slice(p_s, p_s + words[p].length) !== words[p]) return false
-        else {
-            p_s += words[p].length
-            p += 1
-        }
+function lk(nums: number[], k: number): number {
+    nums.sort((a, b) => a - b)
+
+    let min = Infinity
+    for (let i = 0; i < nums.length - k + 1; i++) {
+        min = Math.min(min, nums[i + k - 1] - nums[i])
     }
-    return p_s === s.length
+
+    return min
 }
 
 // const showTime = (fn: () => void) => {
