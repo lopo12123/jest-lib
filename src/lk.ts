@@ -79,7 +79,9 @@
 // }
 
 function lk(nums: number[]): number[] {
-    return [...nums, ...nums]
+    nums.push(...nums)
+
+    return nums
 }
 
 // const showTime = (fn: () => void) => {
