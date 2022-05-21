@@ -78,15 +78,19 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): number {
-    nums.sort((a, b) => a - b)
-
-    let min = Infinity
-    for (let i = 0; i < nums.length - k + 1; i++) {
-        min = Math.min(min, nums[i + k - 1] - nums[i])
+function lk(nums: number[]): number {
+    const gcd = (a: number, b: number): number => {
+        return b === 0 ? a : gcd(b, a % b)
     }
 
-    return min
+    let max = nums[0], min = nums[0]
+
+    for (let i = 1; i < nums.length; i++) {
+        if(nums[i] > max) max = nums[i]
+        if(nums[i] < min) min = nums[i]
+    }
+
+    return gcd(max, min)
 }
 
 // const showTime = (fn: () => void) => {
