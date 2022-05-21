@@ -78,9 +78,8 @@
 //     }
 // }
 
-function lk(sentence: string): boolean {
-    if(sentence.length < 26) return false
-    return new Set(sentence).size === 26
+function lk(n: number, k: number): number {
+    return eval(n.toString(k).split('').join('+'))
 }
 
 // const showTime = (fn: () => void) => {
