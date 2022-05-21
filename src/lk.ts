@@ -78,17 +78,18 @@
 //     }
 // }
 
-function lk(n: number): boolean {
-    if(n < 4) return false
-    if(Math.sqrt(n) % 1 > 0) return false
-
-    for (let i = 2; i < Math.sqrt(n); i++) {
-        if(n % i === 0) return false
+function lk(s: string, words: string[]): boolean {
+    let p_s = 0
+    let p = 0
+    while (p_s < s.length && p < words.length) {
+        if(s.slice(p_s, p_s + words[p].length) !== words[p]) return false
+        else {
+            p_s += words[p].length
+            p += 1
+        }
     }
-    return true
+    return p_s === s.length
 }
-
-console.log(lk(9))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
