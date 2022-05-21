@@ -78,16 +78,24 @@
 //     }
 // }
 
-function lk(n: number): number {
-    const full = Math.floor(n / 7)
-    const part = n % 7
+function lk(lowLimit: number, highLimit: number): number {
+    const box: number[] = []
 
-    return full * 28 + (full - 1) * full * 7 / 2 + part * (full + 1 + part + full) / 2
+    for (let i = lowLimit; i <= highLimit; i++) {
+        let box_id = 0, p = i
+        while (p > 0) {
+            box_id += p % 10
+            p = Math.floor(p / 10)
+        }
+        box[box_id] = (box[box_id] ?? 0) + 1
+    }
+
+    let max = 0
+    box.forEach((num_of_ball) => {
+        max = Math.max(num_of_ball, max)
+    })
+    return max
 }
-
-console.log(lk(4))  // 10
-console.log(lk(10))  // 37
-console.log(lk(20))  // 96
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
