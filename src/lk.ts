@@ -79,7 +79,14 @@
 // }
 
 function lk(n: number, k: number): number {
-    return eval(n.toString(k).split('').join('+'))
+    let sum = 0
+
+    while (n > 0) {
+        sum += n % k
+        n = Math.floor(n / k)
+    }
+
+    return sum
 }
 
 // const showTime = (fn: () => void) => {
