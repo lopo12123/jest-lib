@@ -78,13 +78,21 @@
 //     }
 // }
 
-function lk(start: number, goal: number): number {
-    let count = 0, s = start ^ goal
-    while (s > 0) {
-        count += s % 2
-        s >>= 1
+function lk(x: number, y: number, points: number[][]): number {
+    let min_dis = Infinity, dis: number
+    let min_idx = -1
+
+    for (let i = 0; i < points.length; i++) {
+        if(points[i][0] === x || points[i][1] === y) {
+            dis = Math.abs(points[i][0] - x + points[i][1] - y)
+            if(dis < min_dis) {
+                min_dis = dis
+                min_idx = i
+            }
+        }
     }
-    return count
+
+    return min_idx
 }
 
 // const showTime = (fn: () => void) => {
