@@ -78,19 +78,20 @@
 //     }
 // }
 
-function lk(arr: number[]): number {
-    const count = new Map<number, number>()
+function lk(words: string[]): string[] {
+    words.sort((a, b) => a.length - b.length)
 
-    for (let i = 0; i < arr.length; i++) {
-        count.set(arr[i], (count.get(arr[i]) ?? 0) + 1)
+    const res: string[] = []
+    for (let i = 0; i < words.length - 1; i++) {
+        for (let j = i + 1; j < words.length; j++) {
+            if(words[j].includes(words[i])) {
+                res.push(words[i])
+                break
+            }
+        }
     }
 
-    let max = -1
-    count.forEach((val, key) => {
-        if(val === key) max = Math.max(val, max)
-    })
-
-    return max
+    return res
 }
 
 // const showTime = (fn: () => void) => {
