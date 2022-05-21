@@ -78,13 +78,18 @@
 //     }
 // }
 
-function lk(s: string): string {
-    let ss = ''
-    for (let i = 0; i < s.length; i++) {
-        if(i % 2 === 0) ss += s[i]
-        else ss += String.fromCharCode(s[i - 1].charCodeAt(0) + parseInt(s[i]))
-    }
-    return ss
+function lk(nums: number[]): number {
+    let count = 0
+
+    nums.reduce((prev, curr) => {
+        if(prev < curr) return curr
+        else {
+            count += prev + 1 - curr
+            return prev + 1
+        }
+    })
+
+    return count
 }
 
 // const showTime = (fn: () => void) => {
