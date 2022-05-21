@@ -78,17 +78,17 @@
 //     }
 // }
 
-function lk(n: number): number {
-    let count = 0
-    for (let a = 0; a <= n; a++) {
-        for (let b = a + 1; b <= n; b++) {
-            for (let c = b + 1; c <= n; c++) {
-                if(a * a + b * b === c * c) count += 1
-            }
-        }
+function lk(n: number): boolean {
+    if(n < 4) return false
+    if(Math.sqrt(n) % 1 > 0) return false
+
+    for (let i = 2; i < Math.sqrt(n); i++) {
+        if(n % i === 0) return false
     }
-    return count * 2
+    return true
 }
+
+console.log(lk(9))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
