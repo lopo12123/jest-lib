@@ -78,32 +78,16 @@
 //     }
 // }
 
-function lk(path: string): boolean {
-    const pass = new Set()
-    let curr = [0, 0]
+function lk(n: number): number {
+    const full = Math.floor(n / 7)
+    const part = n % 7
 
-    pass.add((curr.join('-')))
-    for (let i = 0; i < path.length; i ++) {
-        switch (path[i]){
-            case 'N':
-                curr[0] += 1
-                break
-            case 'S':
-                curr[0] -= 1
-                break
-            case 'E':
-                curr[1] += 1
-                break
-            case 'W':
-                curr[1] -= 1
-                break
-        }
-        if(pass.has(curr.join('-'))) return true
-        else pass.add((curr.join('-')))
-    }
-
-    return false
+    return full * 28 + (full - 1) * full * 7 / 2 + part * (full + 1 + part + full) / 2
 }
+
+console.log(lk(4))  // 10
+console.log(lk(10))  // 37
+console.log(lk(20))  // 96
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
