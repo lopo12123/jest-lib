@@ -78,17 +78,17 @@
 //     }
 // }
 
-function lk(boxTypes: number[][], truckSize: number): number {
-    boxTypes.sort((a, b) => b[1] - a[1])
+function lk(nums: number[]): number {
+    const count = new Map()
 
-    let sum = 0, p = 0
-
-    while (truckSize > 0 && p < boxTypes.length) {
-        sum += boxTypes[p][1] * Math.min(truckSize, boxTypes[p][0])
-        truckSize -= boxTypes[p][0]
-        p += 1
+    for (let i = 0; i < nums.length; i++) {
+        count.set(nums[i], (count.get(nums[i]) ?? 0) + 1)
     }
 
+    let sum = 0
+    count.forEach((val, key) => {
+        if(val === 1) sum += key
+    })
     return sum
 }
 
