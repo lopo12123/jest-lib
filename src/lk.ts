@@ -78,25 +78,21 @@
 //     }
 // }
 
-function lk(grid: number[][], k: number): number[][] {
-    const row = grid.length, col = grid[0].length
+function lk(arr: number[]): boolean {
+    const set = new Set(arr)
 
-    k %= row * col
-
-    const to_where = (x: number, y: number) => {
-        return [ (k + x) % col, (y + Math.floor((k + x) / col)) % row ]
-    }
-
-    const res: number[][] = new Array(row).fill(0).map(_ => new Array(col).fill(0))
-    for (let y = 0; y < row; y++) {
-        for (let x = 0; x < col; x++) {
-            let [ new_x, new_y ] = to_where(x, y)
-            res[new_y][new_x] = grid[y][x]
+    let zero_count = 0
+    for (let i = 0; i < arr.length; i ++) {
+        if(arr[i] === 0) {
+            zero_count += 1
         }
+        else if(set.has(arr[i] * 2) || set.has(arr[i] / 2)) return true
     }
 
-    return res
+    return zero_count >= 2
 }
+
+console.log(lk([-2,0,10,-19,4,6,-8]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
