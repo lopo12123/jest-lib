@@ -78,21 +78,13 @@
 //     }
 // }
 
-function lk(x: number, y: number, points: number[][]): number {
-    let min_dis = Infinity, dis: number
-    let min_idx = -1
-
-    for (let i = 0; i < points.length; i++) {
-        if(points[i][0] === x || points[i][1] === y) {
-            dis = Math.abs(points[i][0] - x + points[i][1] - y)
-            if(dis < min_dis) {
-                min_dis = dis
-                min_idx = i
-            }
-        }
+function lk(s: string): string {
+    let ss = ''
+    for (let i = 0; i < s.length; i++) {
+        if(i % 2 === 0) ss += s[i]
+        else ss += String.fromCharCode(s[i - 1].charCodeAt(0) + parseInt(s[i]))
     }
-
-    return min_idx
+    return ss
 }
 
 // const showTime = (fn: () => void) => {
