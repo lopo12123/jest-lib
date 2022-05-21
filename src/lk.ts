@@ -78,21 +78,20 @@
 //     }
 // }
 
-function lk(arr: number[]): boolean {
-    const set = new Set(arr)
+function lk(arr: number[]): number {
+    const count = new Map<number, number>()
 
-    let zero_count = 0
-    for (let i = 0; i < arr.length; i ++) {
-        if(arr[i] === 0) {
-            zero_count += 1
-        }
-        else if(set.has(arr[i] * 2) || set.has(arr[i] / 2)) return true
+    for (let i = 0; i < arr.length; i++) {
+        count.set(arr[i], (count.get(arr[i]) ?? 0) + 1)
     }
 
-    return zero_count >= 2
-}
+    let max = -1
+    count.forEach((val, key) => {
+        if(val === key) max = Math.max(val, max)
+    })
 
-console.log(lk([-2,0,10,-19,4,6,-8]))
+    return max
+}
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
