@@ -78,12 +78,33 @@
 //     }
 // }
 
-function lk(s: string): boolean {
-    const max_zero_len = Math.max(...(s.match(/0+/g)?.map(str => str.length) ?? [ 0 ]))
-    const max_one_len = Math.max(...(s.match(/1+/g)?.map(str => str.length) ?? [ 0 ]))
+function lk(nums: number[]): boolean {
+    let count = 0
+    let prev = nums[0]
 
-    return max_one_len > max_zero_len
+    for (let i = 1; i < nums.length; i++) {
+        if(nums[i] > prev) {
+            prev = nums[i]
+        }
+        else {
+            if(count === 1) return false
+            // 删除当前
+            else if(i > 1 && nums[i] <= nums[i - 2]) {
+                prev = nums[i - 1]
+                count = 1
+            }
+            // 删除前一个
+            else {
+                prev = nums[i]
+                count = 1
+            }
+        }
+    }
+
+    return true
 }
+
+console.log(lk([ 1, 4, 1, 2, 3 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
