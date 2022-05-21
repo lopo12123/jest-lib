@@ -78,18 +78,15 @@
 //     }
 // }
 
-function lk(rectangles: number[][]): number {
-    let max_size = 0, max_count = 0
+function lk(gain: number[]): number {
+    let max = 0, curr = 0
 
-    for (let i = 0; i < rectangles.length; i++) {
-        if(Math.min(...rectangles[i]) === max_size) max_count += 1
-        else if(Math.min(...rectangles[i]) > max_size) {
-            max_size = Math.min(...rectangles[i])
-            max_count = 1
-        }
+    for (let i = 0; i < gain.length; i++) {
+        curr += gain[i]
+        max = Math.max(max, curr)
     }
 
-    return max_count
+    return max
 }
 
 // const showTime = (fn: () => void) => {
