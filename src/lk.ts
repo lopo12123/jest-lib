@@ -78,20 +78,18 @@
 //     }
 // }
 
-function lk(words: string[]): string[] {
-    words.sort((a, b) => a.length - b.length)
+function lk(boxTypes: number[][], truckSize: number): number {
+    boxTypes.sort((a, b) => b[1] - a[1])
 
-    const res: string[] = []
-    for (let i = 0; i < words.length - 1; i++) {
-        for (let j = i + 1; j < words.length; j++) {
-            if(words[j].includes(words[i])) {
-                res.push(words[i])
-                break
-            }
-        }
+    let sum = 0, p = 0
+
+    while (truckSize > 0 && p < boxTypes.length) {
+        sum += boxTypes[p][1] * Math.min(truckSize, boxTypes[p][0])
+        truckSize -= boxTypes[p][0]
+        p += 1
     }
 
-    return res
+    return sum
 }
 
 // const showTime = (fn: () => void) => {
