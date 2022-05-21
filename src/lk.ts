@@ -78,19 +78,20 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    const gcd = (a: number, b: number): number => {
-        return b === 0 ? a : gcd(b, a % b)
+function lk(arr: number[]): number {
+    const len = arr.length
+    let start = 0
+
+    for (let i = 1; i < len; i ++) {
+        if(arr[i] !== arr[i - 1]) {
+            if(i - start > len / 4) return arr[i - 1]
+            else {
+                start = i
+            }
+        }
     }
 
-    let max = nums[0], min = nums[0]
-
-    for (let i = 1; i < nums.length; i++) {
-        if(nums[i] > max) max = nums[i]
-        if(nums[i] < min) min = nums[i]
-    }
-
-    return gcd(max, min)
+    return arr.at(-1)!
 }
 
 // const showTime = (fn: () => void) => {
