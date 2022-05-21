@@ -78,29 +78,16 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let max1 = -Infinity, max2 = -Infinity
-    let min1 = Infinity, min2 = Infinity
-
-    for (let i = 0; i < nums.length; i++) {
-        if(nums[i] > max1) {
-            max2 = max1
-            max1 = nums[i]
-        }
-        else if(nums[i] > max2) {
-            max2 = nums[i]
-        }
-
-        if(nums[i] < min1) {
-            min2 = min1
-            min1 = nums[i]
-        }
-        else if(nums[i] < min2) {
-            min2 = nums[i]
+function lk(n: number): number {
+    let count = 0
+    for (let a = 0; a <= n; a++) {
+        for (let b = a + 1; b <= n; b++) {
+            for (let c = b + 1; c <= n; c++) {
+                if(a * a + b * b === c * c) count += 1
+            }
         }
     }
-
-    return max1 * max2 - min1 * min2
+    return count * 2
 }
 
 // const showTime = (fn: () => void) => {
