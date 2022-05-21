@@ -78,20 +78,24 @@
 //     }
 // }
 
-function lk(arr: number[]): number {
-    const len = arr.length
-    let start = 0
+function lk(grid: number[][], k: number): number[][] {
+    const row = grid.length, col = grid[0].length
 
-    for (let i = 1; i < len; i ++) {
-        if(arr[i] !== arr[i - 1]) {
-            if(i - start > len / 4) return arr[i - 1]
-            else {
-                start = i
-            }
+    k %= row * col
+
+    const to_where = (x: number, y: number) => {
+        return [ (k + x) % col, (y + Math.floor((k + x) / col)) % row ]
+    }
+
+    const res: number[][] = new Array(row).fill(0).map(_ => new Array(col).fill(0))
+    for (let y = 0; y < row; y++) {
+        for (let x = 0; x < col; x++) {
+            let [ new_x, new_y ] = to_where(x, y)
+            res[new_y][new_x] = grid[y][x]
         }
     }
 
-    return arr.at(-1)!
+    return res
 }
 
 // const showTime = (fn: () => void) => {
