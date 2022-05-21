@@ -78,18 +78,9 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let count = 0
-
-    nums.reduce((prev, curr) => {
-        if(prev < curr) return curr
-        else {
-            count += prev + 1 - curr
-            return prev + 1
-        }
-    })
-
-    return count
+function lk(sentence: string): boolean {
+    if(sentence.length < 26) return false
+    return new Set(sentence).size === 26
 }
 
 // const showTime = (fn: () => void) => {
