@@ -78,33 +78,30 @@
 //     }
 // }
 
-function lk(nums: number[]): boolean {
-    let count = 0
-    let prev = nums[0]
+function lk(nums: number[]): number {
+    let max1 = -Infinity, max2 = -Infinity
+    let min1 = Infinity, min2 = Infinity
 
-    for (let i = 1; i < nums.length; i++) {
-        if(nums[i] > prev) {
-            prev = nums[i]
+    for (let i = 0; i < nums.length; i++) {
+        if(nums[i] > max1) {
+            max2 = max1
+            max1 = nums[i]
         }
-        else {
-            if(count === 1) return false
-            // 删除当前
-            else if(i > 1 && nums[i] <= nums[i - 2]) {
-                prev = nums[i - 1]
-                count = 1
-            }
-            // 删除前一个
-            else {
-                prev = nums[i]
-                count = 1
-            }
+        else if(nums[i] > max2) {
+            max2 = nums[i]
+        }
+
+        if(nums[i] < min1) {
+            min2 = min1
+            min1 = nums[i]
+        }
+        else if(nums[i] < min2) {
+            min2 = nums[i]
         }
     }
 
-    return true
+    return max1 * max2 - min1 * min2
 }
-
-console.log(lk([ 1, 4, 1, 2, 3 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
