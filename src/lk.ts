@@ -78,32 +78,32 @@
 //     }
 // }
 
-function lk(s: string, k: number): number {
-    let trans = 0, char_code
+function lk(path: string): boolean {
+    const pass = new Set()
+    let curr = [0, 0]
 
-    // 第一次转换直接求和
-    k -= 1
-    for (let i = 0; i < s.length; i++) {
-        char_code = s.charCodeAt(i) - 96
-        trans += char_code < 10 ? char_code : (char_code % 10 + Math.floor(char_code / 10))
-    }
-
-    let temp = 0
-    while (k > 0) {
-        while (trans > 0) {
-            temp += trans % 10
-            trans = Math.floor(trans / 10)
+    pass.add((curr.join('-')))
+    for (let i = 0; i < path.length; i ++) {
+        switch (path[i]){
+            case 'N':
+                curr[0] += 1
+                break
+            case 'S':
+                curr[0] -= 1
+                break
+            case 'E':
+                curr[1] += 1
+                break
+            case 'W':
+                curr[1] -= 1
+                break
         }
-        trans = temp
-        temp = 0
-        k -= 1
+        if(pass.has(curr.join('-'))) return true
+        else pass.add((curr.join('-')))
     }
 
-    return trans
+    return false
 }
-
-console.log(lk("dbvmfhnttvr",
-5))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
