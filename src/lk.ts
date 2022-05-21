@@ -78,15 +78,11 @@
 //     }
 // }
 
-function lk(n: number, k: number): number {
-    let sum = 0
+function lk(s: string): boolean {
+    const max_zero_len = Math.max(...(s.match(/0+/g)?.map(str => str.length) ?? [ 0 ]))
+    const max_one_len = Math.max(...(s.match(/1+/g)?.map(str => str.length) ?? [ 0 ]))
 
-    while (n > 0) {
-        sum += n % k
-        n = Math.floor(n / k)
-    }
-
-    return sum
+    return max_one_len > max_zero_len
 }
 
 // const showTime = (fn: () => void) => {
