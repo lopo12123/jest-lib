@@ -78,18 +78,18 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    const count = new Map()
+function lk(rectangles: number[][]): number {
+    let max_size = 0, max_count = 0
 
-    for (let i = 0; i < nums.length; i++) {
-        count.set(nums[i], (count.get(nums[i]) ?? 0) + 1)
+    for (let i = 0; i < rectangles.length; i++) {
+        if(Math.min(...rectangles[i]) === max_size) max_count += 1
+        else if(Math.min(...rectangles[i]) > max_size) {
+            max_size = Math.min(...rectangles[i])
+            max_count = 1
+        }
     }
 
-    let sum = 0
-    count.forEach((val, key) => {
-        if(val === 1) sum += key
-    })
-    return sum
+    return max_count
 }
 
 // const showTime = (fn: () => void) => {
