@@ -78,18 +78,17 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    const count = new Map<number, number>()
+function lk(arr: number[], k: number): number {
+    let idx_arr = 0, num = 1
+    while (k > 0) {
+        if(arr[idx_arr] !== num) {
+            k -= 1
+        }
+        else idx_arr += 1
 
-    for (let i = 0; i < nums.length; i++) {
-        count.set(nums[i], (count.get(nums[i]) ?? 0) + 1)
+        num += 1
     }
-
-    let sum = 0
-    count.forEach((val, count) => {
-        sum += val * (val - 1) / 2
-    })
-    return sum
+    return num - 1
 }
 
 // const showTime = (fn: () => void) => {
