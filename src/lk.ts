@@ -78,17 +78,35 @@
 //     }
 // }
 
-function lk(word1: string, word2: string): string {
-    let s = ''
-    let p1 = 0, p2 = 0
+function lk(maxChoosableInteger: number, desiredTotal: number): boolean {
+    // 第一下直接获胜
+    if(maxChoosableInteger >= desiredTotal) return true
+    // 永远无法到达
+    else if((1 + maxChoosableInteger) * maxChoosableInteger / 2 < desiredTotal) return false
+    else {
+        const state_pool = new Map<number, boolean>()
+        const dfs = (curr_state: number, curr_sum: number): boolean => {
+            // 已经搜过
+            if(state_pool.has(curr_state)) return state_pool.get(curr_state)!
+            else {
+                for (let i = 0; i < maxChoosableInteger; i++) {
+                    // 某个数字没有被选过
+                    if((curr_state >> i & 1) === 0) {
+                        // 选中当前数字可以获胜
+                        if(curr_sum + (i + 1) >= desiredTotal || !dfs(curr_state | (1 << i), curr_sum + (i + 1))) {
+                            state_pool.set(curr_state, true)
+                            return true
+                        }
+                    }
+                }
+                // 如果全都不能赢则返回false
+                state_pool.set(curr_state, false)
+                return false
+            }
+        }
 
-    while (p1 < word1.length && p2 < word2.length) {
-        s += word1[p1] + word2[p2]
-        p1 += 1
-        p2 += 1
+        return dfs(0, 0)
     }
-
-    return s + word1.slice(p1) + word2.slice(p2)
 }
 
 // const showTime = (fn: () => void) => {
