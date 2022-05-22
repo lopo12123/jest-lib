@@ -79,22 +79,16 @@
 // }
 
 function lk(s: string): string {
-    const diff = (pre: number, suf: number): number => {
-        for (let i = 97; i <= 122; i++) {
-            if(i !== pre && i !== suf) return i
-        }
-        return 0
-    }
+    const remain_chs: string[] = []
 
-    const to_arr = s.split('').map(ch => ch === '?' ? 0 : ch.charCodeAt(0))
-
-    for (let i = 0; i < to_arr.length; i++) {
-        if(to_arr[i] === 0) {
-            to_arr[i] = diff(to_arr[i - 1] ?? 0, to_arr[i + 1] ?? 0)
+    for (let i = 0; i < s.length; i++) {
+        if(remain_chs.length === 0 || Math.abs(remain_chs.at(-1)!.charCodeAt(0) - s[i].charCodeAt(0)) !== 32) remain_chs.push(s[i])
+        else {
+            remain_chs.pop()
         }
     }
 
-    return to_arr.map(code => String.fromCharCode(code)).join('')
+    return remain_chs.join('')
 }
 
 // const showTime = (fn: () => void) => {
