@@ -78,21 +78,23 @@
 //     }
 // }
 
-function lk(target: number[], n: number): string[] {
-    const ops: string[] = []
-
-    let p = 0
-    for (let i = 1; i <= n && p < target.length; i++) {
-        if(target[p] === i) {
-            ops.push('Push')
-            p += 1
+function lk(s: string): string {
+    const diff = (pre: number, suf: number): number => {
+        for (let i = 97; i <= 122; i++) {
+            if(i !== pre && i !== suf) return i
         }
-        else {
-            ops.push('Push', 'Pop')
+        return 0
+    }
+
+    const to_arr = s.split('').map(ch => ch === '?' ? 0 : ch.charCodeAt(0))
+
+    for (let i = 0; i < to_arr.length; i++) {
+        if(to_arr[i] === 0) {
+            to_arr[i] = diff(to_arr[i - 1] ?? 0, to_arr[i + 1] ?? 0)
         }
     }
 
-    return ops
+    return to_arr.map(code => String.fromCharCode(code)).join('')
 }
 
 // const showTime = (fn: () => void) => {
