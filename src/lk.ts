@@ -78,12 +78,10 @@
 //     }
 // }
 
-function lk(startTime: number[], endTime: number[], queryTime: number): number {
-    let count = 0
-    for (let i = 0; i < startTime.length; i++) {
-        if(startTime[i] <= queryTime && endTime[i] >= queryTime) count += 1
-    }
-    return count
+function lk(date: string): string {
+    const mon_map = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
+    let [ day, mon, year ] = date.split(' ')
+    return year + '-' + (mon_map.indexOf(mon) + 1 + '').padStart(2, '0') + '-' + day.replace(/[^0-9]/g, '').padStart(2, '0')
 }
 
 // const showTime = (fn: () => void) => {
