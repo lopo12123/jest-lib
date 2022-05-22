@@ -78,17 +78,15 @@
 //     }
 // }
 
-function lk(arr: number[], k: number): number {
-    let idx_arr = 0, num = 1
-    while (k > 0) {
-        if(arr[idx_arr] !== num) {
-            k -= 1
-        }
-        else idx_arr += 1
+function lk(arr: number[]): boolean {
+    arr.sort((a, b) => a - b)
 
-        num += 1
+    let dis = arr[1] - arr[0]
+
+    for (let i = 2 ; i < arr.length; i ++) {
+        if(arr[i] - arr[i - 1] !== dis) return false
     }
-    return num - 1
+    return true
 }
 
 // const showTime = (fn: () => void) => {
