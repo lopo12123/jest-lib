@@ -78,18 +78,21 @@
 //     }
 // }
 
-function lk(salary: number[]): number {
-    let max = salary[0], min = salary[0]
-    let sum = salary[0]
+function lk(target: number[], n: number): string[] {
+    const ops: string[] = []
 
-    for (let i = 1; i < salary.length; i ++) {
-        sum += salary[i]
-
-        if(salary[i] > max) max = salary[i]
-        else if(salary[i] < min) min = salary[i]
+    let p = 0
+    for (let i = 1; i <= n && p < target.length; i++) {
+        if(target[p] === i) {
+            ops.push('Push')
+            p += 1
+        }
+        else {
+            ops.push('Push', 'Pop')
+        }
     }
 
-    return (sum - max - min) / (salary.length - 2)
+    return ops
 }
 
 // const showTime = (fn: () => void) => {
