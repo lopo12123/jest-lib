@@ -78,10 +78,18 @@
 //     }
 // }
 
-function lk(date: string): string {
-    const mon_map = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
-    let [ day, mon, year ] = date.split(' ')
-    return year + '-' + (mon_map.indexOf(mon) + 1 + '').padStart(2, '0') + '-' + day.replace(/[^0-9]/g, '').padStart(2, '0')
+function lk(nums: number[]): number {
+    const count = new Map<number, number>()
+
+    for (let i = 0; i < nums.length; i++) {
+        count.set(nums[i], (count.get(nums[i]) ?? 0) + 1)
+    }
+
+    let sum = 0
+    count.forEach((val, count) => {
+        sum += val * (val - 1) / 2
+    })
+    return sum
 }
 
 // const showTime = (fn: () => void) => {
