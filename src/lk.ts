@@ -78,17 +78,15 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const remain_chs: string[] = []
-
-    for (let i = 0; i < s.length; i++) {
-        if(remain_chs.length === 0 || Math.abs(remain_chs.at(-1)!.charCodeAt(0) - s[i].charCodeAt(0)) !== 32) remain_chs.push(s[i])
-        else {
-            remain_chs.pop()
+function lk(nums: number[], k: number): boolean {
+    let last_idx = -Infinity
+    for (let i = 0; i < nums.length; i++) {
+        if(nums[i] === 1) {
+            if(i - last_idx <= k) return false
+            else last_idx = i
         }
     }
-
-    return remain_chs.join('')
+    return true
 }
 
 // const showTime = (fn: () => void) => {
