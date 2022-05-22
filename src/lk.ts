@@ -78,15 +78,18 @@
 //     }
 // }
 
-function lk(arr: number[]): boolean {
-    arr.sort((a, b) => a - b)
+function lk(salary: number[]): number {
+    let max = salary[0], min = salary[0]
+    let sum = salary[0]
 
-    let dis = arr[1] - arr[0]
+    for (let i = 1; i < salary.length; i ++) {
+        sum += salary[i]
 
-    for (let i = 2 ; i < arr.length; i ++) {
-        if(arr[i] - arr[i - 1] !== dis) return false
+        if(salary[i] > max) max = salary[i]
+        else if(salary[i] < min) min = salary[i]
     }
-    return true
+
+    return (sum - max - min) / (salary.length - 2)
 }
 
 // const showTime = (fn: () => void) => {
