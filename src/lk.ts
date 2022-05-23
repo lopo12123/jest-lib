@@ -78,15 +78,34 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): boolean {
-    let last_idx = -Infinity
-    for (let i = 0; i < nums.length; i++) {
-        if(nums[i] === 1) {
-            if(i - last_idx <= k) return false
-            else last_idx = i
+function lk(forest: number[][]): number {
+    // 先遍历一次 forest, 找出砍树的点位顺序
+    const in_order: [ number, number ][] = []
+    for (let y = 0; y < forest.length; y++) {
+        for (let x = 0; x < forest[0].length; x++) {
+            if(forest[y][x] > 1) in_order[forest[y][x] - 2] = [ x, y ]
         }
     }
-    return true
+
+    // 用 bfs 方法找出从 from 到 to 的步数, 若无法到达则返回 -1
+    const bfs = (from: [ x: number, y: number ], to: [ x: number, y: number ]): number => {
+
+        return -1
+    }
+
+    let step = bfs([ 0, 0 ], in_order[0])
+
+    if(step === -1) return -1
+
+    let total_step = step
+
+    for (let i = 1; i < in_order.length; i++) {
+        step = bfs(in_order[i - 1], in_order[i])
+        if(step === -1) return -1
+        else total_step += step
+    }
+
+    return total_step
 }
 
 // const showTime = (fn: () => void) => {
