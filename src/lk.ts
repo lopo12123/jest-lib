@@ -78,29 +78,24 @@
 //     }
 // }
 
-function lk(n: number): string {
-    if(n < 1000) return n + ''
+function lk(n: number, rounds: number[]): number[] {
+    const max_parts: number[] = []
 
-    const bits: (number | string)[] = []
-
-    let to3 = 0
-    while (n > 0) {
-        bits.unshift(n % 10)
-        n = Math.floor(n / 10)
-        to3 += 1
-        if(to3 === 3 && n > 0) {
-            bits.unshift('.')
-            to3 = 0
-        }
+    if(rounds.at(-1)! < rounds[0]) {
+        for (let i = 1; i <= rounds.at(-1)!; i++) max_parts.push(i)
+        for (let i = rounds[0]; i <= n; i ++) max_parts.push(i)
+        return max_parts
     }
+    else {
+        for (let i = rounds[0]; i <= rounds.at(-1)!; i++) {
+            max_parts.push(i)
+        }
 
-    return bits.join('')
+        return max_parts
+    }
 }
 
-console.log(lk(987))
-console.log(lk(1234))
-console.log(lk(123456789))
-console.log(lk(0))
+console.log(lk(4, [ 1, 3, 1, 2 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
