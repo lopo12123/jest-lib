@@ -78,24 +78,20 @@
 //     }
 // }
 
-function lk(n: number, rounds: number[]): number[] {
-    const max_parts: number[] = []
+function lk(nums: number[]): boolean {
+    if(nums.length <= 2) return true
 
-    if(rounds.at(-1)! < rounds[0]) {
-        for (let i = 1; i <= rounds.at(-1)!; i++) max_parts.push(i)
-        for (let i = rounds[0]; i <= n; i ++) max_parts.push(i)
-        return max_parts
-    }
-    else {
-        for (let i = rounds[0]; i <= rounds.at(-1)!; i++) {
-            max_parts.push(i)
-        }
+    let p = nums.length
+    while (nums[0] >= nums.at(-1)! && p-- > 0) nums.unshift(nums.pop()!)
 
-        return max_parts
+    for (let p = 0; p < nums.length - 1; p++) {
+        if(nums[p] > nums[p + 1]) return false
     }
+    return true
 }
 
-console.log(lk(4, [ 1, 3, 1, 2 ]))
+console.log(lk([ 3, 4, 5, 1, 2 ]))  // true
+console.log(lk([ 2, 1, 3, 4 ]))  // false
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
