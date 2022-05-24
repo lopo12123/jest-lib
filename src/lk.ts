@@ -78,16 +78,19 @@
 //     }
 // }
 
-function lk(s: string, letter: string): number {
+function lk(num: number, k: number): number {
+    const str = num + '', len = str.length
     let count = 0
-    const len = s.length
-    for (let i = 0; i < len; i ++) {
-        if(s[i] === letter) count += 1
+
+    for (let i = 0; i <= len - k; i++) {
+        // @ts-ignore
+        if(num % str.slice(i, i + k) === 0) count += 1
     }
 
-    return Math.floor(count * 100 / len)
+    return count
 }
 
+console.log(lk(240, 2))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
