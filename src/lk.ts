@@ -78,20 +78,27 @@
 //     }
 // }
 
-function lk(arr: number[], m: number, k: number): boolean {
-    const reg = new RegExp(`(([0-9]{1,3}\\.){${m}})\\1{${k - 1}}`)
-    return reg.test('.' + arr.join('.') + '.')
+function lk(time: string): string {
+    let latest = ''
+    let [ hh, mm ] = time.split(':')
+
+    if(hh[0] === '?' && hh[1] === '?') {
+        latest += '23'
+    }
+    else if(hh[0] === '?') {
+        latest += (parseInt(hh[1]) > 3 ? '1' : '2') + hh[1]
+    }
+    else if(hh[1] === '?') {
+        latest += hh[0] + (parseInt(hh[0]) === 2 ? '3' : '9')
+    }
+    else latest += hh
+
+    return latest + ':' + (mm[0] === '?' ? '5' : mm[0]) + (mm[1] === '?' ? '9' : mm[1])
 }
 
-((arr, m, k) => {
-    return new RegExp(`(([0-9]{1,3}\\.){${m}})\\1{${k - 1}}`).test('.' + arr.join('.') + '.')
-})([], 1, 1)
-
-console.log(lk([ 1, 2, 4, 4, 4, 4 ], 1, 3))  // true
-console.log(lk([ 1, 2, 1, 2, 1, 1, 1, 3 ], 2, 2))  // true
-console.log(lk([ 1, 2, 1, 2, 1, 3 ], 2, 2))  // true
-console.log(lk([ 1, 2, 1, 2, 1, 3 ], 2, 3))  // false
-console.log(lk([ 1, 2, 2, 1, 1, 2 ], 2, 2))  // false
+console.log(lk('2?:?0'))  // 23:50
+console.log(lk('0?:3?'))  // 09:39
+console.log(lk('1?:22'))  // 19:22
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
