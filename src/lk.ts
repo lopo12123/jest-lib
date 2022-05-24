@@ -79,7 +79,13 @@
 // }
 
 function lk(s: string, letter: string): number {
-    return Math.floor((s.match(new RegExp(letter, 'g')) ?? []).join('').length * 100 / s.length)
+    let count = 0
+    const len = s.length
+    for (let i = 0; i < len; i ++) {
+        if(s[i] === letter) count += 1
+    }
+
+    return Math.floor(count * 100 / len)
 }
 
 
