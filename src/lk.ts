@@ -78,21 +78,49 @@
 //     }
 // }
 
-function lk(n: number, rounds: number[]): number[] {
-    const max_parts: number[] = []
+function lk(mat: number[][]): number {
+    const y_len = mat.length, x_len = mat[0].length
+    let count = 0
 
-    if(rounds.at(-1)! < rounds[0]) {
-        for (let i = 1; i <= rounds.at(-1)!; i++) max_parts.push(i)
+    for (let y = 0; y < y_len; y++) {
+        let one_x_idx = -1
+        for (let x = 0; x < x_len; x++) {
+            if(mat[y][x] === 1) {
+                if(one_x_idx !== -1) {
+                    one_x_idx = -1
+                    break
+                }
+                else one_x_idx = x
+            }
+        }
+        if(one_x_idx !== -1) {
+            let one_y_count = 0
+            for (let y_idx = 0; y_idx < y_len; y_idx++) {
+                if(mat[y_idx][one_x_idx] === 1) {
+                    if(one_y_count === 1) {
+                        one_y_count = 0
+                        break
+                    }
+                    else one_y_count = 1
+                }
+            }
+            count += one_y_count
+        }
     }
 
-    for (let i = rounds[0]; i <= rounds.at(-1)!; i++) {
-        max_parts.push(i)
-    }
-
-    return max_parts
+    return count
 }
 
-console.log(lk(4, [ 1, 3, 1, 2 ]))
+console.log(lk([
+    [ 1, 0, 0 ],
+    [ 0, 1, 0 ],
+    [ 1, 0, 0 ]
+]))  // 1
+console.log(lk([
+    [ 1, 0, 0 ],
+    [ 0, 1, 0 ],
+    [ 0, 0, 1 ]
+]))  // 3
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
