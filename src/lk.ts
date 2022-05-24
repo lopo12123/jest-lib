@@ -78,17 +78,8 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    const freq = new Map()
-    for (let i = 0; i < nums.length; i++) {
-        freq.set(nums[i], (freq.get(nums[i]) ?? 0) + 1)
-    }
-
-    nums.sort((a, b) => {
-        return freq.get(a) === freq.get(b) ? (b - a) : (freq.get(a) - freq.get(b))
-    })
-
-    return nums
+function lk(s: string, letter: string): number {
+    return Math.floor((s.match(new RegExp(letter, 'g')) ?? []).join('').length * 100 / s.length)
 }
 
 
