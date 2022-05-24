@@ -78,19 +78,40 @@
 //     }
 // }
 
-function lk(nums: number[]): boolean {
-    if(nums.length <= 2) return true
+function lk(s: string): string {
+    // 全部字符
+    const allCh = new Set(s)
+    // 符合的字符
+    const validCh = new Set()
+    allCh.forEach((ch) => {
+        if(allCh.has(ch.toUpperCase()) && allCh.has(ch.toLowerCase())) validCh.add(ch)
+    })
 
-    while (nums[0] > nums.at(-1)!) nums.unshift(nums.pop()!)
-
-    for (let p = 0; p < nums.length - 1; p++) {
-        if(nums[p] > nums[p + 1]) return false
+    const maybe: string[] = []
+    let last_idx = -1
+    // 使用数组溢出的 undefined 值 做结尾截断
+    for (let i = 0; i <= s.length; i++) {
+        if(!validCh.has(s[i])) {
+            // 至少要两个字符
+            if(i - last_idx > 1) {
+                maybe.push(s.slice(last_idx, i))
+                last_idx = -1
+            }
+        }
+        else if(last_idx === -1) last_idx = i
     }
-    return true
+
+    let max_len = 0, max_idx = -1
+
+    for (let i = 0; i < maybe.length; i++) {
+        // 检查并比较长度
+    }
+
+    return max_idx === -1 ? '' : maybe[max_idx]
 }
 
-console.log(lk([ 3, 4, 5, 1, 2 ]))  // true
-console.log(lk([ 2, 1, 3, 4 ]))  // false
+console.log(lk('YazaAay'))  // aAa
+console.log(lk('Bb'))  // Bb
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
