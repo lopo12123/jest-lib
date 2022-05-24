@@ -78,49 +78,20 @@
 //     }
 // }
 
-function lk(mat: number[][]): number {
-    const y_len = mat.length, x_len = mat[0].length
-    let count = 0
-
-    for (let y = 0; y < y_len; y++) {
-        let one_x_idx = -1
-        for (let x = 0; x < x_len; x++) {
-            if(mat[y][x] === 1) {
-                if(one_x_idx !== -1) {
-                    one_x_idx = -1
-                    break
-                }
-                else one_x_idx = x
-            }
-        }
-        if(one_x_idx !== -1) {
-            let one_y_count = 0
-            for (let y_idx = 0; y_idx < y_len; y_idx++) {
-                if(mat[y_idx][one_x_idx] === 1) {
-                    if(one_y_count === 1) {
-                        one_y_count = 0
-                        break
-                    }
-                    else one_y_count = 1
-                }
-            }
-            count += one_y_count
-        }
-    }
-
-    return count
+function lk(arr: number[], m: number, k: number): boolean {
+    const reg = new RegExp(`(([0-9]{1,3}\\.){${m}})\\1{${k - 1}}`)
+    return reg.test('.' + arr.join('.') + '.')
 }
 
-console.log(lk([
-    [ 1, 0, 0 ],
-    [ 0, 1, 0 ],
-    [ 1, 0, 0 ]
-]))  // 1
-console.log(lk([
-    [ 1, 0, 0 ],
-    [ 0, 1, 0 ],
-    [ 0, 0, 1 ]
-]))  // 3
+((arr, m, k) => {
+    return new RegExp(`(([0-9]{1,3}\\.){${m}})\\1{${k - 1}}`).test('.' + arr.join('.') + '.')
+})([], 1, 1)
+
+console.log(lk([ 1, 2, 4, 4, 4, 4 ], 1, 3))  // true
+console.log(lk([ 1, 2, 1, 2, 1, 1, 1, 3 ], 2, 2))  // true
+console.log(lk([ 1, 2, 1, 2, 1, 3 ], 2, 2))  // true
+console.log(lk([ 1, 2, 1, 2, 1, 3 ], 2, 3))  // false
+console.log(lk([ 1, 2, 2, 1, 1, 2 ], 2, 2))  // false
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
