@@ -78,22 +78,19 @@
 //     }
 // }
 
-function lk(s: string): number {
-    let to01 = 0
-    let to10 = 0
+function lk(nums: number[]): boolean {
+    if(nums.length <= 2) return true
 
-    for (let i = 0; i < s.length; i++) {
-        // @ts-ignore
-        if(i % 2 == s[i]) to10 += 1
-        else to01 += 1
+    while (nums[0] > nums.at(-1)!) nums.unshift(nums.pop()!)
+
+    for (let p = 0; p < nums.length - 1; p++) {
+        if(nums[p] > nums[p + 1]) return false
     }
-
-    return Math.min(to01, to10)
+    return true
 }
 
-console.log(lk('0100'))  // 1
-console.log(lk('10'))  // 0
-console.log(lk('1111'))  // 2
+console.log(lk([ 3, 4, 5, 1, 2 ]))  // true
+console.log(lk([ 2, 1, 3, 4 ]))  // false
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
