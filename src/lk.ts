@@ -78,17 +78,17 @@
 //     }
 // }
 
-function lk(releaseTimes: number[], keysPressed: string): string {
-    let max = 0, max_key = ''
-    releaseTimes.reduce((prev, curr, idx) => {
-        if(curr - prev > max) {
-            max_key = keysPressed[idx]
-            max = curr - prev
-        }
-        else if(curr - prev === max && keysPressed[idx] > max_key) max_key = keysPressed[idx]
-        return curr
-    }, 0)
-    return max_key
+function lk(nums: number[]): number[] {
+    const freq = new Map()
+    for (let i = 0; i < nums.length; i++) {
+        freq.set(nums[i], (freq.get(nums[i]) ?? 0) + 1)
+    }
+
+    nums.sort((a, b) => {
+        return freq.get(a) === freq.get(b) ? (b - a) : (freq.get(a) - freq.get(b))
+    })
+
+    return nums
 }
 
 
