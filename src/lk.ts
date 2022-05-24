@@ -78,14 +78,18 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    nums.sort((a, b) => b - a)
-
-    for (let i = 0; i < nums.length-1; i++) {
-        if(nums[i] >= i + 1 && nums[i + 1] < i + 1) return (i + 1)
-    }
-
-    return nums.at(-1) >= nums.length ? nums.length : -1
+function lk(releaseTimes: number[], keysPressed: string): string {
+    let max = 0, max_key: string[] = []
+    releaseTimes.reduce((prev, curr, idx) => {
+        if(curr - prev > max) {
+            max_key = [ keysPressed[idx] ]
+            max = curr - prev
+        }
+        else if(curr - prev === max) max_key.push(keysPressed[idx])
+        return curr
+    }, 0)
+    max_key.sort()
+    return max_key.at(-1)!
 }
 
 
