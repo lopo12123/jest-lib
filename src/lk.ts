@@ -78,40 +78,29 @@
 //     }
 // }
 
-function lk(s: string): string {
-    // 全部字符
-    const allCh = new Set(s)
-    // 符合的字符
-    const validCh = new Set()
-    allCh.forEach((ch) => {
-        if(allCh.has(ch.toUpperCase()) && allCh.has(ch.toLowerCase())) validCh.add(ch)
-    })
+function lk(n: number): string {
+    if(n < 1000) return n + ''
 
-    const maybe: string[] = []
-    let last_idx = -1
-    // 使用数组溢出的 undefined 值 做结尾截断
-    for (let i = 0; i <= s.length; i++) {
-        if(!validCh.has(s[i])) {
-            // 至少要两个字符
-            if(i - last_idx > 1) {
-                maybe.push(s.slice(last_idx, i))
-                last_idx = -1
-            }
+    const bits: (number | string)[] = []
+
+    let to3 = 0
+    while (n > 0) {
+        bits.unshift(n % 10)
+        n = Math.floor(n / 10)
+        to3 += 1
+        if(to3 === 3 && n > 0) {
+            bits.unshift('.')
+            to3 = 0
         }
-        else if(last_idx === -1) last_idx = i
     }
 
-    let max_len = 0, max_idx = -1
-
-    for (let i = 0; i < maybe.length; i++) {
-        // 检查并比较长度
-    }
-
-    return max_idx === -1 ? '' : maybe[max_idx]
+    return bits.join('')
 }
 
-console.log(lk('YazaAay'))  // aAa
-console.log(lk('Bb'))  // Bb
+console.log(lk(987))
+console.log(lk(1234))
+console.log(lk(123456789))
+console.log(lk(0))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
