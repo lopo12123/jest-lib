@@ -78,19 +78,22 @@
 //     }
 // }
 
-function lk(encoded: number[], first: number): number[] {
-    const ori: number[] = [ first ]
+function lk(s: string): number {
+    let to01 = 0
+    let to10 = 0
 
-    encoded.reduce((prev, curr) => {
-        ori.push(prev ^ curr)
-        return prev ^ curr
-    }, first)
+    for (let i = 0; i < s.length; i++) {
+        // @ts-ignore
+        if(i % 2 == s[i]) to10 += 1
+        else to01 += 1
+    }
 
-    return ori
+    return Math.min(to01, to10)
 }
 
-console.log(lk([ 1, 2, 3 ], 1))  // [1, 0, 2, 1]
-console.log(lk([ 6, 2, 7, 3 ], 4))  // [4, 2, 0, 7, 4]
+console.log(lk('0100'))  // 1
+console.log(lk('10'))  // 0
+console.log(lk('1111'))  // 2
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
