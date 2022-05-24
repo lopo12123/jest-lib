@@ -78,20 +78,16 @@
 //     }
 // }
 
-function lk(nums: number[]): boolean {
-    if(nums.length <= 2) return true
+function lk(nums: number[]): number {
+    nums.sort((a, b) => b - a)
 
-    let p = nums.length
-    while (nums[0] >= nums.at(-1)! && p-- > 0) nums.unshift(nums.pop()!)
-
-    for (let p = 0; p < nums.length - 1; p++) {
-        if(nums[p] > nums[p + 1]) return false
+    for (let i = 0; i < nums.length-1; i++) {
+        if(nums[i] >= i + 1 && nums[i + 1] < i + 1) return (i + 1)
     }
-    return true
+
+    return nums.at(-1) >= nums.length ? nums.length : -1
 }
 
-console.log(lk([ 3, 4, 5, 1, 2 ]))  // true
-console.log(lk([ 2, 1, 3, 4 ]))  // false
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
