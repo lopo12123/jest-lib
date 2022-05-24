@@ -78,27 +78,19 @@
 //     }
 // }
 
-function lk(time: string): string {
-    let latest = ''
-    let [ hh, mm ] = time.split(':')
+function lk(encoded: number[], first: number): number[] {
+    const ori: number[] = [ first ]
 
-    if(hh[0] === '?' && hh[1] === '?') {
-        latest += '23'
-    }
-    else if(hh[0] === '?') {
-        latest += (parseInt(hh[1]) > 3 ? '1' : '2') + hh[1]
-    }
-    else if(hh[1] === '?') {
-        latest += hh[0] + (parseInt(hh[0]) === 2 ? '3' : '9')
-    }
-    else latest += hh
+    encoded.reduce((prev, curr) => {
+        ori.push(prev ^ curr)
+        return prev ^ curr
+    }, first)
 
-    return latest + ':' + (mm[0] === '?' ? '5' : mm[0]) + (mm[1] === '?' ? '9' : mm[1])
+    return ori
 }
 
-console.log(lk('2?:?0'))  // 23:50
-console.log(lk('0?:3?'))  // 09:39
-console.log(lk('1?:22'))  // 19:22
+console.log(lk([ 1, 2, 3 ], 1))  // [1, 0, 2, 1]
+console.log(lk([ 6, 2, 7, 3 ], 4))  // [4, 2, 0, 7, 4]
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
