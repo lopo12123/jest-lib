@@ -79,17 +79,16 @@
 // }
 
 function lk(releaseTimes: number[], keysPressed: string): string {
-    let max = 0, max_key: string[] = []
+    let max = 0, max_key = ''
     releaseTimes.reduce((prev, curr, idx) => {
         if(curr - prev > max) {
-            max_key = [ keysPressed[idx] ]
+            max_key = keysPressed[idx]
             max = curr - prev
         }
-        else if(curr - prev === max) max_key.push(keysPressed[idx])
+        else if(curr - prev === max && keysPressed[idx] > max_key) max_key = keysPressed[idx]
         return curr
     }, 0)
-    max_key.sort()
-    return max_key.at(-1)!
+    return max_key
 }
 
 
