@@ -78,31 +78,29 @@
 //     }
 // }
 
-function lk(n: number): number {
-    // 偶数idx nums[idx / 2]
-    // 奇数idx nums[(idx - 1) / 2] + nums[(idx + 1) / 2]
+function lk(s: string): string {
+    const nums: string[] = []
+    const chars: string[] = []
 
-    if(n === 0) return 0
-    else if(n === 1) return 1
-
-    const nums: number[] = [ 0, 1 ]
-    let max = 0
-    for (let i = 2; i <= n; i++) {
-        if(i % 2 === 0) {
-            nums[i] = nums[i / 2]
-        }
-        else {
-            nums[i] = nums[(i - 1) / 2] + nums[(i + 1) / 2]
-        }
-        max = Math.max(max, nums[i])
+    for (let i = 0; i < s.length; i++) {
+        if(s[i] <= '9') nums.push(s[i])
+        else chars.push(s[i])
     }
 
-    return max
+    if(Math.abs(nums.length - chars.length) > 1) return ''
+    else {
+        let res = ''
+        for (let i = 0; i < nums.length; i++) {
+            res += nums[i] + chars[i]
+        }
+        if(chars.length > nums.length) res = chars.at(-1) + res
+
+        return res
+    }
 }
 
-console.log(lk(7))
-
-// 0 1 1 2 1 3 2 3
+console.log(lk('a0b1c2'))
+console.log(lk('laasd0000'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
