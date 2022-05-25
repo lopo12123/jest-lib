@@ -78,19 +78,27 @@
 //     }
 // }
 
-function lk(num: number, k: number): number {
-    const str = num + '', len = str.length
-    let count = 0
+function lk(p: string): number {
+    const set = new Set(p)
 
-    for (let i = 0; i <= len - k; i++) {
-        // @ts-ignore
-        if(num % str.slice(i, i + k) === 0) count += 1
+    let l = 0
+    while (l < p.length - 1) {
+        for (let i = l + 1; i < p.length; i++) {
+            if((p.charCodeAt(i) - p.charCodeAt(i - 1) === 1)
+                || (p[i - 1] === 'z' && p[i] === 'a')) set.add(p.slice(l, i + 1))
+            else break
+        }
+
+        l += 1
     }
 
-    return count
+    return set.size
 }
 
-console.log(lk(240, 2))
+console.log(lk('cac'))  // 2
+console.log(lk('abaab'))  // 3
+console.log(lk('a'))  // 1
+console.log(lk('zab'))  // 6
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
