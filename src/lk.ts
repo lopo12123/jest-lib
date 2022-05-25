@@ -78,36 +78,31 @@
 //     }
 // }
 
-function lk(code: number[], k: number): number[] {
-    if(k === 0) return new Array(code.length).fill(0)
-    else {
-        const len = code.length
-        const decoded: number[] = []
+function lk(n: number): number {
+    // 偶数idx nums[idx / 2]
+    // 奇数idx nums[(idx - 1) / 2] + nums[(idx + 1) / 2]
 
-        if(k > 0) {
-            for (let i = 0; i < len; i++) {
-                let sum = 0
-                for (let t = 1; t <= k; t++) {
-                    sum += code.at((i + t) % len)!
-                }
-                decoded[i] = sum
-            }
+    if(n === 0) return 0
+    else if(n === 1) return 1
+
+    const nums: number[] = [ 0, 1 ]
+    let max = 0
+    for (let i = 2; i <= n; i++) {
+        if(i % 2 === 0) {
+            nums[i] = nums[i / 2]
         }
         else {
-            for (let i = 0; i < len; i++) {
-                let sum = 0
-                for (let t = 1; t <= k; t++) {
-                    sum += code.at((i - t) % len)!
-                }
-                decoded[i] = sum
-            }
+            nums[i] = nums[(i - 1) / 2] + nums[(i + 1) / 2]
         }
-
-        return decoded
+        max = Math.max(max, nums[i])
     }
+
+    return max
 }
 
-console.log(lk([ 5, 7, 1, 4 ], 3))  // [12, 10, 16, 13]
+console.log(lk(7))
+
+// 0 1 1 2 1 3 2 3
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
