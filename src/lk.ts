@@ -78,36 +78,29 @@
 //     }
 // }
 
-function lk(code: number[], k: number): number[] {
-    if(k === 0) return new Array(code.length).fill(0)
+function lk(s: string): string {
+    const nums: string[] = []
+    const chars: string[] = []
+
+    for (let i = 0; i < s.length; i++) {
+        if(s[i] <= '9') nums.push(s[i])
+        else chars.push(s[i])
+    }
+
+    if(Math.abs(nums.length - chars.length) > 1) return ''
     else {
-        const len = code.length
-        const decoded: number[] = []
-
-        if(k > 0) {
-            for (let i = 0; i < len; i++) {
-                let sum = 0
-                for (let t = 1; t <= k; t++) {
-                    sum += code.at((i + t) % len)!
-                }
-                decoded[i] = sum
-            }
+        let res = ''
+        for (let i = 0; i < nums.length; i++) {
+            res += nums[i] + (chars[i] ?? '')
         }
-        else {
-            for (let i = 0; i < len; i++) {
-                let sum = 0
-                for (let t = 1; t <= -k; t++) {
-                    sum += code.at((i - t) % len)!
-                }
-                decoded[i] = sum
-            }
-        }
+        if(chars.length > nums.length) res = chars.at(-1) + res
 
-        return decoded
+        return res
     }
 }
 
-console.log(lk([ 5, 7, 1, 4 ], 3))  // [12, 10, 16, 13]
+console.log(lk('a0b1c2'))
+console.log(lk('laasd0000'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
