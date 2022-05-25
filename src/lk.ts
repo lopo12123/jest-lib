@@ -78,29 +78,26 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const nums: string[] = []
-    const chars: string[] = []
+function lk(s: string, k: number): string {
+    let newS = ''
 
-    for (let i = 0; i < s.length; i++) {
-        if(s[i] <= '9') nums.push(s[i])
-        else chars.push(s[i])
-    }
-
-    if(Math.abs(nums.length - chars.length) > 1) return ''
-    else {
-        let res = ''
-        for (let i = 0; i < nums.length; i++) {
-            res += nums[i] + (chars[i] ?? '')
+    while (s.length > k) {
+        for (let i = 0; i < s.length; i += k) {
+            let sum = 0
+            for (let t = 0; t < k; t++) {
+                sum += parseInt(s[i + t] ?? '0')
+            }
+            newS += sum
         }
-        if(chars.length > nums.length) res = chars.at(-1) + res
-
-        return res
+        s = newS
+        newS = ''
     }
+
+    return s
 }
 
-console.log(lk('a0b1c2'))
-console.log(lk('laasd0000'))
+// console.log(lk('11111222223', 3))  // 135
+console.log(lk("742190887044879874008", 20))  // 978
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
