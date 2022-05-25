@@ -78,19 +78,12 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): boolean {
-    const map = new Map<number, number>()
-
-    for (let i = 0; i < nums.length; i++) {
-        map.set(nums[i], (map.get(nums[i]) ?? 0) + 1)
+function lk(s: string, k: number): string {
+    for (let i = 0; i < s.length; i ++) {
+        if(s[i] === ' ') k -= 1
+        if(k === 0) return s.slice(0, i)
     }
-
-    let can = true
-    map.forEach((times) => {
-        if(times % 2 === 1) can = false
-    })
-
-    return can
+    return s
 }
 
 // const showTime = (fn: () => void) => {
