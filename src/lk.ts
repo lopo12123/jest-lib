@@ -78,28 +78,20 @@ class TreeNode {
 //     }
 // }
 
-function lk(num: number): number {
-    let pre = Math.floor(num / 10)
-    let count = (pre * 5 - 1)
+function lk(nums: number[]): boolean {
+    const map = new Map<number, number>()
 
-    let self_sum = 0
-    while (pre > 0) {
-        self_sum += pre % 10
-        pre = Math.floor(pre / 10)
+    for (let i = 0; i < nums.length; i++) {
+        map.set(nums[i], (map.get(nums[i]) ?? 0) + 1)
     }
 
-    for (let i = self_sum % 2; i <= num % 10; i += 2) {
-        count += 1
-    }
+    let can = true
+    map.forEach((times) => {
+        if(times % 2 === 1) can = false
+    })
 
-    return count
+    return can
 }
-
-console.log(lk(4))  // 2
-console.log(lk(7))  // 3
-console.log(lk(9))  // 4
-console.log(lk(20))  // 10
-console.log(lk(30))  // 14
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
