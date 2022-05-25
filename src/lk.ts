@@ -78,24 +78,11 @@
 //     }
 // }
 
-function lk(nums: number[][]): number[] {
-    const count = new Map<number, number>()
-
-    for (let i = 0; i < nums.length; i++) {
-        for (let p = 0; p < nums[i].length; p++) {
-            count.set(nums[i][p], (count.get(nums[i][p]) ?? 0) + 1)
-        }
-    }
-
-    let res: number[] = []
-    count.forEach((times, num) => {
-        if(times >= nums.length) res.push(num)
-    })
-
-    return res.sort((a, b) => a - b)
+function lk(words: string[], s: string): number {
+    return words.reduce((prev, curr) => {
+        return prev + (s.startsWith(curr) ? 1 : 0)
+    }, 0)
 }
-
-console.log(lk([ [ 3, 1, 2, 4, 5 ], [ 1, 2, 3, 4 ], [ 3, 4, 5, 6 ] ]))  // 135
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
