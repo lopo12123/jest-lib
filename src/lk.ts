@@ -78,22 +78,27 @@ class TreeNode {
 //     }
 // }
 
-function lk(number: string): string {
-    let str = number.replace(/[ -]/g, '')
-    let res = ''
-
-    let p = 0
-    while (p < str.length - 4) {
-        res += str.slice(p, p + 3) + '-'
-        p += 3
+function lk(firstWord: string, secondWord: string, targetWord: string): boolean {
+    const len1 = firstWord.length
+    let n1 = 0
+    for (let i = 0; i < len1; i++) {
+        n1 += (firstWord.charCodeAt(len1 - 1 - i) - 97) * (10 ** i)
     }
-    if(str.length - p === 4) res += str.slice(-4, -2) + '-' + str.slice(-2)
-    else res += str.slice(p - str.length)
 
-    return res
+    const len2 = secondWord.length
+    let n2 = 0
+    for (let i = 0; i < len2; i++) {
+        n2 += (secondWord.charCodeAt(len2 - 1 - i) - 97) * (10 ** i)
+    }
+
+    const len3 = targetWord.length
+    let n3 = 0
+    for (let i = 0; i < len3; i++) {
+        n3 += (targetWord.charCodeAt(len3 - 1 - i) - 97) * (10 ** i)
+    }
+
+    return n1 + n2 === n3
 }
-
-console.log(lk("1-23-45 6"))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
