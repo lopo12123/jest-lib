@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -78,10 +78,8 @@
 //     }
 // }
 
-function lk(words: string[], s: string): number {
-    return words.reduce((prev, curr) => {
-        return prev + (s.startsWith(curr) ? 1 : 0)
-    }, 0)
+function lk(root: TreeNode): boolean {
+    return root.val === root.left!.val + root.right!.val
 }
 
 // const showTime = (fn: () => void) => {
