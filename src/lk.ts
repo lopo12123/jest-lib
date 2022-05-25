@@ -78,13 +78,8 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[], target: number, start: number): number {
-    if(nums[start] === target) return 0
-
-    for (let offset = 1; offset <= Math.max(start, (nums.length - 1 - start)); offset ++) {
-        if(nums[start - offset] === target || nums[start + offset] === target) return offset
-    }
-    return -1
+function lk(word: string): number {
+    return new Set((word.match(/[0-9]+/g) ?? []).map(str => BigInt(str))).size
 }
 
 // const showTime = (fn: () => void) => {
