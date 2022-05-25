@@ -78,9 +78,50 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): boolean {
-    return root.val === root.left!.val + root.right!.val
+function lk(num: number): number {
+    let curr_weight = Math.floor(Math.log10(num))
+    const odd: number[] = [], odd_weight: number[] = []
+    const even: number[] = [], even_weight: number[] = []
+
+    // 权值  bit * 10 ^ weight
+    let weight = 0
+    while (num > 0) {
+        let bit = num % 10
+        if(bit % 2 === 1) {
+            odd.push(bit)
+            odd_weight.unshift(weight)
+        }
+        else {
+            even.push(bit)
+            even_weight.unshift(weight)
+        }
+
+        num = (num - bit) / 10
+        weight += 1
+    }
+    odd.sort((a, b) => b - a)
+    even.sort((a, b) => b - a)
+
+    let sum = 0
+    let p_odd = 0, p_even = 0
+
+    while (curr_weight >= 0) {
+        if(curr_weight === odd_weight[p_odd]) {
+            sum += odd[p_odd] * (10 ** curr_weight)
+            p_odd += 1
+        }
+        else if(curr_weight === even_weight[p_even]) {
+            sum += even[p_even] * (10 ** curr_weight)
+            p_even += 1
+        }
+        curr_weight -= 1
+    }
+
+    return sum
 }
+
+console.log(lk(1234))  // 3412
+console.log(lk(65875))  // 87655
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
