@@ -77,57 +77,28 @@
 //         }
 //     }
 // }
-((p: string) => {
-    const set = new Set(p)
 
-    let l = 0
-    while (l < p.length - 1) {
-        for (let i = l + 1; i < p.length; i++) {
-            if((p.charCodeAt(i) - p.charCodeAt(i - 1) === 1)
-                || (p[i - 1] === 'z' && p[i] === 'a')) set.add(p.slice(l, i + 1))
-            else break
+function lk(s: string, k: number): string {
+    let newS = ''
+
+    while (s.length > k) {
+        for (let i = 0; i < s.length; i += k) {
+            let num = parseInt(s.slice(i, i + k))
+            let sum = 0
+            while (num > 0) {
+                sum += num % 10
+                num = Math.floor(num / 10)
+            }
+            newS += sum
         }
-
-        l += 1
+        s = newS
+        newS = ''
     }
 
-    return set.size
-});
-
-function lk(p: string): number {
-    const len = p.length
-    const max_len = new Array(26).fill(0)
-
-    let l = 0
-    let move = 1
-    while (move < len) {
-        if((p.charCodeAt(move) - p.charCodeAt(move - 1) + 26) % 26 !== 1) {
-            max_len[p.charCodeAt(l) - 97] = Math.max(max_len[p.charCodeAt(l) - 97], move - l)
-            l = move
-        }
-        move += 1
-    }
-    max_len[p.charCodeAt(l) - 97] = Math.max(max_len[p.charCodeAt(l) - 97], move - l)
-
-    let max_idx = 0
-    for (let i = 0; i < 26; i++) {
-        if(max_len[i] > max_len[max_idx]) max_idx = i
-    }
-
-    let sum = max_len[max_idx]
-    for (let i = max_idx + 1; i < max_idx + 26; i++) {
-        max_len[i % 26] = Math.max(max_len.at(i % 26), max_len.at((i - 1) % 26) - 1)
-        sum += max_len[i % 26]
-    }
-
-    return sum
+    return s
 }
 
-// console.log(lk('a'))  // 1
-// console.log(lk('cac'))  // 2
-// console.log(lk('zab'))  // 6
-console.log(lk('abcd'))  // 10
-console.log(lk('abcdefg'))  // 28
+console.log(lk('11111222223', 3))  // 135
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
