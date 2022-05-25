@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -78,15 +78,36 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): boolean {
-    const map = new Map<number, number>()
+function lk(code: number[], k: number): number[] {
+    if(k === 0) return new Array(code.length).fill(0)
+    else {
+        const len = code.length
+        const decoded: number[] = []
 
-    for (let i = 0; i < nums.length; i++) {
-        map.set(nums[i], (map.get(nums[i]) ?? 0) + 1)
+        if(k > 0) {
+            for (let i = 0; i < len; i++) {
+                let sum = 0
+                for (let t = 1; t <= k; t++) {
+                    sum += code.at((i + t) % len)!
+                }
+                decoded[i] = sum
+            }
+        }
+        else {
+            for (let i = 0; i < len; i++) {
+                let sum = 0
+                for (let t = 1; t <= -k; t++) {
+                    sum += code.at((i - t) % len)!
+                }
+                decoded[i] = sum
+            }
+        }
+
+        return decoded
     }
-
-    return map.size === nums.length / 2
 }
+
+console.log(lk([ 5, 7, 1, 4 ], 3))  // [12, 10, 16, 13]
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
