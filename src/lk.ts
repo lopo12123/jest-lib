@@ -78,27 +78,36 @@
 //     }
 // }
 
-function lk(p: string): number {
-    const set = new Set(p)
+function lk(code: number[], k: number): number[] {
+    if(k === 0) return new Array(code.length).fill(0)
+    else {
+        const len = code.length
+        const decoded: number[] = []
 
-    let l = 0
-    while (l < p.length - 1) {
-        for (let i = l + 1; i < p.length; i++) {
-            if((p.charCodeAt(i) - p.charCodeAt(i - 1) === 1)
-                || (p[i - 1] === 'z' && p[i] === 'a')) set.add(p.slice(l, i + 1))
-            else break
+        if(k > 0) {
+            for (let i = 0; i < len; i++) {
+                let sum = 0
+                for (let t = 1; t <= k; t++) {
+                    sum += code.at((i + t) % len)!
+                }
+                decoded[i] = sum
+            }
+        }
+        else {
+            for (let i = 0; i < len; i++) {
+                let sum = 0
+                for (let t = 1; t <= k; t++) {
+                    sum += code.at((i - t) % len)!
+                }
+                decoded[i] = sum
+            }
         }
 
-        l += 1
+        return decoded
     }
-
-    return set.size
 }
 
-console.log(lk('cac'))  // 2
-console.log(lk('abaab'))  // 3
-console.log(lk('a'))  // 1
-console.log(lk('zab'))  // 6
+console.log(lk([ 5, 7, 1, 4 ], 3))  // [12, 10, 16, 13]
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
