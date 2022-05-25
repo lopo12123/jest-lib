@@ -78,29 +78,17 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const nums: string[] = []
-    const chars: string[] = []
-
-    for (let i = 0; i < s.length; i++) {
-        if(s[i] <= '9') nums.push(s[i])
-        else chars.push(s[i])
+function lk(arr: number[]): number[] {
+    let max = -1, temp: number
+    for (let i = arr.length - 1; i >= 0; i--) {
+        temp = arr[i]
+        arr[i] = max
+        max = Math.max(temp, max)
     }
-
-    if(Math.abs(nums.length - chars.length) > 1) return ''
-    else {
-        let res = ''
-        for (let i = 0; i < nums.length; i++) {
-            res += nums[i] + chars[i]
-        }
-        if(chars.length > nums.length) res = chars.at(-1) + res
-
-        return res
-    }
+    return arr
 }
 
-console.log(lk('a0b1c2'))
-console.log(lk('laasd0000'))
+console.log(lk([ 17, 18, 5, 4, 6, 1 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
