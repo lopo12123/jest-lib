@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -78,26 +78,28 @@
 //     }
 // }
 
-function lk(s: string, k: number): string {
-    let newS = ''
+function lk(num: number): number {
+    let pre = Math.floor(num / 10)
+    let count = (pre * 5 - 1)
 
-    while (s.length > k) {
-        for (let i = 0; i < s.length; i += k) {
-            let sum = 0
-            for (let t = 0; t < k; t++) {
-                sum += parseInt(s[i + t] ?? '0')
-            }
-            newS += sum
-        }
-        s = newS
-        newS = ''
+    let self_sum = 0
+    while (pre > 0) {
+        self_sum += pre % 10
+        pre = Math.floor(pre / 10)
     }
 
-    return s
+    for (let i = self_sum % 2; i <= num % 10; i += 2) {
+        count += 1
+    }
+
+    return count
 }
 
-// console.log(lk('11111222223', 3))  // 135
-console.log(lk("742190887044879874008", 20))  // 978
+console.log(lk(4))  // 2
+console.log(lk(7))  // 3
+console.log(lk(9))  // 4
+console.log(lk(20))  // 10
+console.log(lk(30))  // 14
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
