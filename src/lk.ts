@@ -78,9 +78,22 @@ class TreeNode {
 //     }
 // }
 
-function lk(word: string): number {
-    return new Set((word.match(/[0-9]+/g) ?? []).map(str => BigInt(str))).size
+function lk(number: string): string {
+    let str = number.replace(/[ -]/g, '')
+    let res = ''
+
+    let p = 0
+    while (p < str.length - 4) {
+        res += str.slice(p, p + 3) + '-'
+        p += 3
+    }
+    if(str.length - p === 4) res += str.slice(-4, -2) + '-' + str.slice(-2)
+    else res += str.slice(p - str.length)
+
+    return res
 }
+
+console.log(lk("1-23-45 6"))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
