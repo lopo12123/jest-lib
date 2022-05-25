@@ -78,9 +78,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(num1: number, num2: number): number {
-    return num1 + num2
+function lk(nums: number[]): number {
+    let closest = nums[0]
+
+    for (let i = 1; i < nums.length; i++) {
+        if(Math.abs(nums[i]) < Math.abs(closest)
+            || Math.abs(nums[i]) === Math.abs(closest) && nums[i] > closest) {
+            closest = nums[i]
+        }
+    }
+
+    return closest
 }
+
+console.log(lk([ -4, -2, 1, 4, 8 ]))  // 1
+console.log(lk([ 2, -1, 1 ]))  // 1
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
