@@ -78,17 +78,23 @@
 //     }
 // }
 
-function lk(arr: number[]): number[] {
-    let max = -1, temp: number
-    for (let i = arr.length - 1; i >= 0; i--) {
-        temp = arr[i]
-        arr[i] = max
-        max = Math.max(temp, max)
+function lk(s: string): number {
+    let l = 0, r = s.length - 1
+
+    while (l < r) {
+        if(s[l] !== s[r]) return 2
+
+        l += 1
+        r -= 1
     }
-    return arr
+
+    return 1
 }
 
-console.log(lk([ 17, 18, 5, 4, 6, 1 ]))
+console.log(lk('ababa'))
+console.log(lk('abb'))
+
+// 01001000100001000001
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
