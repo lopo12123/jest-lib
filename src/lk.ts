@@ -78,21 +78,25 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let closest = nums[0]
+function lk(num: number): number {
+    let pre = Math.floor(num / 10)
+    let count = pre === 0 ? 0 : (pre * 5 - 1)
 
-    for (let i = 1; i < nums.length; i++) {
-        if(Math.abs(nums[i]) < Math.abs(closest)
-            || Math.abs(nums[i]) === Math.abs(closest) && nums[i] > closest) {
-            closest = nums[i]
-        }
+    let self_sum = 0
+    while (pre > 0) {
+        self_sum += pre % 10
+        pre = Math.floor(pre / 10)
     }
 
-    return closest
+    for (let i = 2 - self_sum % 2; i <= num % 10; i += 2) {
+        count += 1
+    }
+
+    return count
 }
 
-console.log(lk([ -4, -2, 1, 4, 8 ]))  // 1
-console.log(lk([ 2, -1, 1 ]))  // 1
+console.log(lk(4))
+console.log(lk(30))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
