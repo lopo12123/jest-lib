@@ -78,27 +78,24 @@
 //     }
 // }
 
-function lk(s: string, k: number): string {
-    let newS = ''
+function lk(nums: number[][]): number[] {
+    const count = new Map<number, number>()
 
-    while (s.length > k) {
-        for (let i = 0; i < s.length; i += k) {
-            let num = parseInt(s.slice(i, i + k))
-            let sum = 0
-            while (num > 0) {
-                sum += num % 10
-                num = Math.floor(num / 10)
-            }
-            newS += sum
+    for (let i = 0; i < nums.length; i++) {
+        for (let p = 0; p < nums[i].length; p++) {
+            count.set(nums[i][p], (count.get(nums[i][p]) ?? 0) + 1)
         }
-        s = newS
-        newS = ''
     }
 
-    return s
+    let res: number[] = []
+    count.forEach((times, num) => {
+        if(times >= nums.length) res.push(num)
+    })
+
+    return res.sort((a, b) => a - b)
 }
 
-console.log(lk('11111222223', 3))  // 135
+console.log(lk([ [ 3, 1, 2, 4, 5 ], [ 1, 2, 3, 4 ], [ 3, 4, 5, 6 ] ]))  // 135
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
