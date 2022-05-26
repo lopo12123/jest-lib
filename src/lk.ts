@@ -78,24 +78,38 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let count = 0
-    let left = nums[0], check = nums[1]
+function lk(current: string, correct: string): number {
+    const [ hh1, mm1 ] = correct.split(':').map(str => parseInt(str))
+    const [ hh2, mm2 ] = current.split(':').map(str => parseInt(str))
+    let min_dis = (hh1 - hh2) * 60 + (mm1 - mm2)
 
-    for (let i = 2; i < nums.length; i++) {
-        if(nums[i] !== check) {
-            if(check > left && check > nums[i]
-                || check < left && check < nums[i]) count += 1
-            left = check
-            check = nums[i]
+    let count = 0
+    while (min_dis > 0) {
+        if(min_dis >= 60) {
+            count += Math.floor(min_dis / 60)
+            min_dis %= 60
+        }
+        else if(min_dis >= 15) {
+            count += Math.floor(min_dis / 15)
+            min_dis %= 15
+        }
+        else if(min_dis >= 5) {
+            count += Math.floor(min_dis / 5)
+            min_dis %= 5
+        }
+        else {
+            count += min_dis
+            min_dis = 0
         }
     }
-
     return count
 }
 
-console.log(lk([ 2, 4, 1, 1, 6, 5 ]))
-console.log(lk([ 1, 2, 1, 1, 2, 2, 1, ]))
+console.log(lk('02:30', '04:35'))  // 3
+console.log(lk("11:00", "11:01"))  // 1
+console.log(lk("03:48", "04:16"))  // 6
+
+// 5123432131
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
