@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -78,27 +78,21 @@ class TreeNode {
 //     }
 // }
 
-function lk(firstWord: string, secondWord: string, targetWord: string): boolean {
-    const len1 = firstWord.length
-    let n1 = 0
-    for (let i = 0; i < len1; i++) {
-        n1 += (firstWord.charCodeAt(len1 - 1 - i) - 97) * (10 ** i)
+function lk(words: string[]): string[] {
+    const res: string[] = [ words[0] ]
+
+    let template = words[0].split('').sort().join('')
+    for (let i = 1; i < words.length; i++) {
+        if(words[i].split('').sort().join('') !== template) {
+            template = words[i].split('').sort().join('')
+            res.push(words[i])
+        }
     }
 
-    const len2 = secondWord.length
-    let n2 = 0
-    for (let i = 0; i < len2; i++) {
-        n2 += (secondWord.charCodeAt(len2 - 1 - i) - 97) * (10 ** i)
-    }
-
-    const len3 = targetWord.length
-    let n3 = 0
-    for (let i = 0; i < len3; i++) {
-        n3 += (targetWord.charCodeAt(len3 - 1 - i) - 97) * (10 ** i)
-    }
-
-    return n1 + n2 === n3
+    return res
 }
+
+console.log(lk([ 'abba', 'baba', 'bbaa', 'cd', 'cd' ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
