@@ -78,23 +78,42 @@
 //     }
 // }
 
-function lk(number: string, digit: string): string {
-    let lastTargetIdx = -1
+function lk(current: string, correct: string): number {
+    const [ hh, mm ] = correct.split(':').map(str => parseInt(str))
+    let [ hh1, mm1 ] = current.split(':').map(str => parseInt(str))
 
-    for (let i = 0; i < number.length; i++) {
-        if(number[i] === digit) {
-            if(number[i + 1] > digit) return number.slice(0, i) + number.slice(i + 1)
-            else {
-                lastTargetIdx = i
-            }
+    let ops = 0
+
+    let delta_mm = mm - mm1
+    if(delta_mm < 0) {
+        delta_mm = 60 - delta_mm
+        hh1 += 1
+    }
+
+    while (delta_mm > 0) {
+        if(delta_mm >= 15) {
+            ops += Math.floor(delta_mm / 15)
+            delta_mm %= 15
+        }
+        else if(delta_mm >= 5) {
+            ops += Math.floor(delta_mm / 5)
+            delta_mm %= 5
+        }
+        else {
+            ops += delta_mm
         }
     }
 
-    return number.slice(0, lastTargetIdx) + number.slice(lastTargetIdx + 1)
+    while (hh !== hh1) {
+        hh1 = (hh1 + 1) % 24
+        ops += 1
+    }
+
+    return ops
 }
 
-console.log(lk('123', '3'))
-console.log(lk('1231', '1'))
+console.log(lk('02:30', '04:35'))  // 3
+console.log(lk('02:30', '04:35'))  // 3
 
 // 5123432131
 
