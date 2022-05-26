@@ -78,25 +78,12 @@
 //     }
 // }
 
-function lk(nums: number[], target: number): number[] {
-    let small_then_me = 0
-    let not_big_then_me = 0
-
-    for (let i = 0; i < nums.length; i++) {
-        if(nums[i] < target) {
-            small_then_me += 1
-            not_big_then_me += 1
-        }
-        else if(nums[i] === target) {
-            not_big_then_me += 1
-        }
-    }
-
-    const idxs: number[] = []
-    for (let i = small_then_me; i < not_big_then_me; i++) {
-        idxs.push(i)
-    }
-    return idxs
+function lk(operations: string[]): number {
+    let X = 0
+    operations.forEach((code) => {
+        eval(code)
+    })
+    return X
 }
 
 // const showTime = (fn: () => void) => {
