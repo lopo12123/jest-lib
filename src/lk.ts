@@ -78,29 +78,27 @@
 //     }
 // }
 
-function lk(positions: number[][]): number[] {
-    const height_for_every: number[] = [ positions[0][1] ]
+function lk(nums1: number[], nums2: number[], nums3: number[]): number[] {
+    const count = new Array(100).fill(0)
 
-    for (let i = 1; i < positions.length; i++) {
-        let [ left, size ] = positions[i]
+    for (let i = 0; i < nums1.length; i++) count[nums1[i]] = count[nums1[i]] | 0b001
 
-        for (let j = 0; j < i; j++) {
-            if(!(positions[j][0] + positions[j][1] <= left
-                || left + size <= positions[j][0]))
-                height_for_every[i] = Math.max(height_for_every[i] ?? size, height_for_every[j] + size)
-        }
+    for (let j = 0; j < nums2.length; j++) count[nums2[j]] = count[nums2[j]] | 0b010
 
-        if(!height_for_every[i]) height_for_every[i] = size
-    }
+    for (let k = 0; k < nums3.length; k++) count[nums3[k]] = count[nums3[k]] | 0b100
 
-    for (let i = 1; i < height_for_every.length; i++) {
-        height_for_every[i] = Math.max(height_for_every[i], height_for_every[i - 1])
-    }
+    const res: number[] = []
 
-    return height_for_every
+    count.forEach((times, num) => {
+        if(times === 0b011
+            || times === 0b110
+            || times === 0b101
+            || times === 0b111
+        ) res.push(num)
+    })
+
+    return res
 }
-
-console.log(lk([ [ 4, 6 ], [ 4, 2 ], [ 4, 3 ] ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
