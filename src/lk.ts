@@ -78,28 +78,16 @@
 //     }
 // }
 
-function lk(digits: number[]): number[] {
-    const material = digits.map((num, idx) => [ num, idx ])
-    const even = material.filter(x => x[0] % 2 === 0)
+function lk(s: string, k: number, fill: string): string[] {
+    const ss: string[] = []
 
-    if(even.length === 0) return []
-    else {
-        const nums: number[] = []
-
-        for (let i = 0; i < even.length; i++) {
-            for (let j = 0; j < material.length - 1; j++) {
-                if(material[j][1] === even[i][1]) continue
-                for (let k = j + 1; k < material.length; k++) {
-                    if(material[k][1] === even[i][1]) continue
-
-                    if(even[i][0] + 10 * material[j][0] + 100 * material[k][0] > 99) nums.push(even[i][0] + 10 * material[j][0] + 100 * material[k][0])
-                    if(even[i][0] + 10 * material[k][0] + 100 * material[j][0] > 99) nums.push(even[i][0] + 10 * material[k][0] + 100 * material[j][0])
-                }
-            }
-        }
-
-        return [...new Set(nums)].sort((a, b) => a - b)
+    let p = 0
+    while (p < s.length) {
+        ss.push(s.slice(p, p + k).padEnd(k, fill))
+        p += k
     }
+
+    return ss
 }
 
 // const showTime = (fn: () => void) => {
