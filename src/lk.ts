@@ -78,26 +78,28 @@
 //     }
 // }
 
-function lk(nums1: number[], nums2: number[], nums3: number[]): number[] {
-    const count = new Array(100).fill(0)
+function lk(digits: number[]): number[] {
+    const material = digits.map((num, idx) => [ num, idx ])
+    const even = material.filter(x => x[0] % 2 === 0)
 
-    for (let i = 0; i < nums1.length; i++) count[nums1[i]] = count[nums1[i]] | 0b001
+    if(even.length === 0) return []
+    else {
+        const nums: number[] = []
 
-    for (let j = 0; j < nums2.length; j++) count[nums2[j]] = count[nums2[j]] | 0b010
+        for (let i = 0; i < even.length; i++) {
+            for (let j = 0; j < material.length - 1; j++) {
+                if(material[j][1] === even[i][1]) continue
+                for (let k = j + 1; k < material.length; k++) {
+                    if(material[k][1] === even[i][1]) continue
 
-    for (let k = 0; k < nums3.length; k++) count[nums3[k]] = count[nums3[k]] | 0b100
+                    if(even[i][0] + 10 * material[j][0] + 100 * material[k][0] > 99) nums.push(even[i][0] + 10 * material[j][0] + 100 * material[k][0])
+                    if(even[i][0] + 10 * material[k][0] + 100 * material[j][0] > 99) nums.push(even[i][0] + 10 * material[k][0] + 100 * material[j][0])
+                }
+            }
+        }
 
-    const res: number[] = []
-
-    count.forEach((times, num) => {
-        if(times === 0b011
-            || times === 0b110
-            || times === 0b101
-            || times === 0b111
-        ) res.push(num)
-    })
-
-    return res
+        return [...new Set(nums)].sort((a, b) => a - b)
+    }
 }
 
 // const showTime = (fn: () => void) => {
