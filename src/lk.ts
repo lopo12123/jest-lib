@@ -78,21 +78,25 @@
 //     }
 // }
 
-function lk(words: string[]): string[] {
-    const res: string[] = [ words[0] ]
+function lk(number: string, digit: string): string {
+    let lastTargetIdx = -1
 
-    let template = words[0].split('').sort().join('')
-    for (let i = 1; i < words.length; i++) {
-        if(words[i].split('').sort().join('') !== template) {
-            template = words[i].split('').sort().join('')
-            res.push(words[i])
+    for (let i = 0; i < number.length; i++) {
+        if(number[i] === digit) {
+            if(number[i + 1] > digit) return number.slice(0, i) + number.slice(i + 1)
+            else {
+                lastTargetIdx = i
+            }
         }
     }
 
-    return res
+    return number.slice(0, lastTargetIdx) + number.slice(lastTargetIdx + 1)
 }
 
-console.log(lk([ 'abba', 'baba', 'bbaa', 'cd', 'cd' ]))
+console.log(lk('123', '3'))
+console.log(lk('1231', '1'))
+
+// 5123432131
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
