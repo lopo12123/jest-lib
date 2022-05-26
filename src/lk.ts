@@ -78,38 +78,29 @@
 //     }
 // }
 
-function lk(current: string, correct: string): number {
-    const [ hh1, mm1 ] = correct.split(':').map(str => parseInt(str))
-    const [ hh2, mm2 ] = current.split(':').map(str => parseInt(str))
-    let min_dis = (hh1 - hh2) * 60 + (mm1 - mm2)
+function lk(positions: number[][]): number[] {
+    const height_for_every: number[] = [ positions[0][1] ]
 
-    let count = 0
-    while (min_dis > 0) {
-        if(min_dis >= 60) {
-            count += Math.floor(min_dis / 60)
-            min_dis %= 60
+    for (let i = 1; i < positions.length; i++) {
+        let [ left, size ] = positions[i]
+
+        for (let j = 0; j < i; j++) {
+            if(!(positions[j][0] + positions[j][1] <= left
+                || left + size <= positions[j][0]))
+                height_for_every[i] = Math.max(height_for_every[i] ?? size, height_for_every[j] + size)
         }
-        else if(min_dis >= 15) {
-            count += Math.floor(min_dis / 15)
-            min_dis %= 15
-        }
-        else if(min_dis >= 5) {
-            count += Math.floor(min_dis / 5)
-            min_dis %= 5
-        }
-        else {
-            count += min_dis
-            min_dis = 0
-        }
+
+        if(!height_for_every[i]) height_for_every[i] = size
     }
-    return count
+
+    for (let i = 1; i < height_for_every.length; i++) {
+        height_for_every[i] = Math.max(height_for_every[i], height_for_every[i - 1])
+    }
+
+    return height_for_every
 }
 
-console.log(lk('02:30', '04:35'))  // 3
-console.log(lk("11:00", "11:01"))  // 1
-console.log(lk("03:48", "04:16"))  // 6
-
-// 5123432131
+console.log(lk([ [ 4, 6 ], [ 4, 2 ], [ 4, 3 ] ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
