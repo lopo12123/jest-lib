@@ -78,16 +78,16 @@
 //     }
 // }
 
-function lk(s: string, k: number, fill: string): string[] {
-    const ss: string[] = []
+function lk(nums: number[], k: number): number {
+    let count = 0
 
-    let p = 0
-    while (p < s.length) {
-        ss.push(s.slice(p, p + k).padEnd(k, fill))
-        p += k
+    for (let i = 0; i < nums.length - 1; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
+            if(nums[i] === nums[j] && i * j % k === 0) count += 1
+        }
     }
 
-    return ss
+    return count
 }
 
 // const showTime = (fn: () => void) => {
