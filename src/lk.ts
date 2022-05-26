@@ -78,16 +78,22 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): number {
-    let count = 0
+function lk(nums: number[], key: number): number {
+    const count = new Map()
 
     for (let i = 0; i < nums.length - 1; i++) {
-        for (let j = i + 1; j < nums.length; j++) {
-            if(nums[i] === nums[j] && i * j % k === 0) count += 1
-        }
+        if(nums[i] === key) count.set(nums[i + 1], (count.get(nums[i + 1]) ?? 0) + 1)
     }
 
-    return count
+    let max = -1, max_times = 0
+    count.forEach((times, num) => {
+        if(times > max_times) {
+            max = num
+            max_times = times
+        }
+    })
+
+    return max
 }
 
 // const showTime = (fn: () => void) => {
