@@ -113,7 +113,7 @@ function lk(current: string, correct: string): number {
 }
 
 console.log(lk('02:30', '04:35'))  // 3
-console.log(lk('02:30', '04:35'))  // 3
+console.log(lk('02:30', '02:25'))  // 28
 
 // 5123432131
 
