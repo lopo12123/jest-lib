@@ -78,22 +78,25 @@
 //     }
 // }
 
-function lk(nums: number[], key: number): number {
-    const count = new Map()
+function lk(nums: number[], target: number): number[] {
+    let small_then_me = 0
+    let not_big_then_me = 0
 
-    for (let i = 0; i < nums.length - 1; i++) {
-        if(nums[i] === key) count.set(nums[i + 1], (count.get(nums[i + 1]) ?? 0) + 1)
+    for (let i = 0; i < nums.length; i++) {
+        if(nums[i] < target) {
+            small_then_me += 1
+            not_big_then_me += 1
+        }
+        else if(nums[i] === target) {
+            not_big_then_me += 1
+        }
     }
 
-    let max = -1, max_times = 0
-    count.forEach((times, num) => {
-        if(times > max_times) {
-            max = num
-            max_times = times
-        }
-    })
-
-    return max
+    const idxs: number[] = []
+    for (let i = small_then_me; i < not_big_then_me; i++) {
+        idxs.push(i)
+    }
+    return idxs
 }
 
 // const showTime = (fn: () => void) => {
