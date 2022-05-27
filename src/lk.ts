@@ -78,21 +78,23 @@
 //     }
 // }
 
-function lk(items: string[][], ruleKey: string, ruleValue: string): number {
-    let idx = [ 'type', 'color', 'name' ].indexOf(ruleKey)
+function lk(tickets: number[], k: number): number {
+    if(tickets[k] === 1) return k + 1
 
-    return items.reduce((prev, curr) => {
-        return prev + (curr[idx] === ruleValue ? 1 : 0)
-    }, 0)
+    const queue = tickets.map((need, idx) => [ need, idx ])
+
+    let time = 0
+    while (queue.length > 0) {
+        const person = queue.shift()!
+        if(person[1] === k && person[0] === 1) return time + 1
+
+        if(person[0] > 1) queue.push([ person[0] - 1, person[1] ])
+
+        time += 1
+    }
+
+    return -1
 }
-
-console.log(lk([
-    [ "phone", "blue", "pixel" ],
-    [ "computer", "silver", "lenovo" ],
-    [ "phone", "gold", "iphone" ]
-], "color", "silver"))
-
-// 1 2 3 4 5 6 7
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
