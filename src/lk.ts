@@ -78,14 +78,14 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): number {
-    let count = 0
-    for (let i = 0; i < nums.length - 1; i++) {
-        for (let j = i + 1; j < nums.length; j++) {
-            if(Math.abs(nums[i] - nums[j]) === k) count += 1
-        }
-    }
-    return count
+function lk(text: string, brokenLetters: string): number {
+    return text.split(' ')
+        .map(word => {
+            return new RegExp(`[${brokenLetters}]`).test(word) ? 0 : 1
+        })
+        .reduce((prev: number, curr: number) => {
+            return prev + curr
+        }, 0)
 }
 
 // const showTime = (fn: () => void) => {
