@@ -78,22 +78,10 @@
 //     }
 // }
 
-function lk(tickets: number[], k: number): number {
-    if(tickets[k] === 1) return k + 1
+function lk(word: string, ch: string): string {
+    const idx = word.indexOf(ch)
 
-    const queue = tickets.map((need, idx) => [ need, idx ])
-
-    let time = 0
-    while (queue.length > 0) {
-        const person = queue.shift()!
-        if(person[1] === k && person[0] === 1) return time + 1
-
-        if(person[0] > 1) queue.push([ person[0] - 1, person[1] ])
-
-        time += 1
-    }
-
-    return -1
+    return idx === -1 ? word : (word.slice(0, idx + 1).split('').reverse().join('') + word.slice(idx + 1))
 }
 
 // const showTime = (fn: () => void) => {
