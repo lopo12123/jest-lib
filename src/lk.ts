@@ -78,13 +78,28 @@
 //     }
 // }
 
-function lk(operations: string[]): number {
-    let X = 0
-    operations.forEach((code) => {
-        eval(code)
-    })
-    return X
+function lk(words: string[], word1: string, word2: string): number {
+    const idx1s: number[] = []
+    const idx2s: number[] = []
+
+    for (let i = 0; i < words.length; i++) {
+        if(words[i] === word1) idx1s.push(i)
+        else if(words[i] === word2) idx2s.push(i)
+    }
+
+    let min_dis = Infinity
+    for (let i = 0; i < idx1s.length; i++) {
+        for (let j = 0; j < idx2s.length; j++) {
+            min_dis = Math.min(min_dis, Math.abs(idx1s[i] - idx2s[j]))
+        }
+    }
+
+    return min_dis
 }
+
+console.log(lk([
+    'I', 'am', 'a', 'student', 'from', 'a', 'university'
+], 'a', 'student'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
