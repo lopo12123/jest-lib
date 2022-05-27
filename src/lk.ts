@@ -78,23 +78,13 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let max_sum = nums[0]
-    let sum_now = nums[0]
+function lk(items: string[], ruleKey: string, ruleValue: string): number {
+    let idx = [ 'type', 'color', 'name' ].indexOf(ruleKey)
 
-    for (let i = 1; i < nums.length; i++) {
-        if(nums[i] <= nums[i - 1]) {
-            max_sum = Math.max(max_sum, sum_now)
-            sum_now = 0
-        }
-        sum_now += nums[i]
-    }
-
-    return Math.max(max_sum, sum_now)
+    return items.reduce((prev, curr) => {
+        return prev + curr[idx] === ruleValue ? 1 : 0
+    }, 0)
 }
-
-console.log(lk([ 10, 20, 30, 5, 10, 50 ]))  // 65
-console.log(lk([ 10, 20, 30, 40, 50 ]))  // 150
 
 // 1 2 3 4 5 6 7
 
