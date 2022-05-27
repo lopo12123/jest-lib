@@ -78,21 +78,19 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let max = nums[0]
-    let max_sum_till_now = 0
-    nums.forEach((num) => {
-        if(max_sum_till_now < 0) max_sum_till_now = num
-        else max_sum_till_now += num
+function lk(items: string[][], ruleKey: string, ruleValue: string): number {
+    let idx = [ 'type', 'color', 'name' ].indexOf(ruleKey)
 
-        max = Math.max(max, max_sum_till_now)
-    })
-
-    return max
+    return items.reduce((prev, curr) => {
+        return prev + (curr[idx] === ruleValue ? 1 : 0)
+    }, 0)
 }
 
-console.log(lk([ 5, 4, -1, 7, 8 ]))  // 23
-console.log(lk([ -2, 1 ]))
+console.log(lk([
+    [ "phone", "blue", "pixel" ],
+    [ "computer", "silver", "lenovo" ],
+    [ "phone", "gold", "iphone" ]
+], "color", "silver"))
 
 // 1 2 3 4 5 6 7
 
