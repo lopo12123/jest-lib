@@ -78,9 +78,14 @@
 //     }
 // }
 
-function lk(word1: string[], word2: string[]): boolean {
-    return word1.join('-') === word2.join('-')
+function lk(command: string): string {
+    return command
+        .replace(/\(\)/g, 'o')
+        .replace(/\(al\)/g, 'al')
 }
+
+console.log(lk('G()(al)'))  // Goal
+console.log(lk('G()()()()(al)'))  // Gooooal
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
