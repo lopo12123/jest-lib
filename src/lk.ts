@@ -78,13 +78,14 @@
 //     }
 // }
 
-function lk(seats: number[], students: number[]): number  {
-    seats.sort((a, b) => a - b)
-    students.sort((a, b) => a - b)
+function lk(word1: string, word2: string): boolean {
+    const count = new Array(26).fill(0)
 
-    return seats.reduce((prev, curr, idx) => {
-        return prev + Math.abs(curr - students[idx])
-    }, 0)
+    for (let i = 0; i < word1.length; i++) count[word1.charCodeAt(i) - 97] += 1
+    for (let i = 0; i < word2.length; i++) count[word2.charCodeAt(i) - 97] -= 1
+
+    for (let i = 0; i < 26; i++) if(count[i] > 3 || count[i] < -3) return false
+    return true
 }
 
 // const showTime = (fn: () => void) => {
