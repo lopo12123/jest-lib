@@ -78,26 +78,23 @@
 //     }
 // }
 
-function lk(n: number, trust: number[][]): number {
-    if(n === 1 && trust.length === 0) return 1
+function lk(nums: number[]): number {
+    let max = nums[0]
+    let max_sum_till_now = 0
+    nums.forEach((num) => {
+        if(max_sum_till_now < 0) max_sum_till_now = num
+        else max_sum_till_now += num
 
-    const trust_to = new Map()
-    const trust_from = new Map()
+        max = Math.max(max, max_sum_till_now)
+    })
 
-    for (let i = 0; i < trust.length; i++) {
-        trust_to.set(trust[i][0], (trust_to.get(trust[i][0]) ?? 0) + 1)
-        trust_from.set(trust[i][1], (trust_from.get(trust[i][1]) ?? 0) + 1)
-    }
-
-    for (let i = 1; i <= n; i++) {
-        if(!trust_to.has(i) && trust_from.get(i) === n - 1) return i
-    }
-    return -1
+    return max
 }
 
-console.log(lk(2, [ [ 1, 2 ] ]))  // 2
-console.log(lk(3, [ [ 1, 3 ], [ 2, 3 ] ]))  // 3
-console.log(lk(3, [ [ 1, 3 ], [ 2, 3 ], [ 3, 1 ] ]))  // -1
+console.log(lk([ 5, 4, -1, 7, 8 ]))  // 23
+console.log(lk([ -2, 1 ]))
+
+// 1 2 3 4 5 6 7
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
