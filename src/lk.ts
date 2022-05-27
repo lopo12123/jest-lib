@@ -78,10 +78,19 @@
 //     }
 // }
 
-function lk(word: string, ch: string): string {
-    const idx = word.indexOf(ch)
-
-    return idx === -1 ? word : (word.slice(0, idx + 1).split('').reverse().join('') + word.slice(idx + 1))
+function lk(nums: number[]): number {
+    const len = nums.length
+    let count = 0
+    for (let a = 0; a < len - 3; a++) {
+        for (let b = a + 1; b < len - 2; b++) {
+            for (let c = b + 1; c < len - 1; c++) {
+                for (let d = c + 1; d < len; d++) {
+                    if(nums[a] + nums[b] + nums[c] === nums[d]) count += 1
+                }
+            }
+        }
+    }
+    return count
 }
 
 // const showTime = (fn: () => void) => {
