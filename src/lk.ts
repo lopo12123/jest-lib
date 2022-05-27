@@ -78,20 +78,30 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode {
-    const dfs = (subRoot: TreeNode | null): TreeNode | null => {
-        if(subRoot === null) return null
-        else {
-            if(subRoot.val === p.val || subRoot.val === q.val
-                || subRoot.val > p.val && subRoot.val < q.val
-                || subRoot.val < p.val && subRoot.val > q.val) return subRoot
-            else if(subRoot.val > p.val && subRoot.val > q.val) return dfs(subRoot.left)
-            else return dfs(subRoot.right)
+function lk(rowIndex: number): number[] {
+    // rowIndex 选 n 个
+    const pick = (n: number): number => {
+        if(n === 0) return 1
+
+        n = Math.min(n, rowIndex - n)
+
+        let t = 1
+        for (let i = 0; i < n; i++) {
+            t *= (rowIndex - i)
         }
+        for (let i = n; i > 1; i--) {
+            t /= i
+        }
+
+        return t
     }
 
-    return dfs(root) ?? root
+    return new Array(rowIndex + 1)
+        .fill(0).map((_, idx) => pick(idx))
 }
+
+console.log(lk(3))  // [1, 3, 3, 1]
+console.log(lk(4))  // [1, 4, 6, 4, 1]
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
