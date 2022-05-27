@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -78,40 +78,25 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): TreeNode {
-    const fork2 = (l: number, r: number) => {
-        switch(r - l) {
-            case 0:
-                return new TreeNode(nums[l])
-            case 1:
-                const root1 = new TreeNode(nums[l])
-                root1.right = new TreeNode(nums[r])
-                return root1
-            case 2:
-                const root2 = new TreeNode(nums[l + 1])
-                root2.left = new TreeNode(nums[l])
-                root2.right = new TreeNode(nums[r])
-                return root2
-            default:
-                if((r - l) % 2 === 0) {
-                    const root_odd = new TreeNode(nums[(l + r) / 2])
-                    root_odd.left = fork2(l, (l + r) / 2 - 1)
-                    root_odd.right = fork2((l + r) / 2 + 1, r)
-                    return root_odd
-                }
-                else {
-                    const root_even = new TreeNode(nums[(l + r - 1) / 2])
-                    root_even.left = fork2(l, (l + r - 1) / 2 - 1)
-                    root_even.right = fork2((l + r - 1) / 2 + 1, r)
-                    return root_even
-                }
+function lk(nums: number[]): number {
+    nums.reduce((prev, curr, idx) => {
+        nums[idx] = prev + curr
+        return prev + curr
+    })
+
+    let max_sum = nums[0]
+
+    for (let i = 1; i < nums.length; i++) {
+        max_sum = Math.max(max_sum, nums[i])
+        for (let j = 0; j < i; j++) {
+            max_sum = Math.max(max_sum, nums[i] - nums[j])
         }
     }
 
-    return fork2(0, nums.length - 1)
+    return max_sum
 }
 
-console.log(lk([ 1, 2, 3, 4, 5, 6, 7 ]))
+console.log(lk([ 1, -2, 3, 4, 5, 6, 7 ]))
 
 // 1 2 3 4 5 6 7
 
