@@ -79,9 +79,23 @@
 // }
 
 function lk(command: string): string {
-    return command
-        .replace(/\(\)/g, 'o')
-        .replace(/\(al\)/g, 'al')
+    let s = ''
+
+    for (let i = 0; i < command.length; i ++) {
+        if(command[i] === 'G') s += 'G'
+        else if(command[i] === '(') {
+            if(command[i + 1] === ')') {
+                s += 'o'
+                i += 1
+            }
+            else {
+                s += 'al'
+                i += 3
+            }
+        }
+    }
+
+    return s
 }
 
 console.log(lk('G()(al)'))  // Goal
