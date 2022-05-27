@@ -78,28 +78,18 @@
 //     }
 // }
 
-function lk(command: string): string {
-    let s = ''
+function lk(allowed: string, words: string[]): number {
+    const allow_chs = new Set(allowed)
 
-    for (let i = 0; i < command.length; i ++) {
-        if(command[i] === 'G') s += 'G'
-        else if(command[i] === '(') {
-            if(command[i + 1] === ')') {
-                s += 'o'
-                i += 1
-            }
-            else {
-                s += 'al'
-                i += 3
-            }
+    return words.reduce((prev, curr) => {
+        for (let i = 0; i < curr.length; i++) {
+            if(!allow_chs.has(curr[i])) return prev
         }
-    }
-
-    return s
+        return prev + 1
+    }, 0)
 }
 
-console.log(lk('G()(al)'))  // Goal
-console.log(lk('G()()()()(al)'))  // Gooooal
+console.log(lk('ab', [ 'ad', 'bd', 'aaab', 'baa', 'badab' ]))  // 2
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
