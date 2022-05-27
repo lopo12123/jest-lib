@@ -78,24 +78,19 @@
 //     }
 // }
 
-function lk(n: number): number {
-    let count = 0
+function lk(sequence: string, word: string): number {
+    const all = sequence.match(new RegExp(`(${word}){1,}`, 'g'))
 
-    while (n > 1) {
-        if(n % 2 === 0) {
-            n = n / 2
-            count += n
-        }
-        else {
-            n = (n - 1) / 2 + 1
-            count += n - 1
-        }
+    if(!all) return 0
+    else {
+        const len0 = word.length
+        return all.reduce((prev, curr) => {
+            return Math.max(prev, curr.length / len0)
+        }, 0)
     }
-
-    return count
 }
 
-console.log(lk(7))  // 6
+console.log(lk('ababc', 'ab'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
