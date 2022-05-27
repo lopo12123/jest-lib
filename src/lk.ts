@@ -78,14 +78,19 @@
 //     }
 // }
 
-function lk(word1: string, word2: string): boolean {
-    const count = new Array(26).fill(0)
+function lk(original: number[], m: number, n: number): number[][] {
+    if(original.length !== m * n) return []
+    else {
+        const res: number[][] = new Array(m).fill(0).map(() => new Array(n).fill(0))
 
-    for (let i = 0; i < word1.length; i++) count[word1.charCodeAt(i) - 97] += 1
-    for (let i = 0; i < word2.length; i++) count[word2.charCodeAt(i) - 97] -= 1
+        for (let y = 0; y < m; y++) {
+            for (let x = 0; x < n; x++) {
+                res[y][x] = original[y * n + x]
+            }
+        }
 
-    for (let i = 0; i < 26; i++) if(count[i] > 3 || count[i] < -3) return false
-    return true
+        return res
+    }
 }
 
 // const showTime = (fn: () => void) => {
