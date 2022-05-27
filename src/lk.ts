@@ -79,24 +79,18 @@
 // }
 
 function lk(nums: number[]): number {
-    nums.reduce((prev, curr, idx) => {
-        nums[idx] = prev + curr
-        return prev + curr
-    })
-
     let max_sum = nums[0]
-
+    let min_sum = nums[0]
+    let sum_now = nums[0]
     for (let i = 1; i < nums.length; i++) {
-        max_sum = Math.max(max_sum, nums[i])
-        for (let j = 0; j < i; j++) {
-            max_sum = Math.max(max_sum, nums[i] - nums[j])
-        }
+        sum_now += nums[i]
+        max_sum = Math.max(max_sum, sum_now - min_sum)
+        min_sum = Math.min(min_sum, sum_now)
     }
-
     return max_sum
 }
 
-console.log(lk([ 1, -2, 3, 4, 5, 6, 7 ]))
+console.log(lk([ 1, -2, 3, 4, 5, 6, 7, -1 ]))
 
 // 1 2 3 4 5 6 7
 
