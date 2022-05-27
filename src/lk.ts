@@ -78,15 +78,14 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let min_till_now = nums[0]
-
-    let max_diff = -1
-    for (let i = 1; i < nums.length; i ++) {
-        if(nums[i] < min_till_now) min_till_now = nums[i]
-        else if(nums[i] > min_till_now) max_diff = Math.max(max_diff, nums[i] - min_till_now)
+function lk(nums: number[], k: number): number {
+    let count = 0
+    for (let i = 0; i < nums.length - 1; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
+            if(Math.abs(nums[i] - nums[j]) === k) count += 1
+        }
     }
-    return max_diff
+    return count
 }
 
 // const showTime = (fn: () => void) => {
