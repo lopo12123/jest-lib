@@ -80,17 +80,21 @@
 
 function lk(nums: number[]): number {
     let max_sum = nums[0]
-    let min_sum = nums[0]
     let sum_now = nums[0]
+
     for (let i = 1; i < nums.length; i++) {
+        if(nums[i] <= nums[i - 1]) {
+            max_sum = Math.max(max_sum, sum_now)
+            sum_now = 0
+        }
         sum_now += nums[i]
-        max_sum = Math.max(max_sum, sum_now - min_sum)
-        min_sum = Math.min(min_sum, sum_now)
     }
-    return max_sum
+
+    return Math.max(max_sum, sum_now)
 }
 
-console.log(lk([ 1, -2, 3, 4, 5, 6, 7, -1 ]))
+console.log(lk([ 10, 20, 30, 5, 10, 50 ]))  // 65
+console.log(lk([ 10, 20, 30, 40, 50 ]))  // 150
 
 // 1 2 3 4 5 6 7
 
