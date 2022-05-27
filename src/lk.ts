@@ -78,19 +78,13 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    const len = nums.length
-    let count = 0
-    for (let a = 0; a < len - 3; a++) {
-        for (let b = a + 1; b < len - 2; b++) {
-            for (let c = b + 1; c < len - 1; c++) {
-                for (let d = c + 1; d < len; d++) {
-                    if(nums[a] + nums[b] + nums[c] === nums[d]) count += 1
-                }
-            }
-        }
-    }
-    return count
+function lk(seats: number[], students: number[]): number  {
+    seats.sort((a, b) => a - b)
+    students.sort((a, b) => a - b)
+
+    return seats.reduce((prev, curr, idx) => {
+        return prev + Math.abs(curr - students[idx])
+    }, 0)
 }
 
 // const showTime = (fn: () => void) => {
