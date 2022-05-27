@@ -78,22 +78,9 @@
 //     }
 // }
 
-function lk(s: string): number {
-    let p = 2
-    let count = 0
-
-    while (p < s.length) {
-        if(s[p - 2] !== s[p - 1]
-            && s[p - 2] !== s[p]
-            && s[p - 1] !== s[p]) count += 1
-        p += 1
-    }
-
-    return count
+function lk(word1: string[], word2: string[]): boolean {
+    return word1.join('-') === word2.join('-')
 }
-
-console.log(lk('xyzzaz'))  // 1
-console.log(lk('aababcabc'))  // 4
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
