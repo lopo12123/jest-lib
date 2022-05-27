@@ -78,15 +78,22 @@
 //     }
 // }
 
-function lk(items: string[], ruleKey: string, ruleValue: string): number {
-    let idx = [ 'type', 'color', 'name' ].indexOf(ruleKey)
+function lk(s: string): number {
+    let p = 2
+    let count = 0
 
-    return items.reduce((prev, curr) => {
-        return prev + curr[idx] === ruleValue ? 1 : 0
-    }, 0)
+    while (p < s.length) {
+        if(s[p - 2] !== s[p - 1]
+            && s[p - 2] !== s[p]
+            && s[p - 1] !== s[p]) count += 1
+        p += 1
+    }
+
+    return count
 }
 
-// 1 2 3 4 5 6 7
+console.log(lk('xyzzaz'))  // 1
+console.log(lk('aababcabc'))  // 4
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
