@@ -78,17 +78,26 @@
 //     }
 // }
 
-function lk(sequence: string, word: string): number {
-    let k = 1
+function lk(n: number, trust: number[][]): number {
+    if(n === 1 && trust.length === 0) return 1
 
-    while (new RegExp(`(${word}){${k}}`).test(sequence)) {
-        k += 1
+    const trust_to = new Map()
+    const trust_from = new Map()
+
+    for (let i = 0; i < trust.length; i++) {
+        trust_to.set(trust[i][0], (trust_to.get(trust[i][0]) ?? 0) + 1)
+        trust_from.set(trust[i][1], (trust_from.get(trust[i][1]) ?? 0) + 1)
     }
 
-    return k - 1
+    for (let i = 1; i <= n; i++) {
+        if(!trust_to.has(i) && trust_from.get(i) === n - 1) return i
+    }
+    return -1
 }
 
-console.log(lk('ababc', 'ab'))
+console.log(lk(2, [ [ 1, 2 ] ]))  // 2
+console.log(lk(3, [ [ 1, 3 ], [ 2, 3 ] ]))  // 3
+console.log(lk(3, [ [ 1, 3 ], [ 2, 3 ], [ 3, 1 ] ]))  // -1
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
