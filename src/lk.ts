@@ -78,18 +78,24 @@
 //     }
 // }
 
-function lk(allowed: string, words: string[]): number {
-    const allow_chs = new Set(allowed)
+function lk(n: number): number {
+    let count = 0
 
-    return words.reduce((prev, curr) => {
-        for (let i = 0; i < curr.length; i++) {
-            if(!allow_chs.has(curr[i])) return prev
+    while (n > 1) {
+        if(n % 2 === 0) {
+            n = n / 2
+            count += n
         }
-        return prev + 1
-    }, 0)
+        else {
+            n = (n - 1) / 2 + 1
+            count += n - 1
+        }
+    }
+
+    return count
 }
 
-console.log(lk('ab', [ 'ad', 'bd', 'aaab', 'baa', 'badab' ]))  // 2
+console.log(lk(7))  // 6
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
