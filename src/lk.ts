@@ -78,9 +78,17 @@
 //     }
 // }
 
-function lk(word1: string[], word2: string[]): boolean {
-    return word1.join('-') === word2.join('-')
+function lk(sequence: string, word: string): number {
+    let k = 1
+
+    while (new RegExp(`(${word}){${k}}`).test(sequence)) {
+        k += 1
+    }
+
+    return k - 1
 }
+
+console.log(lk('ababc', 'ab'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
