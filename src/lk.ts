@@ -78,30 +78,42 @@ class TreeNode {
 //     }
 // }
 
-function lk(rowIndex: number): number[] {
-    // rowIndex 选 n 个
-    const pick = (n: number): number => {
-        if(n === 0) return 1
-
-        n = Math.min(n, rowIndex - n)
-
-        let t = 1
-        for (let i = 0; i < n; i++) {
-            t *= (rowIndex - i)
+function lk(nums: number[]): TreeNode {
+    const fork2 = (l: number, r: number) => {
+        switch(r - l) {
+            case 0:
+                return new TreeNode(nums[l])
+            case 1:
+                const root1 = new TreeNode(nums[l])
+                root1.right = new TreeNode(nums[r])
+                return root1
+            case 2:
+                const root2 = new TreeNode(nums[l + 1])
+                root2.left = new TreeNode(nums[l])
+                root2.right = new TreeNode(nums[r])
+                return root2
+            default:
+                if((r - l) % 2 === 0) {
+                    const root_odd = new TreeNode(nums[(l + r) / 2])
+                    root_odd.left = fork2(l, (l + r) / 2 - 1)
+                    root_odd.right = fork2((l + r) / 2 + 1, r)
+                    return root_odd
+                }
+                else {
+                    const root_even = new TreeNode(nums[(l + r - 1) / 2])
+                    root_even.left = fork2(l, (l + r - 1) / 2 - 1)
+                    root_even.right = fork2((l + r - 1) / 2 + 1, r)
+                    return root_even
+                }
         }
-        for (let i = n; i > 1; i--) {
-            t /= i
-        }
-
-        return t
     }
 
-    return new Array(rowIndex + 1)
-        .fill(0).map((_, idx) => pick(idx))
+    return fork2(0, nums.length - 1)
 }
 
-console.log(lk(3))  // [1, 3, 3, 1]
-console.log(lk(4))  // [1, 4, 6, 4, 1]
+console.log(lk([ 1, 2, 3, 4, 5, 6, 7 ]))
+
+// 1 2 3 4 5 6 7
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
