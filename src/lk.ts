@@ -78,24 +78,15 @@
 //     }
 // }
 
-function lk(words1: string[], words2: string[]): number {
-    const count = new Map()
+function lk(nums: number[]): number {
+    let min_till_now = nums[0]
 
-    for (let i = 0; i < words1.length; i ++) {
-        count.set(words1[i], (count.get(words1[i]) ?? 0) + 1)
+    let max_diff = -1
+    for (let i = 1; i < nums.length; i ++) {
+        if(nums[i] < min_till_now) min_till_now = nums[i]
+        else if(nums[i] > min_till_now) max_diff = Math.max(max_diff, nums[i] - min_till_now)
     }
-
-    for (let i = 0; i < words2.length; i ++) {
-        const in1 = count.get(words2[i])
-
-        if(in1 <= 1) count.set(words2[i], in1 - 1)
-    }
-
-    let p = 0
-    count.forEach((times) => {
-        if(times === 0) p += 1
-    })
-    return p
+    return max_diff
 }
 
 // const showTime = (fn: () => void) => {
