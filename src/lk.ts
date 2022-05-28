@@ -78,31 +78,11 @@
 //     }
 // }
 
-function lk(ranges: number[][], left: number, right: number): boolean {
-    ranges.sort((a, b) => a[0] - b[0])
-
-    if(left < ranges[0][0]) return false
-
-    let curr_right: number = -1
-
-    for (let i = 0; i < ranges.length; i++) {
-        // 左边的无关区间 - 跳过
-        if(ranges[i][1] < left) continue
-        // 开始
-        if(curr_right === -1) {
-            if(ranges[i][0] > left) return false
-            else curr_right = ranges[i][1]
-            continue
-        }
-
-        if(ranges[i][0] - curr_right > 1) return false
-        else curr_right = Math.max(curr_right, ranges[i][1])
-    }
-
-    return curr_right >= right
+function lk(s: string): boolean {
+    return (s.slice(0, s.length / 2).match(/[aeiou]/ig)?.length ?? -1) === (s.slice(s.length / 2).match(/[aeiou]/ig)?.length ?? -1)
 }
 
-console.log(lk([ [ 3, 3 ], [ 1, 1 ] ], 3, 3))
+console.log(lk("gfLpdQfBhLSNWKBvRWpNlRWTSMQYTSyPFTwWHptvnJHFWQDQLdYyHzKJjYrpHbNQyPFWpKhChZXsvYfPBVMpRSfLZwHMBqsbPhZBhwfmjDqgXVkZrtyXbpXWVLRnpGPWjvKNHmxqxPSlvxxsxsnbQvKJDwKtWgFDrjsgvTScXYPsMBgkWktkdthwsQdCpddrgksxlZMYDcPyvMLqztnYGQbrKcKPWqtjdklXZBvNbZfNdNRmbDGpxybGdzghpSmGvmZGpJlfwTbLhQXZSfgSJTNvrQGdWyQgJjngKLXNpkMtFWgpcrYHZHJdgDfmkfplDYjWRmBNyFNzgGbRcGBQXWcskPpXPlBkdsVwRMNZCLvkdXwDrlcTTNPPMvjPChWHQPJMPSLSzQLlkQWrmLLnknVdWKrYZRymTQTRDbsgtFjZQjMNdrZVqQdBdywVqSWkkHHmbrwnlzXwYCpbfJSxBPdwDjKQFgYPChQWdJTHRVYRDrLtswMnTNQCjZNsqZBpXjZxWKblqZFxtZgHCjYsbqJZFjQJZlFptgMXVDykQpHlmPzxpKnQNtYDJNhHZkMLVCXJjgRGYwCbNGmkqgRkYjzpBMJHRLkbsgXpMkMWCDncmGXBxzZsSrGshcYKClqTyZPcGBJthqXjVlJWNYtPgXkFQSxXxGwsvbgPQQZQfllFfQbXMCkqXtTxDlSkgBGfVSSfWCwbzgFnLlMKLQgccrQSyxRyqyXvCzCBGdzPhxLnvJMyDhpWXWNFXwcwHCCMsccvrxbtsjcThqsLMrgkxlLLGKCbtdHqvBKjxlmntDrvCKxwpMrWZycsvDjCRjPXQPZxmvHnxGWpBqkJCkcqfmyRHPSgGxxkHgSLXNsfVxQRwbftyCxvzHrCzXKXfghSwTMpDzBhmjXLdxFCfpSggVkTVFPQTJCrCwfyVLNQGSLJKVRKtHCwHMNyclLNHHZTzbLJdtkQRzrPVgXSLhJKVZlqYVzPsmwZYPmqKhQC"))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
