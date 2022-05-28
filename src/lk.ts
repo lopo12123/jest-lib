@@ -78,12 +78,19 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): number[] {
-    return nums.map((num, idx) => [ num, idx ])
-        .sort((a, b) => b[0] - a[0])
-        .slice(0, k)
-        .sort((a, b) => a[1] - b[1])
-        .map((num_idx) => num_idx[0])
+function lk(nums: number[]): number {
+    if(nums.length === 1) return 0
+
+    const sum = nums.reduce((prev, curr) => prev + curr)
+
+    let sum_till_now = 0
+    for (let i = 0; i < nums.length; i ++) {
+        if(sum_till_now * 2 === sum - nums[i]) return i
+
+        sum_till_now += nums[i]
+    }
+
+    return -1
 }
 
 // const showTime = (fn: () => void) => {
