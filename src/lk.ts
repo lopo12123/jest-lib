@@ -78,8 +78,10 @@
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    return nums.map((val) => nums[val])
+function lk(words: string[], pref: string): number {
+    return words.reduce((prev, curr) => {
+        return prev + (curr.startsWith(pref) ? 1 : 0)
+    }, 0)
 }
 
 // const showTime = (fn: () => void) => {
