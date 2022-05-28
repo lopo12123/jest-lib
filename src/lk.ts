@@ -78,18 +78,12 @@
 //     }
 // }
 
-function lk(word: string): number {
-    let count = 0
-    let last_char = 97
-    let curr_char: number
-
-    for (let i = 0; i < word.length; i ++) {
-        curr_char = word.charCodeAt(i)
-        count += Math.min(Math.abs(curr_char - last_char), 26 - Math.abs(curr_char - last_char)) + 1
-        last_char = curr_char
-    }
-
-    return count
+function lk(nums: number[], k: number): number[] {
+    return nums.map((num, idx) => [ num, idx ])
+        .sort((a, b) => b[0] - a[0])
+        .slice(0, k)
+        .sort((a, b) => a[1] - b[1])
+        .map((num_idx) => num_idx[0])
 }
 
 // const showTime = (fn: () => void) => {
