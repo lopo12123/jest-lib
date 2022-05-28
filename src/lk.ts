@@ -78,25 +78,18 @@
 //     }
 // }
 
-function lk(num: string): boolean {
-    const count = new Array(num.length).fill(0)
+function lk(messages: string[], senders: string[]): string {
+    const count = new Map<string, number>()
 
-    for (let i = 0; i < num.length; i++) {
-        // @ts-ignore
-        count[num[i]] += 1
+    for (let i = 0; i < messages.length; i++) {
+        count.set(senders[i], (count.get(senders[i]) ?? 0) + messages[i].split(' ').length)
     }
 
-    console.log(count)
-
-    for (let i = 0; i < num.length; i++) {
-        // @ts-ignore
-        if(count[i] != num[i]) return false
-    }
-
-    return true
+    return [ ...count ].sort((a, b) => {
+        if(a[1] !== b[1]) return b[1] - a[1]
+        else return a[0] > b[0] ? 1 : -1
+    })[0][0]
 }
-
-console.log(lk('1210'))
 // console.log(lk('030'))
 
 // const showTime = (fn: () => void) => {
