@@ -78,19 +78,10 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    if(nums.length === 1) return 0
-
-    const sum = nums.reduce((prev, curr) => prev + curr)
-
-    let sum_till_now = 0
-    for (let i = 0; i < nums.length; i ++) {
-        if(sum_till_now * 2 === sum - nums[i]) return i
-
-        sum_till_now += nums[i]
-    }
-
-    return -1
+function lk(patterns: string[], word: string): number {
+    return patterns.reduce((prev, curr) => {
+        return prev + (word.includes(curr) ? 1 : 0)
+    }, 0)
 }
 
 // const showTime = (fn: () => void) => {
