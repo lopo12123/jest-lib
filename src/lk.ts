@@ -78,16 +78,26 @@
 //     }
 // }
 
-function lk(cost: number[]): number {
-    cost.sort((a, b) => b - a)
+function lk(num: string): boolean {
+    const count = new Array(num.length).fill(0)
 
-    let spend = 0
-    for (let i = 0; i < cost.length; i += 3) {
-        spend += cost[i] + (cost[i + 1] ?? 0)
+    for (let i = 0; i < num.length; i++) {
+        // @ts-ignore
+        count[num[i]] += 1
     }
 
-    return spend
+    console.log(count)
+
+    for (let i = 0; i < num.length; i++) {
+        // @ts-ignore
+        if(count[i] != num[i]) return false
+    }
+
+    return true
 }
+
+console.log(lk('1210'))
+// console.log(lk('030'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
