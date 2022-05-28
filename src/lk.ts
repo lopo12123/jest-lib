@@ -78,10 +78,14 @@
 //     }
 // }
 
-function lk(patterns: string[], word: string): number {
-    return patterns.reduce((prev, curr) => {
-        return prev + (word.includes(curr) ? 1 : 0)
-    }, 0)
+function lk(s: string): string {
+    const stack = [ s[0] ]
+
+    for (let i = 1; i < s.length; i++) {
+        if(stack.at(-2) !== stack.at(-1) || stack.at(-1) !== s[i]) stack.push(s[i])
+    }
+
+    return stack.join('')
 }
 
 // const showTime = (fn: () => void) => {
