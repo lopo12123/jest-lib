@@ -78,20 +78,24 @@
 //     }
 // }
 
-function lk(students: number[], sandwiches: number[]): number {
-    const num = students.length
-    let eat = [0, 0]
-    for (let i = 0; i < num; i ++) {
-        eat[students[i]] += 1
+function lk(nums: number[]): number {
+    let sum = 0
+
+    for (let i = 0; i < 2 ** nums.length; i++) {
+        let xor = 0
+        let all_pick = i, curr_pick = 0
+        while (all_pick > 0) {
+            xor ^= nums[curr_pick] * (all_pick & 1)
+            all_pick >>= 1
+            curr_pick += 1
+        }
+        sum += xor
     }
 
-    for (let i = 0; i < num ; i ++) {
-        if(eat[sandwiches[i]] === 0) return num - i
-        else eat[sandwiches[i]] -= 1
-    }
-
-    return 0
+    return sum
 }
+
+console.log(lk([ 1, 3 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
