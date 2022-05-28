@@ -78,14 +78,61 @@
 //     }
 // }
 
-function lk(text: string, brokenLetters: string): number {
-    return text.split(' ')
-        .map(word => {
-            return new RegExp(`[${brokenLetters}]`).test(word) ? 0 : 1
-        })
-        .reduce((prev: number, curr: number) => {
-            return prev + curr
-        }, 0)
+function lk(mat: number[][], target: number[][]): boolean {
+    const n = mat.length
+
+    // [x, y]
+    let guess = true
+    for (let y = 0; y < n; y++) {
+        for (let x = 0; x < n; x++) {
+            if(mat[y][x] !== target[y][x]) {
+                guess = false
+                break
+            }
+        }
+        if(!guess) break
+    }
+    if(guess) return true
+
+    // [n - 1 - y, x]
+    guess = true
+    for (let y = 0; y < n; y++) {
+        for (let x = 0; x < n; x++) {
+            if(mat[x][n - 1 - y] !== target[y][x]) {
+                guess = false
+                break
+            }
+        }
+        if(!guess) break
+    }
+    if(guess) return true
+
+    // [n - 1 - x, n - 1 - y]
+    guess = true
+    for (let y = 0; y < n; y++) {
+        for (let x = 0; x < n; x++) {
+            if(mat[n - 1 - y][n - 1 - x] !== target[y][x]) {
+                guess = false
+                break
+            }
+        }
+        if(!guess) break
+    }
+    if(guess) return true
+
+    // [y, n - 1 - x]
+    guess = true
+    for (let y = 0; y < n; y++) {
+        for (let x = 0; x < n; x++) {
+            if(mat[n - 1 - x][y] !== target[y][x]) {
+                guess = false
+                break
+            }
+        }
+        if(!guess) break
+    }
+
+    return guess
 }
 
 // const showTime = (fn: () => void) => {
