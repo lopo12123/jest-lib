@@ -78,14 +78,8 @@
 //     }
 // }
 
-function lk(s: string): string {
-    let stack = s[0]
-
-    for (let i = 1; i < s.length; i++) {
-        if(stack.at(-2) !== stack.at(-1) || stack.at(-1) !== s[i]) stack += s[i]
-    }
-
-    return stack
+function lk(nums: number[]): number[] {
+    return nums.map((val) => nums[val])
 }
 
 // const showTime = (fn: () => void) => {
