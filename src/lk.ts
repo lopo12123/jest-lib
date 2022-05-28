@@ -78,10 +78,15 @@
 //     }
 // }
 
-function lk(words: string[], pref: string): number {
-    return words.reduce((prev, curr) => {
-        return prev + (curr.startsWith(pref) ? 1 : 0)
-    }, 0)
+function lk(cost: number[]): number {
+    cost.sort((a, b) => b - a)
+
+    let spend = 0
+    for (let i = 0; i < cost.length; i += 3) {
+        spend += cost[i] + (cost[i + 1] ?? 0)
+    }
+
+    return spend
 }
 
 // const showTime = (fn: () => void) => {
