@@ -78,62 +78,31 @@
 //     }
 // }
 
-function lk(mat: number[][], target: number[][]): boolean {
-    const n = mat.length
+function lk(ranges: number[][], left: number, right: number): boolean {
+    ranges.sort((a, b) => a[0] - b[0])
 
-    // [x, y]
-    let guess = true
-    for (let y = 0; y < n; y++) {
-        for (let x = 0; x < n; x++) {
-            if(mat[y][x] !== target[y][x]) {
-                guess = false
-                break
-            }
-        }
-        if(!guess) break
-    }
-    if(guess) return true
+    if(left < ranges[0][0]) return false
 
-    // [n - 1 - y, x]
-    guess = true
-    for (let y = 0; y < n; y++) {
-        for (let x = 0; x < n; x++) {
-            if(mat[x][n - 1 - y] !== target[y][x]) {
-                guess = false
-                break
-            }
-        }
-        if(!guess) break
-    }
-    if(guess) return true
+    let curr_right: number = -1
 
-    // [n - 1 - x, n - 1 - y]
-    guess = true
-    for (let y = 0; y < n; y++) {
-        for (let x = 0; x < n; x++) {
-            if(mat[n - 1 - y][n - 1 - x] !== target[y][x]) {
-                guess = false
-                break
-            }
+    for (let i = 0; i < ranges.length; i++) {
+        // 左边的无关区间 - 跳过
+        if(ranges[i][1] < left) continue
+        // 开始
+        if(curr_right === -1) {
+            if(ranges[i][0] > left) return false
+            else curr_right = ranges[i][1]
+            continue
         }
-        if(!guess) break
-    }
-    if(guess) return true
 
-    // [y, n - 1 - x]
-    guess = true
-    for (let y = 0; y < n; y++) {
-        for (let x = 0; x < n; x++) {
-            if(mat[n - 1 - x][y] !== target[y][x]) {
-                guess = false
-                break
-            }
-        }
-        if(!guess) break
+        if(ranges[i][0] - curr_right > 1) return false
+        else curr_right = Math.max(curr_right, ranges[i][1])
     }
 
-    return guess
+    return curr_right >= right
 }
+
+console.log(lk([ [ 3, 3 ], [ 1, 1 ] ], 3, 3))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
