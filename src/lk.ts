@@ -78,24 +78,19 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    let sum = 0
+function lk(word: string): number {
+    let count = 0
+    let last_char = 97
+    let curr_char: number
 
-    for (let i = 0; i < 2 ** nums.length; i++) {
-        let xor = 0
-        let all_pick = i, curr_pick = 0
-        while (all_pick > 0) {
-            xor ^= nums[curr_pick] * (all_pick & 1)
-            all_pick >>= 1
-            curr_pick += 1
-        }
-        sum += xor
+    for (let i = 0; i < word.length; i ++) {
+        curr_char = word.charCodeAt(i)
+        count += Math.min(Math.abs(curr_char - last_char), 26 - Math.abs(curr_char - last_char)) + 1
+        last_char = curr_char
     }
 
-    return sum
+    return count
 }
-
-console.log(lk([ 1, 3 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
