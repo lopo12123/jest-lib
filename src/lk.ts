@@ -78,18 +78,24 @@
 //     }
 // }
 
-function lk(messages: string[], senders: string[]): string {
-    const count = new Map<string, number>()
-
-    for (let i = 0; i < messages.length; i++) {
-        count.set(senders[i], (count.get(senders[i]) ?? 0) + messages[i].split(' ').length)
+function lk(n: number, roads: number[][]): number {
+    // 连接的道路统计
+    const links: number[] = new Array(50000).fill(0)
+    for (let i = 0; i < roads.length; i++) {
+        links[roads[i][0]] = (links[roads[i][0]] ?? 0) + 1
+        links[roads[i][1]] = (links[roads[i][1]] ?? 0) + 1
     }
 
-    return [ ...count ].sort((a, b) => {
-        if(a[1] !== b[1]) return b[1] - a[1]
-        else return a[0] > b[0] ? 1 : -1
-    })[0][0]
+    let p = n + 1
+    return links.sort((a, b) => b - a)
+        .reduce((prev, curr) => {
+            p -= 1
+            return prev + curr * p
+        }, 0)
 }
+
+console.log(lk(5, [ [ 0, 1 ] ]))
+
 // console.log(lk('030'))
 
 // const showTime = (fn: () => void) => {
@@ -100,6 +106,15 @@ function lk(messages: string[], senders: string[]): string {
 // showTime(() => {
 //     console.log(lk('pale', 'ple'))
 // })
+
+
+/**
+ * Your BookMyShow object will be instantiated and called as such:
+ * var obj = new BookMyShow(n, m)
+ * var param_1 = obj.gather(k,maxRow)
+ * var param_2 = obj.scatter(k,maxRow)
+ */
+
 
 export {
     lk
