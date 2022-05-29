@@ -78,24 +78,25 @@
 //     }
 // }
 
-function lk(s: string): boolean {
-    const count = new Array(26).fill(0)
+function lk(s: string, target: string): number {
+    if(s.length < target.length) return 0
 
-    for (let i = 0; i < s.length; i ++) {
-        count[s.charCodeAt(i) - 97] += 1
+    const need = new Map()
+    const have = new Map()
+
+    for (let i = 0; i < target.length; i++) {
+        need.set(target[i], (need.get(target[i]) ?? 0) + 1)
     }
 
-    let times = 0
-
-    for (let i = 0; i < 26; i ++) {
-        if(count[i] !== 0) {
-            if(times === 0) times = count[i]
-            else {
-                if(times !== count[i]) return false
-            }
-        }
+    for (let i = 0; i < s.length; i++) {
+        have.set(s[i], (have.get(s[i]) ?? 0) + 1)
     }
-    return true
+
+    let can = Infinity
+    need.forEach((num, ch) => {
+        can = Math.min(can, Math.floor((have.get(ch) ?? 0) / num))
+    })
+    return can
 }
 
 // console.log(lk('030'))
