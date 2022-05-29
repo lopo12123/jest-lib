@@ -78,23 +78,32 @@
 //     }
 // }
 
-function lk(n: number, roads: number[][]): number {
-    // 连接的道路统计
-    const links: number[] = new Array(50000).fill(0)
-    for (let i = 0; i < roads.length; i++) {
-        links[roads[i][0]] = (links[roads[i][0]] ?? 0) + 1
-        links[roads[i][1]] = (links[roads[i][1]] ?? 0) + 1
-    }
+function lk(queryIP: string): string {
+    const ip4 = queryIP.split('.')
+    const ip6 = queryIP.split(':')
 
-    let p = n + 1
-    return links.sort((a, b) => b - a)
-        .reduce((prev, curr) => {
-            p -= 1
-            return prev + curr * p
-        }, 0)
+    if(ip4.length === 4) {
+        for (let i = 0; i < 4; i++) {
+            // @ts-ignore
+            if(ip4[i].length > 1 && ip4[i][0] == 0) return 'Neither'
+            // @ts-ignore
+            else if(!(ip4[i] >= 0 && ip4[i] <= 255)
+                || /[^0-9]/.test(ip4[i])
+                || ip4[i].length === 0) return 'Neither'
+        }
+        return 'IPv4'
+    }
+    else if(ip6.length === 8) {
+        for (let i = 0; i < 8; i++) {
+            if(ip6[i].length < 1 || ip6[i].length > 4
+                || /[^0-9a-f]/i.test(ip6[i])) return 'Neither'
+        }
+        return 'IPv6'
+    }
+    else return 'Neither'
 }
 
-console.log(lk(5, [ [ 0, 1 ] ]))
+console.log(lk("1e1.4.5.6"))
 
 // console.log(lk('030'))
 
