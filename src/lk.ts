@@ -78,25 +78,30 @@
 //     }
 // }
 
-function lk(s: string, target: string): number {
-    if(s.length < target.length) return 0
+function lk(n: number, edges: number[][], source: number, destination: number): boolean {
+    if(source === destination) return true
+    const link = new Array(n).fill(0).map(() => new Set<number>())
 
-    const need = new Map()
-    const have = new Map()
-
-    for (let i = 0; i < target.length; i++) {
-        need.set(target[i], (need.get(target[i]) ?? 0) + 1)
+    for (let i = 0; i < edges.length; i++) {
+        link[edges[i][0]].add(edges[i][1])
+        link[edges[i][1]].add(edges[i][0])
     }
 
-    for (let i = 0; i < s.length; i++) {
-        have.set(s[i], (have.get(s[i]) ?? 0) + 1)
+    const visited = new Set()
+    const q: number[] = [ source ]
+    let curr: number
+    while (q.length > 0) {
+        curr = q.shift()!
+        visited.add(curr)
+
+        const i_can_to = [ ...link[curr] ]
+        for (let i = 0; i < i_can_to.length; i++) {
+            if(i_can_to[i] === destination) return true
+            else if(!visited.has(i_can_to[i])) q.push(i_can_to[i])
+        }
     }
 
-    let can = Infinity
-    need.forEach((num, ch) => {
-        can = Math.min(can, Math.floor((have.get(ch) ?? 0) / num))
-    })
-    return can
+    return false
 }
 
 // console.log(lk('030'))
