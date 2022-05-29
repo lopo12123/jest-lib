@@ -78,22 +78,54 @@
 //     }
 // }
 
-function lk(s: string): string[] {
-    const row0 = s.charCodeAt(0)
-    const row1 = s.charCodeAt(3)
-    const col0 = s.charCodeAt(1)
-    const col1 = s.charCodeAt(4)
+function lk(turnedOn: number): string[] {
+    if(turnedOn === 0) return [ '0:00' ]
 
-    const ceil: string[] = []
+    const getTime = (num: number) => {
+        const hh = (num & 0b1111000000) >> 6
+        const mm = num & 0b111111
 
-    for (let i = row0; i <= row1; i++) {
-        for (let j = col0; j <= col1; j++) {
-            ceil.push(String.fromCharCode(i, j))
+        let p = 0
+        while (num > 0) {
+            p += num & 0b1
+            num >>= 1
         }
+        if(p !== turnedOn) return ''
+
+        if(hh < 12 && mm < 60) return hh + ':' + (mm < 10 ? ('0' + mm) : mm)
+
+        return ''
     }
 
-    return ceil
+    const times: string[] = []
+
+    for (let i = 0; i < 1024; i++) {
+        const time = getTime(i)
+        if(time !== '') times.push(time)
+    }
+
+    return times
 }
+
+const getTime = (num: number) => {
+    const hh = num & 0b1111000000 >> 6
+    const mm = num & 0b111111
+
+    let p = 0
+    while (num > 0) {
+        p += num & 0b1
+        num >>= 1
+    }
+    if(p !== 1) return ''
+
+    console.log('hh: ', hh, 'mm: ', mm)
+
+    if(hh < 12 && mm < 60) return hh + ':' + (mm < 10 ? ('0' + mm) : mm)
+
+    return ''
+}
+
+console.log(getTime(0b1000000))
 
 // console.log(lk('030'))
 
