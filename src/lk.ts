@@ -78,54 +78,30 @@
 //     }
 // }
 
-function lk(turnedOn: number): string[] {
-    if(turnedOn === 0) return [ '0:00' ]
+function lk(n: number, relation: number[][], k: number): number {
+    const link: Set<number>[] = new Array(n).fill(0).map(() => new Set())
+    for (let i = 0; i < relation.length; i++) {
+        link[relation[i][0]].add(relation[i][1])
+    }
 
-    const getTime = (num: number) => {
-        const hh = (num & 0b1111000000) >> 6
-        const mm = num & 0b111111
+    if(link[0].size === 0) return 0
 
-        let p = 0
-        while (num > 0) {
-            p += num & 0b1
-            num >>= 1
+    let paths = 0
+    const gogogo = (steps: number, curr: number) => {
+        if(steps === k) {
+            if(curr === n - 1) paths += 1
+            return
         }
-        if(p !== turnedOn) return ''
 
-        if(hh < 12 && mm < 60) return hh + ':' + (mm < 10 ? ('0' + mm) : mm)
-
-        return ''
+        link[curr].forEach((to) => {
+            gogogo(steps + 1, to)
+        })
     }
 
-    const times: string[] = []
+    gogogo(0, 0)
 
-    for (let i = 0; i < 1024; i++) {
-        const time = getTime(i)
-        if(time !== '') times.push(time)
-    }
-
-    return times
+    return paths
 }
-
-const getTime = (num: number) => {
-    const hh = num & 0b1111000000 >> 6
-    const mm = num & 0b111111
-
-    let p = 0
-    while (num > 0) {
-        p += num & 0b1
-        num >>= 1
-    }
-    if(p !== 1) return ''
-
-    console.log('hh: ', hh, 'mm: ', mm)
-
-    if(hh < 12 && mm < 60) return hh + ':' + (mm < 10 ? ('0' + mm) : mm)
-
-    return ''
-}
-
-console.log(getTime(0b1000000))
 
 // console.log(lk('030'))
 
