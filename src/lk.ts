@@ -100,13 +100,29 @@ function lk(s: string): number {
 //     console.log(lk('pale', 'ple'))
 // })
 
+class OrderedStream {
+    #store: string[]
+    #ptr = 1
 
-/**
- * Your BookMyShow object will be instantiated and called as such:
- * var obj = new BookMyShow(n, m)
- * var param_1 = obj.gather(k,maxRow)
- * var param_2 = obj.scatter(k,maxRow)
- */
+    constructor(n: number) {
+        this.#store = new Array(n + 1).fill('')
+    }
+
+    insert(idKey: number, value: string): string[] {
+        this.#store[idKey] = value
+
+        if(this.#store[this.#ptr] === '') return []
+
+        let start = this.#ptr, end: number = this.#ptr + 1
+        for (let i = this.#ptr + 1; i < this.#store.length; i++) {
+            if(this.#store[i] === '') break
+            end = i + 1
+        }
+        this.#ptr = end
+
+        return this.#store.slice(start, end)
+    }
+}
 
 
 export {
