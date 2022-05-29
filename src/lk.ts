@@ -78,15 +78,20 @@
 //     }
 // }
 
-function lk(s: string): number {
-    let ops = 0
-    for (let i = 0; i < s.length; i++) {
-        if(s[i] === 'X') {
-            ops += 1
-            i += 2
+function lk(words: string[]): boolean {
+    const group = words.length
+    const count = new Array(26).fill(0)
+
+    for (let i = 0; i < group; i++) {
+        for (let j = 0; j < words[i].length; j++) {
+            count[words[i].charCodeAt(j) - 97] += 1
         }
     }
-    return ops
+
+    for (let i = 0; i < 26; i++) {
+        if(count[i] % group !== 0) return false
+    }
+    return true
 }
 
 // console.log(lk('030'))
@@ -99,31 +104,6 @@ function lk(s: string): number {
 // showTime(() => {
 //     console.log(lk('pale', 'ple'))
 // })
-
-class OrderedStream {
-    #store: string[]
-    #ptr = 1
-
-    constructor(n: number) {
-        this.#store = new Array(n + 1).fill('')
-    }
-
-    insert(idKey: number, value: string): string[] {
-        this.#store[idKey] = value
-
-        if(this.#store[this.#ptr] === '') return []
-
-        let start = this.#ptr, end: number = this.#ptr + 1
-        for (let i = this.#ptr + 1; i < this.#store.length; i++) {
-            if(this.#store[i] === '') break
-            end = i + 1
-        }
-        this.#ptr = end
-
-        return this.#store.slice(start, end)
-    }
-}
-
 
 export {
     lk
