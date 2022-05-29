@@ -78,32 +78,16 @@
 //     }
 // }
 
-function lk(queryIP: string): string {
-    const ip4 = queryIP.split('.')
-    const ip6 = queryIP.split(':')
-
-    if(ip4.length === 4) {
-        for (let i = 0; i < 4; i++) {
-            // @ts-ignore
-            if(ip4[i].length > 1 && ip4[i][0] == 0) return 'Neither'
-            // @ts-ignore
-            else if(!(ip4[i] >= 0 && ip4[i] <= 255)
-                || /[^0-9]/.test(ip4[i])
-                || ip4[i].length === 0) return 'Neither'
+function lk(s: string): number {
+    let ops = 0
+    for (let i = 0; i < s.length; i++) {
+        if(s[i] === 'X') {
+            ops += 1
+            i += 2
         }
-        return 'IPv4'
     }
-    else if(ip6.length === 8) {
-        for (let i = 0; i < 8; i++) {
-            if(ip6[i].length < 1 || ip6[i].length > 4
-                || /[^0-9a-f]/i.test(ip6[i])) return 'Neither'
-        }
-        return 'IPv6'
-    }
-    else return 'Neither'
+    return ops
 }
-
-console.log(lk("1e1.4.5.6"))
 
 // console.log(lk('030'))
 
