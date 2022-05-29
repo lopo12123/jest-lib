@@ -78,30 +78,21 @@
 //     }
 // }
 
-function lk(n: number, edges: number[][], source: number, destination: number): boolean {
-    if(source === destination) return true
-    const link = new Array(n).fill(0).map(() => new Set<number>())
+function lk(s: string): string[] {
+    const row0 = s.charCodeAt(0)
+    const row1 = s.charCodeAt(3)
+    const col0 = s.charCodeAt(1)
+    const col1 = s.charCodeAt(4)
 
-    for (let i = 0; i < edges.length; i++) {
-        link[edges[i][0]].add(edges[i][1])
-        link[edges[i][1]].add(edges[i][0])
-    }
+    const ceil: string[] = []
 
-    const visited = new Set()
-    const q: number[] = [ source ]
-    let curr: number
-    while (q.length > 0) {
-        curr = q.shift()!
-        visited.add(curr)
-
-        const i_can_to = [ ...link[curr] ]
-        for (let i = 0; i < i_can_to.length; i++) {
-            if(i_can_to[i] === destination) return true
-            else if(!visited.has(i_can_to[i])) q.push(i_can_to[i])
+    for (let i = row0; i <= row1; i++) {
+        for (let j = col0; j <= col1; j++) {
+            ceil.push(String.fromCharCode(i, j))
         }
     }
 
-    return false
+    return ceil
 }
 
 // console.log(lk('030'))
