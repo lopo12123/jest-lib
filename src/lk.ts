@@ -78,30 +78,52 @@
 //     }
 // }
 
-function lk(n: number, relation: number[][], k: number): number {
-    const link: Set<number>[] = new Array(n).fill(0).map(() => new Set())
-    for (let i = 0; i < relation.length; i++) {
-        link[relation[i][0]].add(relation[i][1])
-    }
+function lk(word: string): number {
+    const count_in_aeiou = (str: string) => {
+        if(str.length < 5) return 0
 
-    if(link[0].size === 0) return 0
+        const set: { [k: string]: number } = { a: 0, e: 0, i: 0, o: 0, u: 0 }
 
-    let paths = 0
-    const gogogo = (steps: number, curr: number) => {
-        if(steps === k) {
-            if(curr === n - 1) paths += 1
-            return
+        let count = 0
+        let l = 0, r = 1
+
+        set[str[0]] += 1
+
+        while (l < r && r < str.length) {
+            set[str[r]] += 1
+            if(set.a > 0 && set.e > 0 && set.i > 0 && set.o > 0 && set.u > 0) {
+                count += 1
+
+                let p = l, temp_set = {...set}
+                while (temp_set[str[p]] > 1) {
+                    count += 1
+                    temp_set[str[p]] -= 1
+                    p += 1
+                }
+            }
+
+            r += 1
         }
 
-        link[curr].forEach((to) => {
-            gogogo(steps + 1, to)
-        })
+        return count
     }
 
-    gogogo(0, 0)
-
-    return paths
+    return (word.match(/[aeiou]+/g) ?? []).reduce((prev, curr) => {
+        return prev + count_in_aeiou(curr)
+    }, 0)
 }
+
+console.log(lk("uuoaaaoieiuiaoiuee"))
+
+/**
+ * uaieuoua
+ *
+ * uaieuo
+ *  aieuo
+ *  aieuou
+ *  aieuoua
+ *   ieuoua
+ */
 
 // console.log(lk('030'))
 
