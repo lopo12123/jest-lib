@@ -78,42 +78,40 @@
 //     }
 // }
 
-function lk(word: string): number {
-    const count_in_aeiou = (str: string) => {
-        if(str.length < 5) return 0
+function lk(x: number): number {
+    // [-2147483648, 2147483647]
+    if(x === 0) return 0
+    if(x === -(2 ** 31)) return 0
 
-        const set: { [k: string]: number } = { a: 0, e: 0, i: 0, o: 0, u: 0 }
+    const minus = x < 0 ? -1 : 1
+    x = Math.abs(x)
 
-        let count = 0
-        let l = 0, r = 1
+    const bit10_len = Math.ceil(Math.log10(x))
+    const bit10 = new Array(bit10_len)
+        .fill(0).map((zero, idx) => Math.floor(x / (10 ** idx)) % 10)
 
-        set[str[0]] += 1
-
-        while (l < r && r < str.length) {
-            set[str[r]] += 1
-            if(set.a > 0 && set.e > 0 && set.i > 0 && set.o > 0 && set.u > 0) {
-                count += 1
-
-                let p = l, temp_set = {...set}
-                while (temp_set[str[p]] > 1) {
-                    count += 1
-                    temp_set[str[p]] -= 1
-                    p += 1
-                }
-            }
-
-            r += 1
-        }
-
-        return count
-    }
-
-    return (word.match(/[aeiou]+/g) ?? []).reduce((prev, curr) => {
-        return prev + count_in_aeiou(curr)
+    if(bit10.length < 10) return minus * bit10.reduce((prev, curr, idx) => {
+        return prev + curr * (10 ** (bit10_len - 1 - idx))
     }, 0)
+    else {
+        console.log(bit10)
+        const max = [ 2, 1, 4, 7, 4, 8, 3, 6, 4, 7 ]
+        for (let i = 0; i < bit10_len; i++) {
+            if(bit10[i] > max[i]) return 0
+            else if(bit10[i] < max[i]) break
+        }
+        return minus * bit10.reduce((prev, curr, idx) => {
+            return prev + curr * (10 ** (bit10_len - 1 - idx))
+        }, 0)
+    }
 }
 
-console.log(lk("uuoaaaoieiuiaoiuee"))
+console.log(lk(12345))
+console.log(lk(12345678))
+console.log(lk(0))
+console.log(lk(-123))
+console.log(lk(2 ** 31 - 1))  // 0
+console.log(lk(-(2 ** 31)))  // 0
 
 /**
  * uaieuoua
