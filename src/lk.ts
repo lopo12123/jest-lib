@@ -78,42 +78,35 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const if_nice = (str: string) => {
-        const set = new Set(str)
+function lk(s: string, numRows: number): string {
+    // 一行或一列
+    if(numRows === 1 || s.length < numRows) return s
+    else {
+        const len = s.length
+        const str_in_row: number[][] = new Array(numRows).fill(0).map(() => [])
 
-        let nice = true
-        set.forEach((ch) => {
-            if(nice) {
-                if(!set.has(ch.toLowerCase()) || !set.has(ch.toUpperCase())) nice = false
+        let p = 0
+
+        while (p < len) {
+            for (let i = 0; i < numRows - 1; i++) {
+                str_in_row[i].push(s.charCodeAt(p))
+                p += 1
+                if(p >= len) break
             }
-        })
-        return nice
-    }
-
-    let max_len = 0, max_str = ''
-
-    for (let i = 1; i < s.length; i++) {
-        for (let j = 0; j <= i - 1; j++) {
-            if(if_nice(s.slice(j, i + 1)) && i - j >= max_len) {
-                max_len = i - j + 1
-                max_str = s.slice(j, i + 1)
+            if(p >= len) break
+            for (let i = numRows - 1; i > 0; i--) {
+                str_in_row[i].push(s.charCodeAt(p))
+                p += 1
+                if(p >= len) break
             }
+            if(p >= len) break
         }
-    }
 
-    return max_str
+        return String.fromCharCode(...str_in_row.flat(1))
+    }
 }
 
-console.log(lk('YazaAay'))
-console.log(lk('Bb'))
-
-/**
- * a  a  a
- * a aa aa
- * aa aa
- * a  a
- */
+console.log(lk('PAYPALISHIRING', 3))  // PAHNAPLSIIGYIR
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
