@@ -78,26 +78,9 @@
 //     }
 // }
 
-function lk(num: number): string {
-    const map = [
-        '0', '1', '2', '3',
-        '4', '5', '6', '7',
-        '8', '9', 'a', 'b',
-        'c', 'd', 'e', 'f'
-    ]
-
-    if(num === 0) return '0'
-    else {
-        if(num < 0) num += 0xffffffff + 1
-        let s: string[] = []
-        let mod = 0
-        while (num > 0) {
-            mod = num % 16
-            num = (num - mod) / 16
-            s.unshift(map[mod])
-        }
-        return s.join('')
-    }
+function lk(guess: number[], answer: number[]): number {
+    // @ts-ignore
+    return (guess[0] === answer[0]) + (guess[1] === answer[1]) + (guess[2] === answer[2])
 }
 
 
