@@ -78,35 +78,53 @@
 //     }
 // }
 
-function lk(s: string, numRows: number): string {
-    // 一行或一列
-    if(numRows === 1 || s.length < numRows) return s
+function lk(x: number): number {
+    // [-2147483648, 2147483647]
+    if(x === 0 || x === -(2 ** 31)) return 0
+    else if(x % 10 === x) return x
+
+    const minus = x < 0 ? -1 : 1
+    x = Math.abs(x)
+
+    const bit10_len = Math.floor(Math.log10(x)) + 1
+    const bit10 = new Array(bit10_len)
+        .fill(0).map((zero, idx) => Math.floor(x / (10 ** idx)) % 10)
+
+    if(bit10.length < 10) return minus * bit10.reduce((prev, curr, idx) => {
+        return prev + curr * (10 ** (bit10_len - 1 - idx))
+    }, 0)
     else {
-        const len = s.length
-        const str_in_row: number[][] = new Array(numRows).fill(0).map(() => [])
-
-        let p = 0
-
-        while (p < len) {
-            for (let i = 0; i < numRows - 1; i++) {
-                str_in_row[i].push(s.charCodeAt(p))
-                p += 1
-                if(p >= len) break
-            }
-            if(p >= len) break
-            for (let i = numRows - 1; i > 0; i--) {
-                str_in_row[i].push(s.charCodeAt(p))
-                p += 1
-                if(p >= len) break
-            }
-            if(p >= len) break
+        const max = [ 2, 1, 4, 7, 4, 8, 3, 6, 4, 7 ]
+        for (let i = 0; i < bit10_len; i++) {
+            if(bit10[i] > max[i]) return 0
+            else if(bit10[i] < max[i]) break
         }
-
-        return String.fromCharCode(...str_in_row.flat(1))
+        return minus * bit10.reduce((prev, curr, idx) => {
+            return prev + curr * (10 ** (bit10_len - 1 - idx))
+        }, 0)
     }
 }
 
-console.log(lk('PAYPALISHIRING', 3))  // PAHNAPLSIIGYIR
+console.log(lk(1))
+
+// console.log(lk(12345))
+// console.log(lk(12345678))
+// console.log(lk(0))
+// console.log(lk(-123))
+// console.log(lk(2 ** 31 - 1))  // 0
+// console.log(lk(-(2 ** 31)))  // 0
+
+/**
+ * uaieuoua
+ *
+ * uaieuo
+ *  aieuo
+ *  aieuou
+ *  aieuoua
+ *   ieuoua
+ */
+
+// console.log(lk('030'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
