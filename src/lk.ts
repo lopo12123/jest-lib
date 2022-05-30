@@ -78,53 +78,35 @@
 //     }
 // }
 
-function lk(x: number): number {
-    // [-2147483648, 2147483647]
-    if(x === 0 || x === -(2 ** 31)) return 0
-    else if(x % 10 === x) return x
+function lk(bucket: number[], vat: number[]): number {
+    // 要个p
+    if(vat.every(need => need === 0)) return 0
 
-    const minus = x < 0 ? -1 : 1
-    x = Math.abs(x)
-
-    const bit10_len = Math.floor(Math.log10(x)) + 1
-    const bit10 = new Array(bit10_len)
-        .fill(0).map((zero, idx) => Math.floor(x / (10 ** idx)) % 10)
-
-    if(bit10.length < 10) return minus * bit10.reduce((prev, curr, idx) => {
-        return prev + curr * (10 ** (bit10_len - 1 - idx))
-    }, 0)
-    else {
-        const max = [ 2, 1, 4, 7, 4, 8, 3, 6, 4, 7 ]
-        for (let i = 0; i < bit10_len; i++) {
-            if(bit10[i] > max[i]) return 0
-            else if(bit10[i] < max[i]) break
+    // 倾倒的最大次数 / 必须升级的次数
+    let max_pour = 0
+    let must_upgrade = 0
+    for (let i = 0; i < bucket.length; i++) {
+        if(vat[i] !== 0 && bucket[i] === 0) {
+            must_upgrade += 1
+            bucket[i] = 1
         }
-        return minus * bit10.reduce((prev, curr, idx) => {
-            return prev + curr * (10 ** (bit10_len - 1 - idx))
-        }, 0)
+        max_pour = Math.max(max_pour, Math.ceil(vat[i] / bucket[i]))
     }
+
+    let min_ops = max_pour
+    for (let pour = 1; pour <= max_pour; pour++) {
+        let curr_ops = pour
+        for (let i = 0; i < bucket.length; i++) {
+            curr_ops += Math.max(0, Math.ceil(vat[i] / pour - bucket[i]))
+        }
+        min_ops = Math.min(min_ops, curr_ops)
+    }
+
+    return min_ops + must_upgrade
 }
 
-console.log(lk(1))
+console.log(lk([ 1, 3 ], [ 6, 6 ]))
 
-// console.log(lk(12345))
-// console.log(lk(12345678))
-// console.log(lk(0))
-// console.log(lk(-123))
-// console.log(lk(2 ** 31 - 1))  // 0
-// console.log(lk(-(2 ** 31)))  // 0
-
-/**
- * uaieuoua
- *
- * uaieuo
- *  aieuo
- *  aieuou
- *  aieuoua
- *   ieuoua
- */
-
-// console.log(lk('030'))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
