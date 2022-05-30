@@ -78,34 +78,24 @@
 //     }
 // }
 
-function lk(bucket: number[], vat: number[]): number {
-    // 要个p
-    if(vat.every(need => need === 0)) return 0
-
-    // 倾倒的最大次数 / 必须升级的次数
-    let max_pour = 0
-    let must_upgrade = 0
-    for (let i = 0; i < bucket.length; i++) {
-        if(vat[i] !== 0 && bucket[i] === 0) {
-            must_upgrade += 1
-            bucket[i] = 1
+function lk(n: number): boolean {
+    const next = (n: number) => {
+        let sum = 0
+        while (n > 0) {
+            sum += (n % 10) ** 2
+            sum = Math.floor(sum / 10)
         }
-        max_pour = Math.max(max_pour, Math.ceil(vat[i] / bucket[i]))
+        return sum
     }
 
-    let min_ops = max_pour
-    for (let pour = 1; pour <= max_pour; pour++) {
-        let curr_ops = pour
-        for (let i = 0; i < bucket.length; i++) {
-            curr_ops += Math.max(0, Math.ceil(vat[i] / pour - bucket[i]))
-        }
-        min_ops = Math.min(min_ops, curr_ops)
+    const visited = new Set()
+    while (n !== 1 && !visited.has(n)) {
+        visited.add(n)
+        n = next(n)
     }
 
-    return min_ops + must_upgrade
+    return n === 1
 }
-
-console.log(lk([ 1, 3 ], [ 6, 6 ]))
 
 
 // const showTime = (fn: () => void) => {
