@@ -78,61 +78,35 @@
 //     }
 // }
 
-function lk(materials: number[], cookbooks: number[][], attribute: number[][], limit: number): number {
-    // 所有能做的
-    const valid_foods_with_attr: number[][] = []
+function lk(s: string): string {
+    const if_nice = (str: string) => {
+        const set = new Set(str)
 
-    for (let i = 0; i < cookbooks.length; i++) {
-        let flag = true
-        for (let j = 0; j < 5; j++) {
-            if(materials[j] < cookbooks[i][j]) {
-                flag = false
-                break
+        let nice = true
+        set.forEach((ch) => {
+            if(nice) {
+                if(!set.has(ch.toLowerCase()) || !set.has(ch.toUpperCase())) nice = false
             }
-        }
-        if(flag) {
-            valid_foods_with_attr.push([ ...cookbooks[i], ...attribute[i] ])
+        })
+        return nice
+    }
+
+    let max_len = 0, max_str = ''
+
+    for (let i = 1; i < s.length; i++) {
+        for (let j = 0; j <= i - 1; j++) {
+            if(if_nice(s.slice(j, i + 1)) && i - j >= max_len) {
+                max_len = i - j + 1
+                max_str = s.slice(j, i + 1)
+            }
         }
     }
 
-    let max_taste = -1
-    for (let i = 1; i < 2 ** valid_foods_with_attr.length; i++) {
-        const i_have_now = [ ...materials ]
-        let full = 0, taste = 0
-        let choices = i, curr = 0
-
-        while (choices > 0) {
-            if((choices & 1) === 0) {
-                curr += 1
-                choices >>= 1
-                continue
-            }
-
-            for (let m = 0; m < 5; m++) i_have_now[m] -= valid_foods_with_attr[curr][m]
-
-            if(i_have_now.some(x => x < 0)) {
-                taste = -1
-                break
-            }
-
-            full += valid_foods_with_attr[curr][6]
-            taste += valid_foods_with_attr[curr][5]
-
-            choices >>= 1
-            curr += 1
-        }
-        if(full >= limit) max_taste = Math.max(max_taste, taste === 0 ? -1 : taste)
-    }
-
-    return max_taste
+    return max_str
 }
 
-console.log(lk(
-    [ 3, 2, 4, 1, 2 ],
-    [ [ 1, 1, 0, 1, 2 ], [ 2, 1, 4, 0, 0 ], [ 3, 2, 4, 1, 0 ] ],
-    [ [ 3, 2 ], [ 2, 4 ], [ 7, 6 ] ],
-    5
-))
+console.log(lk('YazaAay'))
+console.log(lk('Bb'))
 
 /**
  * a  a  a
