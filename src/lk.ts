@@ -78,23 +78,26 @@
 //     }
 // }
 
-function lk(n: number): boolean {
-    const next = (n: number) => {
-        let sum = 0
-        while (n > 0) {
-            sum += (n % 10) ** 2
-            sum = Math.floor(sum / 10)
+function lk(num: number): string {
+    const map = [
+        '0', '1', '2', '3',
+        '4', '5', '6', '7',
+        '8', '9', 'a', 'b',
+        'c', 'd', 'e', 'f'
+    ]
+
+    if(num === 0) return '0'
+    else {
+        if(num < 0) num += 0xffffffff + 1
+        let s: string[] = []
+        let mod = 0
+        while (num > 0) {
+            mod = num % 16
+            num = (num - mod) / 16
+            s.unshift(map[mod])
         }
-        return sum
+        return s.join('')
     }
-
-    const visited = new Set()
-    while (n !== 1 && !visited.has(n)) {
-        visited.add(n)
-        n = next(n)
-    }
-
-    return n === 1
 }
 
 
