@@ -78,35 +78,61 @@
 //     }
 // }
 
-function lk(s: string, numRows: number): string {
-    // 一行或一列
-    if(numRows === 1 || s.length < numRows) return s
-    else {
-        const len = s.length
-        const str_in_row: number[][] = new Array(numRows).fill(0).map(() => [])
+function lk(materials: number[], cookbooks: number[][], attribute: number[][], limit: number): number {
+    // 所有能做的
+    const valid_foods_with_attr: number[][] = []
 
-        let p = 0
-
-        while (p < len) {
-            for (let i = 0; i < numRows - 1; i++) {
-                str_in_row[i].push(s.charCodeAt(p))
-                p += 1
-                if(p > len) break
+    for (let i = 0; i < cookbooks.length; i++) {
+        let flag = true
+        for (let j = 0; j < 5; j++) {
+            if(materials[j] < cookbooks[i][j]) {
+                flag = false
+                break
             }
-            if(p > len) break
-            for (let i = numRows - 1; i > 0; i--) {
-                str_in_row[i].push(s.charCodeAt(p))
-                p += 1
-                if(p > len) break
-            }
-            if(p > len) break
         }
-
-        return String.fromCharCode(...str_in_row.flat(1))
+        if(flag) {
+            valid_foods_with_attr.push([ ...cookbooks[i], ...attribute[i] ])
+        }
     }
+
+    let max_taste = -1
+    for (let i = 1; i < 2 ** valid_foods_with_attr.length; i++) {
+        const i_have_now = [ ...materials ]
+        let full = 0, taste = 0
+        let choices = i, curr = 0
+
+        while (choices > 0) {
+            if((choices & 1) === 0) {
+                curr += 1
+                choices >>= 1
+                continue
+            }
+
+            for (let m = 0; m < 5; m++) i_have_now[m] -= valid_foods_with_attr[curr][m]
+
+            if(i_have_now.some(x => x < 0)) {
+                taste = -1
+                break
+            }
+
+            full += valid_foods_with_attr[curr][6]
+            taste += valid_foods_with_attr[curr][5]
+
+            choices >>= 1
+            curr += 1
+        }
+        if(full >= limit) max_taste = Math.max(max_taste, taste === 0 ? -1 : taste)
+    }
+
+    return max_taste
 }
 
-console.log(lk('PAYPALISHIRING', 3))  // PAHNAPLSIIGYIR
+console.log(lk(
+    [ 3, 2, 4, 1, 2 ],
+    [ [ 1, 1, 0, 1, 2 ], [ 2, 1, 4, 0, 0 ], [ 3, 2, 4, 1, 0 ] ],
+    [ [ 3, 2 ], [ 2, 4 ], [ 7, 6 ] ],
+    5
+))
 
 /**
  * a  a  a
