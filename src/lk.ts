@@ -78,36 +78,48 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
+const showTime = (fn: () => void) => {
+    console.time('fn')
+    fn()
+    console.timeEnd('fn')
+}
+
+function lk(height: number[]): number {
     let max = 0
-    let l = 0, r = nums.length - 1
+    let l = 0, r = height.length - 1
 
     while (l < r) {
         // 左侧低 - 计算后移动左挡板
-        if(nums[l] < nums[r]) {
-            max = Math.max(max, nums[l] * (r - l))
+        if(height[l] < height[r]) {
+            max = Math.max(max, height[l] * (r - l))
 
-            while (nums[l] < nums[r] && l < r) {
+            const ori_l = height[l]
+            l += 1
+            while (height[l] < ori_l && l < r) {
                 l += 1
             }
         }
         // 右侧低 - 计算后移动右挡板
-        else if(nums[l] > nums[r]) {
-            max = Math.max(max, nums[r] * (r - l))
+        else if(height[l] > height[r]) {
+            max = Math.max(max, height[r] * (r - l))
 
-            while (nums[l] > nums[r] && l < r) {
+            const ori_r = height[r]
+            r -= 1
+            while (height[r] < ori_r && l < r) {
                 r -= 1
             }
         }
         // 优化 - 两侧相等 - 同时移动直到都大于原先高度
         else {
-            const ori_h = nums[r]
-            max = Math.max(max, nums[l] * (r - l))
+            const ori_both = height[r]
+            max = Math.max(max, height[l] * (r - l))
 
-            while (nums[l] <= ori_h && l < r) {
+            l += 1
+            r -= 1
+            while (height[l] <= ori_both && l < r) {
                 l += 1
             }
-            while (nums[r] <= ori_h && l < r) {
+            while (height[r] <= ori_both && l < r) {
                 r -= 1
             }
         }
@@ -117,15 +129,7 @@ function lk(nums: number[]): number {
 }
 
 console.log(lk([ 1, 8, 6, 2, 5, 4, 8, 3, 7 ]))  // 49
-
-// const showTime = (fn: () => void) => {
-//     console.time('fn')
-//     fn()
-//     console.timeEnd('fn')
-// }
-// showTime(() => {
-//     console.log(lk('pale', 'ple'))
-// })
+console.log(lk([ 1, 2, 4, 3 ]))  // 4
 
 export {
     lk
