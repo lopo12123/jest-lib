@@ -84,52 +84,51 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(height: number[]): number {
-    let max = 0
-    let l = 0, r = height.length - 1
+function lk(words: string[]): string {
+    const all_ch_i_have = new Set(words[0])
 
-    while (l < r) {
-        // 左侧低 - 计算后移动左挡板
-        if(height[l] < height[r]) {
-            max = Math.max(max, height[l] * (r - l))
+    const who_comes_to_me = new Map<string, Set<string>>()
 
-            const ori_l = height[l]
-            l += 1
-            while (height[l] < ori_l && l < r) {
-                l += 1
+    words.reduce((prev, curr) => {
+        let p = 0
+
+        while (p < prev.length && p < curr.length) {
+            all_ch_i_have.add(curr[p])
+
+            if(prev[p] !== curr[p]) {
+                if(!who_comes_to_me.has(curr[p]))
+                    who_comes_to_me.set(curr[p], new Set<string>([ prev[p] ]))
+                else
+                    who_comes_to_me.get(curr[p])!.add(prev[p])
             }
+            p++
         }
-        // 右侧低 - 计算后移动右挡板
-        else if(height[l] > height[r]) {
-            max = Math.max(max, height[r] * (r - l))
 
-            const ori_r = height[r]
-            r -= 1
-            while (height[r] < ori_r && l < r) {
-                r -= 1
-            }
-        }
-        // 优化 - 两侧相等 - 同时移动直到都大于原先高度
-        else {
-            const ori_both = height[r]
-            max = Math.max(max, height[l] * (r - l))
+        while (p < curr.length) all_ch_i_have.add(curr[p])
 
-            l += 1
-            r -= 1
-            while (height[l] <= ori_both && l < r) {
-                l += 1
-            }
-            while (height[r] <= ori_both && l < r) {
-                r -= 1
-            }
-        }
+        return curr
+    })
+
+    const all_heads: string[] = []
+
+    who_comes_to_me.forEach((pres, me) => {
+        if(pres.size === 0) all_heads.push(me)
+    })
+
+    // 成环
+    if(all_heads.length === 0) return ''
+
+    while (all_heads.length > 0) {
+        let curr_ch = all_heads.shift()!
+        who_comes_to_me.forEach((pres, me) => {
+            pres.delete(curr_ch)
+            if(pres.size === 0) {}
+        })
     }
+    const queue: string[] = []
 
-    return max
+
 }
-
-console.log(lk([ 1, 8, 6, 2, 5, 4, 8, 3, 7 ]))  // 49
-console.log(lk([ 1, 2, 4, 3 ]))  // 4
 
 export {
     lk
