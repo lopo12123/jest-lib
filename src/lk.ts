@@ -80,10 +80,36 @@
 
 function lk(nums: number[]): number {
     let max = 0
+    let l = 0, r = nums.length - 1
 
-    for (let l = 0; l < nums.length; l++) {
-        for (let r = l + 1; r < nums.length; r++) {
-            max = Math.max(max, Math.min(nums[l], nums[r]) * (r - l))
+    while (l < r) {
+        // 左侧低 - 计算后移动左挡板
+        if(nums[l] < nums[r]) {
+            max = Math.max(max, nums[l] * (r - l))
+
+            while (nums[l] < nums[r] && l < r) {
+                l += 1
+            }
+        }
+        // 右侧低 - 计算后移动右挡板
+        else if(nums[l] > nums[r]) {
+            max = Math.max(max, nums[r] * (r - l))
+
+            while (nums[l] > nums[r] && l < r) {
+                r -= 1
+            }
+        }
+        // 优化 - 两侧相等 - 同时移动直到都大于原先高度
+        else {
+            const ori_h = nums[r]
+            max = Math.max(max, nums[l] * (r - l))
+
+            while (nums[l] <= ori_h && l < r) {
+                l += 1
+            }
+            while (nums[r] <= ori_h && l < r) {
+                r -= 1
+            }
         }
     }
 
