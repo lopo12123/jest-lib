@@ -78,11 +78,36 @@
 //     }
 // }
 
-function lk(guess: number[], answer: number[]): number {
-    // @ts-ignore
-    return (guess[0] === answer[0]) + (guess[1] === answer[1]) + (guess[2] === answer[2])
+function lk(nums: number[]): number[][] {
+    if(nums.length < 3) return []
+
+    nums.sort((a, b) => a - b)
+
+    const size = nums.length
+    const tri: number[][] = []
+
+    // i <= j <= k
+    for (let i = 0; i < size - 2; i++) {
+        for (let j = i + 1; j < size - 1; j++) {
+            for (let k = j + 1; k < size; k++) {
+                if(
+                    nums[i] + nums[j] + nums[k] === 0
+                    && !(
+                        nums[i] === tri.at(-1)?.[0]
+                        && nums[j] === tri.at(-1)?.[1]
+                        && nums[k] === tri.at(-1)?.[2]
+                    )
+                ) {
+                    tri.push([ nums[i], nums[j], nums[k] ])
+                }
+            }
+        }
+    }
+
+    return tri
 }
 
+console.log(lk([ -1, 0, 1, 2, -1, -4 ]))
 
 // const showTime = (fn: () => void) => {
 //     console.time('fn')
