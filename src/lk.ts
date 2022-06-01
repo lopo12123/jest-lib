@@ -84,72 +84,55 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(num: number): string {
-    let s = ''
+function lk(nums: number[], target: number): number {
+    const len = nums.length
+    nums.sort((a, b) => a - b)
 
-    while (num >= 1000) {
-        s += 'M'
-        num -= 1000
-    }
-    // num < 1000
-    if(num >= 900) {
-        s += 'CM'
-        num -= 900
-        // num < 100
-    }
-    else {
-        if(num >= 500) {
-            s += 'D'
-            num -= 500
+    let sum = 0
+    let diff = Infinity
+
+    const find_third = (l: number, r: number, sum2: number): [ diff: number, sum3: number ] => {
+        if(sum2 + nums[l] >= target) return [ sum2 + nums[l] - target, sum2 + nums[l] ]
+        else if(sum2 + nums[r] <= target) return [ target - sum2 - nums[r], sum2 + nums[r] ]
+
+        let mid = nums[Math.floor((l + r) / 2)]
+        while (l < r) {
+            if(sum2 + nums[mid] === target) return [ 0, target ]
+
+            if(sum2 + nums[mid] > target) {
+                r = mid - 1
+            }
+            else {
+                l = mid + 1
+            }
+            mid = Math.floor((l + r) / 2)
         }
-        // num < 500
-        if(num >= 400) {
-            s += 'CD'
-            num -= 400
-        }
-        else {
-            while (num >= 100) {
-                s += 'C'
-                num -= 100
+
+        const diff_mid = Math.abs(sum2 + nums[mid] - target)
+        const diff_mid_1 = nums[mid + 1] ? Infinity : Math.abs(sum2 + nums[mid + 1] - target)
+
+        return diff_mid < diff_mid_1
+            ? [ Math.abs(sum2 + nums[mid] - target), sum2 + nums[mid] ]
+            : [ Math.abs(sum2 + nums[mid + 1] - target), sum2 + nums[mid] ]
+    }
+
+    for (let i = 0; i < len - 2; i++) {
+        for (let j = i + 1; j < len - 1; j++) {
+            const [ curr_diff, curr_sum ] = find_third(j + 1, len - 1, nums[i] + nums[j])
+            if(curr_diff === 0) return target
+            else if(curr_diff < diff) {
+                diff = curr_diff
+                sum = curr_sum
             }
         }
-        // num < 100
     }
-    // num < 100
-    if(num >= 90) {
-        s += 'XC'
-        num -= 90
-    }
-    else {
-        if(num >= 50) {
-            s += 'L'
-            num -= 50
-        }
-        // num < 50
-        if(num >= 40) {
-            s += 'XL'
-            num -= 40
-        }
-        else {
-            while (num >= 10) {
-                s += 'X'
-                num -= 10
-            }
-        }
-        // num < 10
-    }
-    // num < 10
 
-    s += ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'][num]
-
-    return s
+    return sum
 }
 
-console.log(lk(1))
-console.log(lk(3))
-console.log(lk(9))
-console.log(lk(58))  // LVIII
-console.log(lk(1994))  // MCMXCIV
+console.log(lk([ 0, 0, 0 ], 1))  // 0
+console.log(lk([ -1, 2, 1, -4 ], 1))  // 2
+console.log(lk([ 1, 2, 3, 4 ], 9))  // 9
 
 export {
     lk
