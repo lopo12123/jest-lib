@@ -78,56 +78,47 @@
 //     }
 // }
 
-const showTime = (fn: () => void) => {
-    console.time('fn')
-    fn()
-    console.timeEnd('fn')
-}
-
-function lk(nums: number[], target: number): number[][] {
-    const len = nums.length
-    const pool: number[][] = []
+function lk(nums: number[]): number[][] {
+    if(nums.length < 3) return []
 
     nums.sort((a, b) => a - b)
 
-    const find = (l: number, r: number, need: number): number | null => {
-        if(need === nums[l] || need === nums[r]) return need
-        if(need < nums[l] || need > nums[r]) return null
+    const size = nums.length
+    const tri: number[][] = []
 
-        let mid = Math.floor((l + r) / 2)
-        while (l < r) {
-            if(nums[mid] === need) return need
-            else if(nums[mid] < need) {
-                l = mid + 1
-            }
-            else {
-                r = mid - 1
-            }
-            mid = Math.floor((l + r) / 2)
-        }
-        return null
-    }
-
-    for (let a = 0; a < len - 3; a++) {
-        for (let b = a + 1; b < len - 2; b++) {
-            for (let c = b + 1; c < len - 1; c++) {
-                const d_should_be = find(c + 1, len - 1, target - nums[a] - nums[b] - nums[c])
-                if(d_should_be !== null
+    // i <= j <= k
+    for (let i = 0; i < size - 2; i++) {
+        if(nums[i] === nums[i - 1]) continue
+        for (let j = i + 1; j < size - 1; j++) {
+            for (let k = j + 1; k < size; k++) {
+                if(
+                    nums[i] + nums[j] + nums[k] === 0
                     && !(
-                        nums[a] === pool.at(-1)?.[0]
-                        && nums[b] === pool.at(-1)?.[1]
-                        && nums[c] === pool.at(-1)?.[2]
-                        && d_should_be === pool.at(-1)?.[3]
+                        nums[i] === tri.at(-1)?.[0]
+                        && nums[j] === tri.at(-1)?.[1]
+                        && nums[k] === tri.at(-1)?.[2]
                     )
                 ) {
-                    pool.push([ nums[a], nums[b], nums[c], d_should_be ])
+                    console.log(nums[i], nums[j], nums[k])
+                    tri.push([ nums[i], nums[j], nums[k] ])
                 }
             }
         }
     }
 
-    return pool
+    return tri
 }
+
+console.log(lk([ -4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6 ]))
+
+// const showTime = (fn: () => void) => {
+//     console.time('fn')
+//     fn()
+//     console.timeEnd('fn')
+// }
+// showTime(() => {
+//     console.log(lk('pale', 'ple'))
+// })
 
 export {
     lk
