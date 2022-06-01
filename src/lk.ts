@@ -84,55 +84,50 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(nums: number[], target: number): number {
+function lk(nums: number[], target: number): number[][] {
     const len = nums.length
+    const pool: number[][] = []
+
     nums.sort((a, b) => a - b)
 
-    let sum = 0
-    let diff = Infinity
+    const find = (l: number, r: number, need: number): number | null => {
+        if(need === nums[l] || need === nums[r]) return need
+        if(need < nums[l] || need > nums[r]) return null
 
-    const find_third = (l: number, r: number, sum2: number): [ diff: number, sum3: number ] => {
-        if(sum2 + nums[l] >= target) return [ sum2 + nums[l] - target, sum2 + nums[l] ]
-        else if(sum2 + nums[r] <= target) return [ target - sum2 - nums[r], sum2 + nums[r] ]
-
-        let mid = nums[Math.floor((l + r) / 2)]
+        let mid = Math.floor((l + r) / 2)
         while (l < r) {
-            if(sum2 + nums[mid] === target) return [ 0, target ]
-
-            if(sum2 + nums[mid] > target) {
-                r = mid - 1
+            if(nums[mid] === need) return need
+            else if(nums[mid] < need) {
+                l = mid + 1
             }
             else {
-                l = mid + 1
+                r = mid - 1
             }
             mid = Math.floor((l + r) / 2)
         }
-
-        const diff_mid = Math.abs(sum2 + nums[mid] - target)
-        const diff_mid_1 = nums[mid + 1] ? Infinity : Math.abs(sum2 + nums[mid + 1] - target)
-
-        return diff_mid < diff_mid_1
-            ? [ Math.abs(sum2 + nums[mid] - target), sum2 + nums[mid] ]
-            : [ Math.abs(sum2 + nums[mid + 1] - target), sum2 + nums[mid] ]
+        return null
     }
 
-    for (let i = 0; i < len - 2; i++) {
-        for (let j = i + 1; j < len - 1; j++) {
-            const [ curr_diff, curr_sum ] = find_third(j + 1, len - 1, nums[i] + nums[j])
-            if(curr_diff === 0) return target
-            else if(curr_diff < diff) {
-                diff = curr_diff
-                sum = curr_sum
+    for (let a = 0; a < len - 3; a++) {
+        for (let b = a + 1; b < len - 2; b++) {
+            for (let c = b + 1; c < len - 1; c++) {
+                const d_should_be = find(c + 1, len - 1, target - nums[a] - nums[b] - nums[c])
+                if(d_should_be !== null
+                    && !(
+                        nums[a] === pool.at(-1)?.[0]
+                        && nums[b] === pool.at(-1)?.[1]
+                        && nums[c] === pool.at(-1)?.[2]
+                        && d_should_be === pool.at(-1)?.[3]
+                    )
+                ) {
+                    pool.push([ nums[a], nums[b], nums[c], d_should_be ])
+                }
             }
         }
     }
 
-    return sum
+    return pool
 }
-
-console.log(lk([ 0, 0, 0 ], 1))  // 0
-console.log(lk([ -1, 2, 1, -4 ], 1))  // 2
-console.log(lk([ 1, 2, 3, 4 ], 9))  // 9
 
 export {
     lk
