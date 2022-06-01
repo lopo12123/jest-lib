@@ -84,41 +84,59 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(s: string): number {
-    let minus = 10
-    let val = 0
-    s = s.trimStart()
-    for (let i = 0; i < s.length; i++) {
-        const code = s.charCodeAt(i)
+function lk(nums: number[], target: number): number {
+    const len = nums.length
+    nums.sort((a, b) => a - b)
 
-        if(minus === 10) {
-            if(s[i] === '-') minus = -1
-            else if(s[i] === '+') minus = 1
-            else if(code < 48 || code > 57) {
-                console.log('1')
-                return 0
+    let sum = 0
+    let diff = Infinity
+
+    const find_third = (l: number, r: number, sum2: number): [ diff: number, sum3: number ] => {
+        if(sum2 + nums[l] >= target) return [ sum2 + nums[l] - target, sum2 + nums[l] ]
+        else if(sum2 + nums[r] <= target) return [ target - sum2 - nums[r], sum2 + nums[r] ]
+
+        let mid = Math.floor((l + r) / 2)
+
+        while (l < r) {
+            if(sum2 + nums[mid] === target) return [ 0, target ]
+
+            if(sum2 + nums[mid] > target) {
+                r = mid - 1
             }
             else {
-                val = code - 48
-                minus = 1
+                l = mid + 1
             }
+            mid = Math.floor((l + r) / 2)
         }
-        else {
-            if(code < 48 || code > 57) return minus * val
-            else {
-                if(minus === 1 && val > (2147483647 - code + 48) / 10) return 2147483647
-                else if(minus === -1 && val > (2147483648 - code + 48) / 10) return -2147483648
 
-                val = val * 10 + code - 48
+        const diff_mid = Math.abs(sum2 + nums[mid] - target)
+        const diff_mid_l = !nums[mid - 1] ? Infinity : Math.abs(sum2 + nums[mid - 1] - target)
+        const diff_mid_r = !nums[mid + 1] ? Infinity : Math.abs(sum2 + nums[mid + 1] - target)
+
+        const min_diff = Math.min(diff_mid, diff_mid_l, diff_mid_r)
+
+        if(min_diff === diff_mid) return [ diff_mid_l, sum2 + nums[mid] ]
+        else if(min_diff === diff_mid_l) return [ diff_mid_l, sum2 + nums[mid - 1] ]
+        else return [ diff_mid_r, sum2 + nums[mid + 1] ]
+        // if(min_diff === diff_mid_r) return [ diff_mid_l, sum2 + nums[mid + 1] ]
+    }
+
+    for (let i = 0; i < len - 2; i++) {
+        for (let j = i + 1; j < len - 1; j++) {
+            const [ curr_diff, curr_sum ] = find_third(j + 1, len - 1, nums[i] + nums[j])
+
+            if(curr_diff === 0) return target
+            else if(curr_diff < diff) {
+                diff = curr_diff
+                sum = curr_sum
             }
         }
     }
 
-    return minus * val
+    return sum
 }
 
-console.log(lk('   +0 123'))
-console.log(lk('   -42'))
+console.log(lk([ 1, 2, 5, 10, 11 ], 12))  // 13
 
 export {
     lk
