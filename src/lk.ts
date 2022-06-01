@@ -85,8 +85,44 @@ const showTime = (fn: () => void) => {
 }
 
 function lk(s: string): number {
-    return parseInt(s)
+    let minus = 10
+    let val = 0
+    for (let i = 0; i < s.length; i++) {
+        if(s[i] !== ' ') {
+            const code = s.charCodeAt(i)
+
+            if(minus === 10) {
+                if(s[i] === '-') minus = -1
+                else if(code < 48 || code > 57) return 0
+                else {
+                    val = code - 48
+                    minus = 1
+                }
+            }
+            else {
+                if(code < 48 || code > 57) return minus * val
+                else {
+                    if(minus === 1 && val > (2147483647 - code + 48) / 10) return 2147483647
+                    else if(minus === -1 && val > (2147483648 - code + 48) / 10) return 2147483647
+
+                    val = val * 10 + code - 48
+                }
+            }
+        }
+    }
+
+    return minus * val
 }
+
+console.log(lk('214'))
+console.log(lk('2147e123'))
+console.log(lk('2-147e123'))
+console.log(lk('-2-147e123'))
+console.log(lk('-2.147e123'))
+console.log(lk('-2147483649'))
+console.log(lk('-2147483648'))
+console.log(lk('2147483649'))
+console.log(lk('2147483648'))
 
 export {
     lk
