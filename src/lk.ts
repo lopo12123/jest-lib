@@ -84,45 +84,72 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(s: string): number {
-    let minus = 10
-    let val = 0
-    for (let i = 0; i < s.length; i++) {
-        if(s[i] !== ' ') {
-            const code = s.charCodeAt(i)
+function lk(num: number): string {
+    let s = ''
 
-            if(minus === 10) {
-                if(s[i] === '-') minus = -1
-                else if(code < 48 || code > 57) return 0
-                else {
-                    val = code - 48
-                    minus = 1
-                }
-            }
-            else {
-                if(code < 48 || code > 57) return minus * val
-                else {
-                    if(minus === 1 && val > (2147483647 - code + 48) / 10) return 2147483647
-                    else if(minus === -1 && val > (2147483648 - code + 48) / 10) return 2147483647
-
-                    val = val * 10 + code - 48
-                }
+    while (num >= 1000) {
+        s += 'M'
+        num -= 1000
+    }
+    // num < 1000
+    if(num >= 900) {
+        s += 'CM'
+        num -= 900
+        // num < 100
+    }
+    else {
+        if(num >= 500) {
+            s += 'D'
+            num -= 500
+        }
+        // num < 500
+        if(num >= 400) {
+            s += 'CD'
+            num -= 400
+        }
+        else {
+            while (num >= 100) {
+                s += 'C'
+                num -= 100
             }
         }
+        // num < 100
     }
+    // num < 100
+    if(num >= 90) {
+        s += 'XC'
+        num -= 90
+    }
+    else {
+        if(num >= 50) {
+            s += 'L'
+            num -= 50
+        }
+        // num < 50
+        if(num >= 40) {
+            s += 'XL'
+            num -= 40
+        }
+        else {
+            while (num >= 10) {
+                s += 'X'
+                num -= 10
+            }
+        }
+        // num < 10
+    }
+    // num < 10
 
-    return minus * val
+    s += ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'][num]
+
+    return s
 }
 
-console.log(lk('214'))
-console.log(lk('2147e123'))
-console.log(lk('2-147e123'))
-console.log(lk('-2-147e123'))
-console.log(lk('-2.147e123'))
-console.log(lk('-2147483649'))
-console.log(lk('-2147483648'))
-console.log(lk('2147483649'))
-console.log(lk('2147483648'))
+console.log(lk(1))
+console.log(lk(3))
+console.log(lk(9))
+console.log(lk(58))  // LVIII
+console.log(lk(1994))  // MCMXCIV
 
 export {
     lk
