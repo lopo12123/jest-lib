@@ -78,47 +78,47 @@
 //     }
 // }
 
-function lk(nums: number[]): number[][] {
-    if(nums.length < 3) return []
+const showTime = (fn: () => void) => {
+    console.time('fn')
+    fn()
+    console.timeEnd('fn')
+}
 
-    nums.sort((a, b) => a - b)
+function lk(s: string): number {
+    let minus = 10
+    let val = 0
+    s = s.trimStart()
+    for (let i = 0; i < s.length; i++) {
+        const code = s.charCodeAt(i)
 
-    const size = nums.length
-    const tri: number[][] = []
+        if(minus === 10) {
+            if(s[i] === '-') minus = -1
+            else if(s[i] === '+') minus = 1
+            else if(code < 48 || code > 57) {
+                console.log('1')
+                return 0
+            }
+            else {
+                val = code - 48
+                minus = 1
+            }
+        }
+        else {
+            if(code < 48 || code > 57) return minus * val
+            else {
+                if(minus === 1 && val > (2147483647 - code + 48) / 10) return 2147483647
+                else if(minus === -1 && val > (2147483648 - code + 48) / 10) return -2147483648
 
-    // i <= j <= k
-    for (let i = 0; i < size - 2; i++) {
-        if(nums[i] === nums[i - 1]) continue
-        for (let j = i + 1; j < size - 1; j++) {
-            for (let k = j + 1; k < size; k++) {
-                if(
-                    nums[i] + nums[j] + nums[k] === 0
-                    && !(
-                        nums[i] === tri.at(-1)?.[0]
-                        && nums[j] === tri.at(-1)?.[1]
-                        && nums[k] === tri.at(-1)?.[2]
-                    )
-                ) {
-                    console.log(nums[i], nums[j], nums[k])
-                    tri.push([ nums[i], nums[j], nums[k] ])
-                }
+                val = val * 10 + code - 48
             }
         }
     }
 
-    return tri
+    return minus * val
 }
 
-console.log(lk([ -4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6 ]))
-
-// const showTime = (fn: () => void) => {
-//     console.time('fn')
-//     fn()
-//     console.timeEnd('fn')
-// }
-// showTime(() => {
-//     console.log(lk('pale', 'ple'))
-// })
+console.log(lk('   +0 123'))
+console.log(lk('   -42'))
 
 export {
     lk
