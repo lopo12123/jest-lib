@@ -84,51 +84,54 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(words: string[]): string {
-    const all_ch_i_have = new Set(words[0])
+function lk(matchsticks: number[]): boolean {
+    const len = matchsticks.length
+    const C = matchsticks.reduce((prev, curr) => prev + curr)
 
-    const who_comes_to_me = new Map<string, Set<string>>()
+    if(C % 4 !== 0) return false
 
-    words.reduce((prev, curr) => {
-        let p = 0
+    const if_can_divide_2 = (arr: number[], sum: number) => {
+        const size = arr.length
 
-        while (p < prev.length && p < curr.length) {
-            all_ch_i_have.add(curr[p])
-
-            if(prev[p] !== curr[p]) {
-                if(!who_comes_to_me.has(curr[p]))
-                    who_comes_to_me.set(curr[p], new Set<string>([ prev[p] ]))
-                else
-                    who_comes_to_me.get(curr[p])!.add(prev[p])
+        for (let i = 0; i < 2 ** size; i++) {
+            let curr = 0
+            let select = i
+            while (select > 0) {
+                curr += arr[select & 0b1]
+                select >>= 1
             }
-            p++
+            if(curr === sum / 2) return true
+        }
+        return false
+    }
+
+    for (let i = 0; i < 2 ** len; i++) {
+        let select = i, idx = 0
+        const part: number[][] = [ [], [] ]
+        let sum = [ 0, 0 ]
+        while (idx < len) {
+            part[select & 0b1].push(matchsticks[idx])
+            sum[select & 0b1] += matchsticks[idx]
+            select >>= 1
+            idx += 1
         }
 
-        while (p < curr.length) all_ch_i_have.add(curr[p])
-
-        return curr
-    })
-
-    const all_heads: string[] = []
-
-    who_comes_to_me.forEach((pres, me) => {
-        if(pres.size === 0) all_heads.push(me)
-    })
-
-    // 成环
-    if(all_heads.length === 0) return ''
-
-    while (all_heads.length > 0) {
-        let curr_ch = all_heads.shift()!
-        who_comes_to_me.forEach((pres, me) => {
-            pres.delete(curr_ch)
-            if(pres.size === 0) {}
-        })
+        if(sum[0] === sum[1]) {
+            if(if_can_divide_2(part[0], sum[0]) && if_can_divide_2(part[1], sum[1])) return true
+        }
     }
-    const queue: string[] = []
 
-
+    return false
 }
+
+// 1234567
+// 7 1 2 4
+// 6 3 5
+
+console.log(lk([ 1, 1, 2, 2, 2 ]))  // true
+console.log(lk([ 3, 3, 3, 3, 4 ]))  // false
+console.log(lk([ 1, 2, 3, 4, 5, 6, 7 ]))  // true
+console.log(lk([ 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6 ]))  // true
 
 export {
     lk
