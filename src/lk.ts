@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -84,60 +84,44 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(nums: number[], target: number): number {
-    const len = nums.length
-    nums.sort((a, b) => a - b)
+function deleteNode(root: TreeNode | null, key: number): TreeNode | null {
+    if(root === null) return null
 
-    let sum = 0
-    let diff = Infinity
-
-    const find_third = (l: number, r: number, sum2: number): [ diff: number, sum3: number ] => {
-        if(sum2 + nums[l] >= target) return [ sum2 + nums[l] - target, sum2 + nums[l] ]
-        else if(sum2 + nums[r] <= target) return [ target - sum2 - nums[r], sum2 + nums[r] ]
-
-        let mid = Math.floor((l + r) / 2)
-
-        while (l < r) {
-            if(sum2 + nums[mid] === target) return [ 0, target ]
-
-            if(sum2 + nums[mid] > target) {
-                r = mid - 1
-            }
-            else {
-                l = mid + 1
-            }
-            mid = Math.floor((l + r) / 2)
-        }
-
-        const diff_mid = Math.abs(sum2 + nums[mid] - target)
-        const diff_mid_l = !nums[mid - 1] ? Infinity : Math.abs(sum2 + nums[mid - 1] - target)
-        const diff_mid_r = !nums[mid + 1] ? Infinity : Math.abs(sum2 + nums[mid + 1] - target)
-
-        const min_diff = Math.min(diff_mid, diff_mid_l, diff_mid_r)
-
-        if(min_diff === diff_mid) return [ diff_mid_l, sum2 + nums[mid] ]
-        else if(min_diff === diff_mid_l) return [ diff_mid_l, sum2 + nums[mid - 1] ]
-        else return [ diff_mid_r, sum2 + nums[mid + 1] ]
-        // if(min_diff === diff_mid_r) return [ diff_mid_l, sum2 + nums[mid + 1] ]
+    // 在左边
+    if(root.val > key) {
+        root.left = deleteNode(root.left, key)
+        return root
     }
 
-    for (let i = 0; i < len - 2; i++) {
-        for (let j = i + 1; j < len - 1; j++) {
-            const [ curr_diff, curr_sum ] = find_third(j + 1, len - 1, nums[i] + nums[j])
-
-            if(curr_diff === 0) return target
-            else if(curr_diff < diff) {
-                diff = curr_diff
-                sum = curr_sum
-            }
-        }
+    // 在右边
+    if(root.val < key) {
+        root.right = deleteNode(root.right, key)
+        return root
     }
 
-    return sum
+    // 找到目标 (为了整齐写if)
+    if(root.val === key) {
+        // 叶子节点 - 直接删掉自己
+        if(root.left === null && root.right === null) return null
+        // 只有左子树
+        if(root.right === null) return root.left
+        // 只有右子树
+        if(root.left === null) return root.right
+        // 左右子树都有 - 把右子树的最小点拿来做根
+        let min_in_right = root.right
+        while (min_in_right.left) {
+            min_in_right = min_in_right.left
+        }
+        root.right = deleteNode(root.right, min_in_right.val)
+        min_in_right.left = root.left
+        min_in_right.right = root.right
+        return min_in_right
+    }
+
+    // 为了ts不报错写return
+    return root
 }
 
-console.log(lk([ 1, 2, 5, 10, 11 ], 12))  // 13
-
 export {
-    lk
+    deleteNode
 }
