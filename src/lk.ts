@@ -84,44 +84,43 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function deleteNode(root: TreeNode | null, key: number): TreeNode | null {
-    if(root === null) return null
+function lk(n: number): number {
+    const max_len = Math.sqrt(2 * n + 1)
+    // 一个数字n的情况必定存在
+    let count = 0
 
-    // 在左边
-    if(root.val > key) {
-        root.left = deleteNode(root.left, key)
-        return root
-    }
-
-    // 在右边
-    if(root.val < key) {
-        root.right = deleteNode(root.right, key)
-        return root
-    }
-
-    // 找到目标 (为了整齐写if)
-    if(root.val === key) {
-        // 叶子节点 - 直接删掉自己
-        if(root.left === null && root.right === null) return null
-        // 只有左子树
-        if(root.right === null) return root.left
-        // 只有右子树
-        if(root.left === null) return root.right
-        // 左右子树都有 - 把右子树的最小点拿来做根
-        let min_in_right = root.right
-        while (min_in_right.left) {
-            min_in_right = min_in_right.left
+    let num_of_queue = 1
+    while (num_of_queue < max_len) {
+        if((n - (num_of_queue - 1) * num_of_queue / 2) % num_of_queue === 0) {
+            count += 1
         }
-        root.right = deleteNode(root.right, min_in_right.val)
-        min_in_right.left = root.left
-        min_in_right.right = root.right
-        return min_in_right
+
+        num_of_queue += 1
     }
 
-    // 为了ts不报错写return
-    return root
+    return count
 }
 
+console.log(lk(15))
+
+/**
+ 2
+ 3
+ 3
+ 4
+ 4
+ 4
+ 11
+
+ 2
+ 3
+ 4
+ 4
+ 4
+ 4
+ 12
+ */
+
 export {
-    deleteNode
+    lk
 }
