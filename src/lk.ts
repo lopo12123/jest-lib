@@ -84,46 +84,45 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(head: ListNode, n: number): ListNode | null {
-    const pre = new ListNode(0, head)
+function lk(digits: string): string[] {
+    const map: string[][] = [
+        [],
+        [], [ 'a', 'b', 'c' ], [ 'd', 'e', 'f' ],
+        [ 'g', 'h', 'i' ], [ 'j', 'k', 'l' ], [ 'm', 'n', 'o' ],
+        [ 'p', 'q', 'r', 's' ], [ 't', 'u', 'v' ], [ 'w', 'x', 'y', 'z' ]
+    ]
 
-    let quick: ListNode | null = pre, slow: ListNode | null = pre
+    if(digits.length === 0) return []
+    // @ts-ignore
+    else if(digits.length === 1) return map[digits[0]]
+    else {
+        const allMapping: string[] = []
+        const bits = digits.split('').map(x => parseInt(x))
+        const how_many_for = bits.length
 
-    while (n > 0) {
-        quick = quick!.next
-        n -= 1
-    }
-
-    while (slow !== null) {
-        if(quick && !quick.next) {
-            console.log(slow.val)
-            slow.next = slow!.next?.next ?? null
-        }
-        else slow = slow!.next
-
-        quick = quick?.next ?? null
-    }
-
-    return pre.next
-}
-
-const link: ListNode = {
-    val: 1,
-    next: {
-        val: 2,
-        next: {
-            val: 3,
-            next: {
-                val: 4,
-                next: {
-                    val: 5,
-                    next: null
+        for (let i = 0; i < map[bits[0]].length; i++) {
+            for (let j = 0; j < map[bits[1]].length; j++) {
+                if(how_many_for === 2) {
+                    allMapping.push(map[bits[0]][i] + map[bits[1]][j])
+                }
+                else {
+                    for (let k = 0; k < map[bits[2]].length; k++) {
+                        if(how_many_for === 3) {
+                            allMapping.push(map[bits[0]][i] + map[bits[1]][j] + map[bits[2]][k])
+                        }
+                        else {
+                            for (let l = 0; l < map[bits[3]].length; l++) {
+                                allMapping.push(map[bits[0]][i] + map[bits[1]][j] + map[bits[2]][k] + map[bits[3]][l])
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        return allMapping
     }
 }
-console.log(lk(link, 2))
 
 
 export {
