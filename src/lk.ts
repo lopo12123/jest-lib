@@ -84,36 +84,23 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(nums: number[]): number {
-    while (nums.length > 1) {
-        const newNum: number[] = []
-        for (let i = 0; i < nums.length / 2; i ++) {
-            newNum[i] = i % 2 === 0
-                ? Math.min(nums[2 * i], nums[2 * i + 1])
-                : Math.max(nums[2 * i], nums[2 * i  +1])
+function lk(nums: number[], k: number): number {
+    const in_order = nums.sort((a, b) => a - b)
+
+    let part = 0
+    let start = in_order[0]
+    for (let i = 0; i < in_order.length; i++) {
+        if(in_order[i] - start > k) {
+            console.log(in_order[i], 'break')
+            part += 1
+            start = in_order[i]
         }
-        nums = newNum
     }
-    return nums[0]
+
+    return part + 1
 }
 
-/**
- 2
- 3
- 3
- 4
- 4
- 4
- 11
-
- 2
- 3
- 4
- 4
- 4
- 4
- 12
- */
+console.log(lk([ 3, 6, 1, 2, 5 ], 2))
 
 export {
     lk
