@@ -1,12 +1,12 @@
-// class ListNode {
-//     val: number
-//     next: ListNode | null
-//
-//     constructor(val?: number, next?: ListNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.next = (next === undefined ? null : next)
-//     }
-// }
+class ListNode {
+    val: number
+    next: ListNode | null
+
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.next = (next === undefined ? null : next)
+    }
+}
 
 class TreeNode {
     val: number
@@ -84,50 +84,46 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(nums: number[], operations: number[][]): number[] {
-    const finalOps = new Map()  // 换后的 - 换之前的
+function lk(head: ListNode, n: number): ListNode | null {
+    const pre = new ListNode(0, head)
 
-    for (let i = 0; i < operations.length; i++) {
-        if(finalOps.has(operations[i][0])) {
-            finalOps.set(operations[i][1], finalOps.get(operations[i][0]))
-            finalOps.delete(operations[i][0])
-        }
-        else {
-            finalOps.set(operations[i][1], operations[i][0])
-        }
+    let quick: ListNode | null = pre, slow: ListNode | null = pre
+
+    while (n > 0) {
+        quick = quick!.next
+        n -= 1
     }
 
-    const reverse = new Map()
-
-    finalOps.forEach((val, key) => {
-        reverse.set(val, key)
-    })
-
-    for (let i = 0; i < nums.length; i++) {
-        if(reverse.has(nums[i])) {
-            nums[i] = reverse.get(nums[i])
+    while (slow !== null) {
+        if(quick && !quick.next) {
+            console.log(slow.val)
+            slow.next = slow!.next?.next ?? null
         }
+        else slow = slow!.next
+
+        quick = quick?.next ?? null
     }
 
-    return nums
+    return pre.next
 }
 
-class Solution {
-    randPoint: () => number[]
-
-    constructor(radius: number, x_center: number, y_center: number) {
-        this.randPoint = () => {
-            const theta = Math.random() * 2 * Math.PI  // x PI (max is 2 PI)
-            const r = Math.sqrt(Math.random() * radius ** 2)
-
-            return [ x_center + r * Math.sin(theta), y_center + r * Math.cos(theta) ]
+const link: ListNode = {
+    val: 1,
+    next: {
+        val: 2,
+        next: {
+            val: 3,
+            next: {
+                val: 4,
+                next: {
+                    val: 5,
+                    next: null
+                }
+            }
         }
     }
-
-    // randPoint(): number[] {
-    //
-    // }
 }
+console.log(lk(link, 2))
 
 
 export {
