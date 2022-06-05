@@ -84,24 +84,18 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(n: number): number {
-    const max_len = Math.sqrt(2 * n + 1)
-    // 一个数字n的情况必定存在
-    let count = 0
-
-    let num_of_queue = 1
-    while (num_of_queue < max_len) {
-        if((n - (num_of_queue - 1) * num_of_queue / 2) % num_of_queue === 0) {
-            count += 1
+function lk(nums: number[]): number {
+    while (nums.length > 1) {
+        const newNum: number[] = []
+        for (let i = 0; i < nums.length / 2; i ++) {
+            newNum[i] = i % 2 === 0
+                ? Math.min(nums[2 * i], nums[2 * i + 1])
+                : Math.max(nums[2 * i], nums[2 * i  +1])
         }
-
-        num_of_queue += 1
+        nums = newNum
     }
-
-    return count
+    return nums[0]
 }
-
-console.log(lk(15))
 
 /**
  2
