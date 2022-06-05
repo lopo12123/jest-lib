@@ -84,20 +84,43 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(n: number): number {
-    const types: number[] = [1, 1, 2, 5]
+function lk(root: TreeNode | null): boolean {
+    if(root === null) return true
 
-    if(n <= 3) return types[n]
+    let flag = true
 
-    // f(n) = f(n - 1) * f(0) + f(n - 2) * f(1) + ... + f(1) * f(n - 2) + f(0) * f(n - 1)
-    for (let i = 4; i <= n; i ++) {
-        types[i] = 0
-        for (let t = 0; t <= i - 1; t ++) {
-            types[i] += types[t] * types[i - 1 - t]
+    const dfs = (sub: TreeNode | null, low: number, high: number) => {
+        if(!flag || !sub) return
+
+        if(sub.val <= low || sub.val >= high) {
+            flag = false
+        }
+        else {
+            dfs(sub.left, low, sub.val)
+            dfs(sub.right, sub.val, high)
         }
     }
-    return types[n]
+
+    dfs(root, -Infinity, Infinity)
+
+    return flag
 }
+
+const t: TreeNode = {
+    val: 2,
+    left: {
+        val: 2,
+        left: null,
+        right: null
+    },
+    right: {
+        val: 2,
+        left: null,
+        right: null
+    }
+}
+
+console.log(lk(t))
 
 
 export {
