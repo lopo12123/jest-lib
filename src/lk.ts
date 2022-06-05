@@ -84,32 +84,19 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(board: string[][]): boolean {
-    const useMemo = {
-        row: new Array(9).fill(0).map(() => new Array(9).fill(0)),
-        col: new Array(9).fill(0).map(() => new Array(9).fill(0)),
-        area: new Array(3).fill(0).map(() => new Array(3).fill(0).map(() => new Array(9).fill(0))),
-    }
+function lk(n: number): number {
+    const types: number[] = [1, 1, 2, 5]
 
-    for (let r = 0; r < 9; r ++) {
-        for (let c = 0; c < 9; c ++) {
-            if(board[r][c] !== '.') {
-                const ceil = parseInt(board[r][c])
+    if(n <= 3) return types[n]
 
-                if(
-                    useMemo.row[r][ceil] === 1
-                    || useMemo.col[c][ceil] === 1
-                    || useMemo.area[Math.floor(r / 3)][Math.floor(c / 3)][ceil] === 1
-                ) return false
-
-                useMemo.row[r][ceil] = 1
-                useMemo.col[c][ceil] = 1
-                useMemo.area[Math.floor(r / 3)][Math.floor(c / 3)][ceil] = 1
-            }
+    // f(n) = f(n - 1) * f(0) + f(n - 2) * f(1) + ... + f(1) * f(n - 2) + f(0) * f(n - 1)
+    for (let i = 4; i <= n; i ++) {
+        types[i] = 0
+        for (let t = 0; t <= i - 1; t ++) {
+            types[i] += types[t] * types[i - 1 - t]
         }
     }
-
-    return true
+    return types[n]
 }
 
 
