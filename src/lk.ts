@@ -84,44 +84,32 @@ const showTime = (fn: () => void) => {
     console.timeEnd('fn')
 }
 
-function lk(digits: string): string[] {
-    const map: string[][] = [
-        [],
-        [], [ 'a', 'b', 'c' ], [ 'd', 'e', 'f' ],
-        [ 'g', 'h', 'i' ], [ 'j', 'k', 'l' ], [ 'm', 'n', 'o' ],
-        [ 'p', 'q', 'r', 's' ], [ 't', 'u', 'v' ], [ 'w', 'x', 'y', 'z' ]
-    ]
+function lk(board: string[][]): boolean {
+    const useMemo = {
+        row: new Array(9).fill(0).map(() => new Array(9).fill(0)),
+        col: new Array(9).fill(0).map(() => new Array(9).fill(0)),
+        area: new Array(3).fill(0).map(() => new Array(3).fill(0).map(() => new Array(9).fill(0))),
+    }
 
-    if(digits.length === 0) return []
-    // @ts-ignore
-    else if(digits.length === 1) return map[digits[0]]
-    else {
-        const allMapping: string[] = []
-        const bits = digits.split('').map(x => parseInt(x))
-        const how_many_for = bits.length
+    for (let r = 0; r < 9; r ++) {
+        for (let c = 0; c < 9; c ++) {
+            if(board[r][c] !== '.') {
+                const ceil = parseInt(board[r][c])
 
-        for (let i = 0; i < map[bits[0]].length; i++) {
-            for (let j = 0; j < map[bits[1]].length; j++) {
-                if(how_many_for === 2) {
-                    allMapping.push(map[bits[0]][i] + map[bits[1]][j])
-                }
-                else {
-                    for (let k = 0; k < map[bits[2]].length; k++) {
-                        if(how_many_for === 3) {
-                            allMapping.push(map[bits[0]][i] + map[bits[1]][j] + map[bits[2]][k])
-                        }
-                        else {
-                            for (let l = 0; l < map[bits[3]].length; l++) {
-                                allMapping.push(map[bits[0]][i] + map[bits[1]][j] + map[bits[2]][k] + map[bits[3]][l])
-                            }
-                        }
-                    }
-                }
+                if(
+                    useMemo.row[r][ceil] === 1
+                    || useMemo.col[c][ceil] === 1
+                    || useMemo.area[Math.floor(r / 3)][Math.floor(c / 3)][ceil] === 1
+                ) return false
+
+                useMemo.row[r][ceil] = 1
+                useMemo.col[c][ceil] = 1
+                useMemo.area[Math.floor(r / 3)][Math.floor(c / 3)][ceil] = 1
             }
         }
-
-        return allMapping
     }
+
+    return true
 }
 
 
