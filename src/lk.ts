@@ -106,22 +106,38 @@ function lk(root: TreeNode | null): boolean {
     return flag
 }
 
-const t: TreeNode = {
-    val: 2,
-    left: {
-        val: 2,
-        left: null,
-        right: null
-    },
-    right: {
-        val: 2,
-        left: null,
-        right: null
+
+class MyCalendarThree {
+    #dx = {} as { [k: number | string]: number }
+
+    constructor() {
+
+    }
+
+    book(start: number, end: number): number {
+        this.#dx[start] = (this.#dx[start] ?? 0) + 1
+        this.#dx[end] = (this.#dx[end] ?? 0) - 1
+
+        let max = 0
+        let curr = 0
+
+        Object.keys(this.#dx).forEach(idx => {
+            curr += this.#dx[idx]
+            max = Math.max(max, curr)
+        })
+        return max
     }
 }
 
-console.log(lk(t))
+showTime(() => {
+    const c = new MyCalendarThree()
+    console.log(c.book(10, 20))
+    console.log(c.book(30, 100000000))
+})
 
+console.time('foreach')
+
+console.timeEnd('foreach')
 
 export {
     lk
