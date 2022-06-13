@@ -1,23 +1,28 @@
 struct Solution {}
 
 impl Solution {
-    pub fn is_boomerang(points: Vec<Vec<i32>>) -> bool {
-        if points[0][0] == points[1][0] && points[0][1] == points[1][1]
-            || points[0][0] == points[2][0] && points[0][1] == points[2][1]
-            || points[1][0] == points[2][0] && points[1][1] == points[2][1]
-            || points[0][0] == points[1][0] && points[0][0] == points[2][0]
-            || points[0][1] == points[1][1] && points[0][1] == points[2][1]
-        {
-            false
-        } else {
-            (points[0][1] - points[1][1]) * (points[0][0] - points[2][0])
-                != (points[0][1] - points[2][1]) * (points[0][0] - points[1][0])
+    pub fn height_checker(heights: Vec<i32>) -> i32 {
+        let in_order = &mut heights.clone();
+        in_order.sort_unstable();
+        let mut count = 0;
+
+        let mut i = 0;
+        while i < heights.len() {
+            if heights[i] != in_order[i] {
+                count += 1
+            }
+            i += 1;
         }
+        count
     }
 }
 
 fn main() {
-    let res = Solution::is_boomerang(vec![vec![1, 2], vec![1, 3], vec![2, 2]]);
+    let res1 = Solution::height_checker(vec![1, 1, 4, 2, 1, 3]);
+    let res2 = Solution::height_checker(vec![5, 1, 2, 3, 4]);
+    let res3 = Solution::height_checker(vec![1, 2, 3, 4, 5]);
 
-    println!("res is: {:?}", res);
+    println!("res1 is: {:?}", res1);  // 3
+    println!("res2 is: {:?}", res2);  // 5
+    println!("res3 is: {:?}", res3);  // 0
 }
