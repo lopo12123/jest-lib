@@ -1,35 +1,63 @@
 struct Solution {}
 
 impl Solution {
-    pub fn is_palindrome(x: i32) -> bool {
-        if x < 0 {
-            return false;
-        }
-        if x == 0 {
-            return true;
+    pub fn longest_common_prefix(strs: Vec<String>) -> String {
+        if strs.len() == 1 || strs[0] == "" {
+            return String::from(&strs[0]);
         }
 
-        let mut xx = x;
-        let mut bits = vec![];
-        while xx > 0 {
-            bits.push(xx % 10);
-            xx = (xx - xx % 10) / 10;
+        let mut common_prefix: Vec<&str> = vec![];
+
+        let mut i = 0;
+        while i < strs[0].len() {
+            common_prefix.push(&strs[0][i..i + 1]);
+            i += 1;
         }
 
-        let mut l = 0;
-        let mut r = bits.len() - 1;
-
-        while l < r {
-            if bits[l] != bits[r] {
-                return false;
-            } else {
-                l += 1;
-                r -= 1;
+        let mut i = 1;
+        while i < strs.len() {
+            let m = std::cmp::min(common_prefix.len(), strs[i].len());
+            let mut j = 0;
+            while j < m {
+                if &strs[i - 1][j..j + 1] != &strs[i][j..j + 1] {
+                    common_prefix.splice(j.., vec![]);
+                    break;
+                }
+                j += 1;
             }
+
+            if common_prefix.len() == 0 {
+                return String::from("");
+            }
+
+            if common_prefix.len() >= m {
+                common_prefix.splice(m.., vec![]);
+            }
+
+
+            // println!("{:?}", common_prefix);
+
+            i += 1;
         }
 
-        true
+        let mut s = String::from("");
+        for ch in common_prefix.iter() {
+            s += *ch;
+        }
+        s
     }
 }
 
-fn main() {}
+fn main() {
+    // Solution::longest_common_prefix(vec![
+    //     String::from("flower"),
+    //     String::from("flow"),
+    //     String::from("flight"),
+    // ]);
+    Solution::longest_common_prefix(vec![
+        String::from("a"),
+        String::from("aca"),
+        String::from("accb"),
+        String::from("b"),
+    ]);
+}
