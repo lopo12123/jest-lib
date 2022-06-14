@@ -1,24 +1,24 @@
-class ListNode {
-    val: number
-    next: ListNode | null
-
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
-    }
-}
-
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class ListNode {
+//     val: number
+//     next: ListNode | null
+//
+//     constructor(val?: number, next?: ListNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.next = (next === undefined ? null : next)
+//     }
+// }
+//
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -78,66 +78,35 @@ class TreeNode {
 //     }
 // }
 
-const showTime = (fn: () => void) => {
-    console.time('fn')
-    fn()
-    console.timeEnd('fn')
-}
+function lk(mat: number[][]): number[] {
+    const row = mat.length;
+    const col = mat[0].length;
 
-function lk(root: TreeNode | null): boolean {
-    if(root === null) return true
-
-    let flag = true
-
-    const dfs = (sub: TreeNode | null, low: number, high: number) => {
-        if(!flag || !sub) return
-
-        if(sub.val <= low || sub.val >= high) {
-            flag = false
+    if(row === 1) return mat[0];
+    else if(col === 1) return mat.map(x => x[0]);
+    else {
+        const store: number[] = []
+        const max = Math.max(row, col);
+        for (let xy = 0; xy <= max; xy++) {
+            for (let offset = 0; offset <= xy; offset++) {
+                const exist_or_not = xy % 2 === 0
+                    ? mat[xy - offset]?.[offset]
+                    : mat[offset]?.[xy - offset]
+                if(exist_or_not !== undefined) {
+                    store.push(exist_or_not)
+                }
+            }
         }
-        else {
-            dfs(sub.left, low, sub.val)
-            dfs(sub.right, sub.val, high)
-        }
-    }
-
-    dfs(root, -Infinity, Infinity)
-
-    return flag
-}
-
-
-class MyCalendarThree {
-    #dx = {} as { [k: number | string]: number }
-
-    constructor() {
-
-    }
-
-    book(start: number, end: number): number {
-        this.#dx[start] = (this.#dx[start] ?? 0) + 1
-        this.#dx[end] = (this.#dx[end] ?? 0) - 1
-
-        let max = 0
-        let curr = 0
-
-        Object.keys(this.#dx).forEach(idx => {
-            curr += this.#dx[idx]
-            max = Math.max(max, curr)
-        })
-        return max
+        return store
     }
 }
 
-showTime(() => {
-    const c = new MyCalendarThree()
-    console.log(c.book(10, 20))
-    console.log(c.book(30, 100000000))
-})
-
-console.time('foreach')
-
-console.timeEnd('foreach')
+console.log(lk([
+    [ 1, 2 ],
+    [ 3, 5 ],
+    [ 4, 6 ],
+    [ 7, 8 ],
+]))
 
 export {
     lk
