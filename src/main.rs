@@ -1,63 +1,47 @@
 struct Solution {}
 
 impl Solution {
-    pub fn longest_common_prefix(strs: Vec<String>) -> String {
-        if strs.len() == 1 || strs[0] == "" {
-            return String::from(&strs[0]);
-        }
+    pub fn find_diagonal_order(mat: Vec<Vec<i32>>) -> Vec<i32> {
+        let row = mat.len();
+        let col = mat[0].len();
 
-        let mut common_prefix: Vec<&str> = vec![];
+        if row == 1 {
+            return mat[0].clone();
+        } else if col == 1 {
+            let mut res = vec![];
+            for item in mat.iter() {
+                res.push(item[0])
+            }
+            return res;
+        } else {
+            let mut res = vec![];
+            let mut itered = 0;
 
-        let mut i = 0;
-        while i < strs[0].len() {
-            common_prefix.push(&strs[0][i..i + 1]);
-            i += 1;
-        }
+            let mut y = 0;
+            let mut x = 0;
 
-        let mut i = 1;
-        while i < strs.len() {
-            let m = std::cmp::min(common_prefix.len(), strs[i].len());
-            let mut j = 0;
-            while j < m {
-                if &strs[i - 1][j..j + 1] != &strs[i][j..j + 1] {
-                    common_prefix.splice(j.., vec![]);
-                    break;
+            while itered < row * col {
+                itered += 1;
+
+                match (y, x) {
+                    (y, x) if x => {}
+                    _ => {}
                 }
-                j += 1;
             }
 
-            if common_prefix.len() == 0 {
-                return String::from("");
-            }
-
-            if common_prefix.len() >= m {
-                common_prefix.splice(m.., vec![]);
-            }
-
-
-            // println!("{:?}", common_prefix);
-
-            i += 1;
+            return res;
         }
-
-        let mut s = String::from("");
-        for ch in common_prefix.iter() {
-            s += *ch;
-        }
-        s
     }
 }
 
+
 fn main() {
-    // Solution::longest_common_prefix(vec![
-    //     String::from("flower"),
-    //     String::from("flow"),
-    //     String::from("flight"),
+    // let a = Solution::find_diagonal_order(vec![
+    //     vec![1, 3],
+    //     vec![2, 4],
+    //     vec![5, 7],
+    //     vec![6, 8],
     // ]);
-    Solution::longest_common_prefix(vec![
-        String::from("a"),
-        String::from("aca"),
-        String::from("accb"),
-        String::from("b"),
-    ]);
+    //
+    // println!("{:?}", a);
 }
