@@ -87,7 +87,7 @@ function lk(mat: number[][]): number[] {
     else {
         const store: number[] = []
         const max = Math.max(row, col);
-        for (let xy = 0; xy <= max; xy++) {
+        for (let xy = 0; xy <= 2 * max; xy++) {
             for (let offset = 0; offset <= xy; offset++) {
                 const exist_or_not = xy % 2 === 0
                     ? mat[xy - offset]?.[offset]
@@ -101,11 +101,16 @@ function lk(mat: number[][]): number[] {
     }
 }
 
+// console.log(lk([
+//     [ 1, 2 ],
+//     [ 3, 5 ],
+//     [ 4, 6 ],
+//     [ 7, 8 ],
+// ]))
 console.log(lk([
-    [ 1, 2 ],
-    [ 3, 5 ],
-    [ 4, 6 ],
-    [ 7, 8 ],
+    [ 1, 2, 3 ],
+    [ 4, 5, 6 ],
+    [ 7, 8, 9 ],
 ]))
 
 export {
