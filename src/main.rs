@@ -5,43 +5,50 @@ impl Solution {
         let row = mat.len();
         let col = mat[0].len();
 
-        if row == 1 {
-            return mat[0].clone();
+        return if row == 1 {
+            mat[0].clone()
         } else if col == 1 {
             let mut res = vec![];
             for item in mat.iter() {
                 res.push(item[0])
             }
-            return res;
+            res
         } else {
-            let mut res = vec![];
-            let mut itered = 0;
+            let max = std::cmp::max(row, col) * 2;
+            let mut store = vec![];
 
-            let mut y = 0;
-            let mut x = 0;
-
-            while itered < row * col {
-                itered += 1;
-
-                match (y, x) {
-                    (y, x) if x => {}
-                    _ => {}
+            let mut xy = 0;
+            while xy <= max {
+                let mut offset = 0;
+                while offset <= xy {
+                    if xy % 2 == 0 && xy - offset < row && offset < col
+                        || xy % 2 != 0 && xy - offset < col && offset < row {
+                        store.push(
+                            if xy % 2 == 0 {
+                                mat[xy - offset][offset]
+                            } else {
+                                mat[offset][xy - offset]
+                            }
+                        );
+                    }
+                    offset += 1;
                 }
+                xy += 1;
             }
 
-            return res;
+            store
         }
     }
 }
 
 
 fn main() {
-    // let a = Solution::find_diagonal_order(vec![
-    //     vec![1, 3],
-    //     vec![2, 4],
-    //     vec![5, 7],
-    //     vec![6, 8],
-    // ]);
-    //
-    // println!("{:?}", a);
+    let a = Solution::find_diagonal_order(vec![
+        vec![1, 3],
+        vec![2, 4],
+        vec![5, 7],
+        vec![6, 8],
+    ]);
+
+    println!("{:?}", a);
 }
