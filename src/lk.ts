@@ -78,27 +78,30 @@
 //     }
 // }
 
-function lk(mat: number[][]): number[] {
-    const row = mat.length;
-    const col = mat[0].length;
+function lk(nums: number[], k: number): number {
+    if(nums.length === 1) return 0;
 
-    if(row === 1) return mat[0];
-    else if(col === 1) return mat.map(x => x[0]);
-    else {
-        const store: number[] = []
-        const max = Math.max(row, col);
-        for (let xy = 0; xy <= 2 * max; xy++) {
-            for (let offset = 0; offset <= xy; offset++) {
-                const exist_or_not = xy % 2 === 0
-                    ? mat[xy - offset]?.[offset]
-                    : mat[offset]?.[xy - offset]
-                if(exist_or_not !== undefined) {
-                    store.push(exist_or_not)
-                }
-            }
+    nums.sort((a, b) => a - b);
+
+    let count = 0;
+    let slow = 0;
+    let fast = 1;
+    while (fast < nums.length) {
+        if(nums[fast] - nums[slow] === k) {
+            count += 1;
+            fast += 1;
+
+            const curr_fast = nums[fast - 1]
+            while (nums[fast] === curr_fast && fast < nums.length) fast += 1;
         }
-        return store
+        else if(nums[fast] - nums[slow] > k) {
+            slow += 1;
+            if(fast === slow) fast += 1;
+        }
+        else fast += 1;
+
     }
+    return count;
 }
 
 // console.log(lk([
@@ -107,11 +110,7 @@ function lk(mat: number[][]): number[] {
 //     [ 4, 6 ],
 //     [ 7, 8 ],
 // ]))
-console.log(lk([
-    [ 1, 2, 3 ],
-    [ 4, 5, 6 ],
-    [ 7, 8, 9 ],
-]))
+console.log(lk([ 1, 1, 2, 2, 2, 3 ], 0))
 
 export {
     lk
