@@ -48,6 +48,16 @@
 //     }
 // }
 
+class Node {
+    val: number
+    next: Node | null
+
+    constructor(val?: number, next?: Node) {
+        this.val = (val === undefined ? 0 : val);
+        this.next = (next === undefined ? null : next);
+    }
+}
+
 // const root: TreeNode = {
 //     val: 4,
 //     left: {
@@ -78,30 +88,25 @@
 //     }
 // }
 
-function lk(nums: number[], k: number): number {
-    if(nums.length === 1) return 0;
-
-    nums.sort((a, b) => a - b);
-
-    let count = 0;
-    let slow = 0;
-    let fast = 1;
-    while (fast < nums.length) {
-        if(nums[fast] - nums[slow] === k) {
-            count += 1;
-            fast += 1;
-
-            const curr_fast = nums[fast - 1]
-            while (nums[fast] === curr_fast && fast < nums.length) fast += 1;
-        }
-        else if(nums[fast] - nums[slow] > k) {
-            slow += 1;
-            if(fast === slow) fast += 1;
-        }
-        else fast += 1;
-
+function lk(head: Node | null, insertVal: number): Node | null {
+    if(head === null) {
+        const p = new Node(insertVal);
+        p.next = p;
+        return p;
     }
-    return count;
+    else {
+        let pt = head;
+        while (pt.next !== head) {
+            if(pt.val <= insertVal && pt.next!.val >= insertVal
+                || pt.val > pt.next!.val && (pt.val <= insertVal || pt.next!.val >= insertVal)) {
+                pt.next = new Node(insertVal, pt.next!);
+                return head;
+            }
+            pt = pt.next!;
+        }
+        pt.next = new Node(insertVal, head);
+        return head;
+    }
 }
 
 // console.log(lk([
