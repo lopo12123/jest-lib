@@ -1,34 +1,27 @@
 struct Solution {}
 
 impl Solution {
-    pub fn duplicate_zeros(arr: &mut Vec<i32>) {
-        let pool: Vec<i32> = arr.clone();
+    pub fn defang_i_paddr(address: String) -> String {
+        let mut new_addr = String::from("");
 
+        let mut start = 0;
         let mut p = 0;
-        let mut t = 0;
-        while p < arr.len() {
-            if pool[t] == 0 {
-                arr[p] = 0;
-                p += 1;
 
-                if p < arr.len() {
-                    arr[p] = 0;
-                    p += 1;
-                }
-            } else {
-                arr[p] = pool[t];
-                p += 1;
+        while p < address.len() {
+            if &address[p..p + 1] == "." {
+                new_addr.push_str(&address[start..p]);
+                new_addr.push_str("[.]");
+                start = p + 1;
             }
-            t += 1;
+            p += 1;
         }
+        new_addr.push_str(&address[start..p]);
+
+        new_addr
     }
 }
 
 
 fn main() {
-    let mut arr = vec![1, 0, 2, 0, 3];
-
-    Solution::duplicate_zeros(&mut arr);
-
-    println!("{:?}", arr);
+    println!("{:?}", Solution::defang_i_paddr(String::from("1.1.1.1")));
 }
