@@ -48,15 +48,15 @@ class TreeNode {
 //     }
 // }
 
-class Node {
-    val: number
-    next: Node | null
-
-    constructor(val?: number, next?: Node) {
-        this.val = (val === undefined ? 0 : val);
-        this.next = (next === undefined ? null : next);
-    }
-}
+// class Node {
+//     val: number
+//     next: Node | null
+//
+//     constructor(val?: number, next?: Node) {
+//         this.val = (val === undefined ? 0 : val);
+//         this.next = (next === undefined ? null : next);
+//     }
+// }
 
 // const root: TreeNode = {
 //     val: 4,
@@ -88,34 +88,31 @@ class Node {
 //     }
 // }
 
-function lk(root: TreeNode): number[] {
-    const count = new Map<number, number>()
+function lk(root: TreeNode): number {
+    let curr_level: TreeNode[] = [ root ];
+    let next_level: TreeNode[] = [];
+    let curr_p: number = 0;
+    while (curr_p < curr_level.length) {
+        const curr = curr_level[curr_p];
+        if(curr.left) next_level.push(curr.left);
+        if(curr.right) next_level.push(curr.right);
+        curr_p += 1;
 
-    const dfs = (sub: TreeNode | null): number => {
-        if(sub === null) return 0
-        else {
-            const sum = sub.val + dfs(sub.left) + dfs(sub.right)
-            count.set(sum, (count.get(sum) ?? 0) + 1)
-            return sum
+        // 当前层已遍历结束
+        if(curr_p === curr_level.length) {
+            // 无下一层, 当前层是最下层, 直接返回当前层的第一个节点值
+            if(next_level.length === 0) return curr_level[0].val;
+            // 有下一层, 继续检查下一层是否是最下层
+            else {
+                curr_level = next_level;
+                next_level = []
+                curr_p = 0;
+            }
         }
     }
 
-    dfs(root)
-
-    const sorted = [ ...count ].sort((a, b) => b[1] - a[1])
-    for (let i = 1; i < sorted.length; i++) {
-        if(sorted[i][1] !== sorted[i - 1][1]) return sorted.slice(0, i).map(x => x[0])
-    }
-    return sorted.map(x => x[0])
+    return 0
 }
-
-// console.log(lk([
-//     [ 1, 2 ],
-//     [ 3, 5 ],
-//     [ 4, 6 ],
-//     [ 7, 8 ],
-// ]))
-console.log(lk([ 1, 1, 2, 2, 2, 3 ], 0))
 
 export {
     lk
