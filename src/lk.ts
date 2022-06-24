@@ -88,30 +88,23 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): number {
-    let curr_level: TreeNode[] = [ root ];
-    let next_level: TreeNode[] = [];
-    let curr_p: number = 0;
-    while (curr_p < curr_level.length) {
-        const curr = curr_level[curr_p];
-        if(curr.left) next_level.push(curr.left);
-        if(curr.right) next_level.push(curr.right);
-        curr_p += 1;
+function lk(root: TreeNode | null): number[] {
+    const max_in_level: number[] = []
 
-        // 当前层已遍历结束
-        if(curr_p === curr_level.length) {
-            // 无下一层, 当前层是最下层, 直接返回当前层的第一个节点值
-            if(next_level.length === 0) return curr_level[0].val;
-            // 有下一层, 继续检查下一层是否是最下层
-            else {
-                curr_level = next_level;
-                next_level = []
-                curr_p = 0;
-            }
+    const dfs = (sub: TreeNode | null, level: number) => {
+        if(sub === null) return;
+        else {
+            if(max_in_level[level] === undefined
+                || max_in_level[level] < sub.val) max_in_level[level] = sub.val
+
+            dfs(sub.left, level + 1)
+            dfs(sub.right, level + 1)
         }
     }
 
-    return 0
+    dfs(root, 0)
+
+    return max_in_level
 }
 
 export {
