@@ -88,23 +88,18 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null): number[] {
-    const max_in_level: number[] = []
+function lk(costs: number[][]): number {
+    let cost_till_now = costs[0]
 
-    const dfs = (sub: TreeNode | null, level: number) => {
-        if(sub === null) return;
-        else {
-            if(max_in_level[level] === undefined
-                || max_in_level[level] < sub.val) max_in_level[level] = sub.val
-
-            dfs(sub.left, level + 1)
-            dfs(sub.right, level + 1)
-        }
+    for (let i = 1; i < costs.length; i ++) {
+        cost_till_now = [
+            Math.min(cost_till_now[1], cost_till_now[2]) + costs[i][0],
+            Math.min(cost_till_now[0], cost_till_now[2]) + costs[i][1],
+            Math.min(cost_till_now[0], cost_till_now[1]) + costs[i][2],
+        ]
     }
 
-    dfs(root, 0)
-
-    return max_in_level
+    return Math.min(...cost_till_now)
 }
 
 export {
