@@ -88,35 +88,58 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]) {
-    const len = nums.length
-    nums.sort((a, b) => b - a)
+function lk(expression: string): number[] {
+    const nums = expression
+        .split(/[\-+*]/g)
+        .map(x => parseInt(x))
+    const operators = expression
+        .match(/[\-+*]/g) as ('+' | '-' | '*')[] | null
 
-    if(len < 2) return nums
-
-    if(len % 2 === 0) {
-        const high = nums.slice(0, len / 2)
-        const low = nums.slice(len / 2)
-        const half_len = len / 2
-
-        for (let p = 0; p < len / 2; p++) {
-            nums[p * 2] = low[p]
-            nums[p * 2 + 1] = high[p]
-        }
-    }
+    if(operators === null) return nums
     else {
-        const high = nums.slice(0, (len - 1) / 2)
-        const low = nums.slice((len - 1) / 2)
-
-        console.log(high, low)
-
-        for (let p = 0; p < (len - 1) / 2; p++) {
-            nums[p * 2] = low[p]
-            nums[p * 2 + 1] = high[p]
+        const do_op = (left: number, right: number, op: '+' | '-' | '*') => {
+            return op === '+'
+                ? left + right
+                : op === '-'
+                    ? left - right
+                    : left * right
         }
-        nums[len - 1] = low[(len - 1) / 2]
+
+        const partial_solve = (left_idx: number, right_idx: number, separate_idx: number): number[] => {
+            const left_nums = nums.slice(left_idx, separate_idx)
+            const right_nums = nums.slice(separate_idx, right_idx)
+
+            let left_results: number[] = []
+            let right_results: number[] = []
+
+            if(left_nums.length === 1) left_results = left_nums
+            else for (let i = 1; i < left_nums.length; i++) {
+                left_results.push(...partial_solve(left_idx, separate_idx, left_idx + i))
+            }
+            if(right_nums.length === 1) right_results = right_nums
+            else for (let j = 1; j < right_nums.length; j++) {
+                right_results.push(...partial_solve(separate_idx, right_idx, separate_idx + j))
+            }
+
+            const results: number[] = []
+            for (let i = 0; i < left_results.length; i++) {
+                for (let j = 0; j < right_results.length; j++) {
+                    results.push(do_op(left_results[i], right_results[j], operators[separate_idx - 1]))
+                }
+            }
+            return results
+        }
+
+        const results: number[] = []
+        for (let i = 1; i < nums.length; i++) {
+            results.push(...partial_solve(0, nums.length, i))
+        }
+        return results
     }
 }
+
+console.log(lk('2-1-1'))
+console.log(lk('2*3-4*5'))
 
 export {
     lk
