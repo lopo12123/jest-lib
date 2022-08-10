@@ -8,17 +8,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
-}
+// class TreeNode {
+//     val: number
+//     left: TreeNode | null
+//     right: TreeNode | null
+//
+//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+//         this.val = (val === undefined ? 0 : val)
+//         this.left = (left === undefined ? null : left)
+//         this.right = (right === undefined ? null : right)
+//     }
+// }
 
 // class Node {
 //     val: boolean
@@ -88,58 +88,48 @@ class TreeNode {
 //     }
 // }
 
-function lk(expression: string): number[] {
-    const nums = expression
-        .split(/[\-+*]/g)
-        .map(x => parseInt(x))
-    const operators = expression
-        .match(/[\-+*]/g) as ('+' | '-' | '*')[] | null
+function lk(equation: string): string {
+    const [left, right] = equation.split('=')
 
-    if(operators === null) return nums
-    else {
-        const do_op = (left: number, right: number, op: '+' | '-' | '*') => {
-            return op === '+'
-                ? left + right
-                : op === '-'
-                    ? left - right
-                    : left * right
-        }
+    // 左边匹配 x
+    const xs_left = left.match(/(\+|-)?[0-9]*x/g) ?? []
+    // 左边有几个 x
+    const x_left = xs_left === null
+        ? 0
+        : xs_left.reduce((prev, curr) => {
+            return prev + (curr === '-x'
+                ? -1
+                : (parseInt(curr.match(/(\+|-)?[0-9]+/)?.[0] ?? '1') || 0))
+        }, 0)
+    // 左边其他值
+    const v_left = parseInt(eval(left.replace(/(\+|-)?[0-9]*x/g, ' ')) ?? '0')
 
-        const partial_solve = (left_idx: number, right_idx: number, separate_idx: number): number[] => {
-            const left_nums = nums.slice(left_idx, separate_idx)
-            const right_nums = nums.slice(separate_idx, right_idx)
+    // 右边匹配 x
+    const xs_right = right.match(/(\+|-)?[0-9]*x/g) ?? []
+    // 右边有几个 x
+    const x_right = xs_right === null
+        ? 0
+        : xs_right.reduce((prev, curr) => {
+            return prev + (curr === '-x'
+                ? -1
+                : (parseInt(curr.match(/(\+|-)?[0-9]+/)?.[0] ?? '1') || 0))
+        }, 0)
+    // 右边其他值
+    const v_right = parseInt(eval(right.replace(/(\+|-)?[0-9]*x/g, ' ')) ?? '0')
 
-            let left_results: number[] = []
-            let right_results: number[] = []
+    if (x_left === x_right && v_left !== v_right) return 'No solution'
 
-            if(left_nums.length === 1) left_results = left_nums
-            else for (let i = 1; i < left_nums.length; i++) {
-                left_results.push(...partial_solve(left_idx, separate_idx, left_idx + i))
-            }
-            if(right_nums.length === 1) right_results = right_nums
-            else for (let j = 1; j < right_nums.length; j++) {
-                right_results.push(...partial_solve(separate_idx, right_idx, separate_idx + j))
-            }
+    const x = (v_right - v_left) / (x_left - x_right)
 
-            const results: number[] = []
-            for (let i = 0; i < left_results.length; i++) {
-                for (let j = 0; j < right_results.length; j++) {
-                    results.push(do_op(left_results[i], right_results[j], operators[separate_idx - 1]))
-                }
-            }
-            return results
-        }
+    console.log(xs_left, x_left, v_left)
+    console.log(xs_right, x_right, v_right)
 
-        const results: number[] = []
-        for (let i = 1; i < nums.length; i++) {
-            results.push(...partial_solve(0, nums.length, i))
-        }
-        return results
-    }
+    return isNaN(x) ? 'Infinite solutions' : `x=${x}`
 }
 
-console.log(lk('2-1-1'))
-console.log(lk('2*3-4*5'))
+// console.log(lk('x+5-3+x=6+x-2'))
+console.log(lk('x=x'))
+console.log(lk('x=-x'))
 
 export {
     lk
