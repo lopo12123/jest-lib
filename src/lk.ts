@@ -88,43 +88,18 @@
 //     }
 // }
 
-function lk(equation: string): string {
-    const [left, right] = equation.split('=')
+function lk(s: string): string {
+    const digits = s.match(/[0-9]+/g)?.join('') ?? ''
+    const chars = s.match(/[a-z]+/g)?.join('') ?? ''
 
-    // 左边匹配 x
-    const xs_left = left.match(/(\+|-)?[0-9]*x/g) ?? []
-    // 左边有几个 x
-    const x_left = xs_left === null
-        ? 0
-        : xs_left.reduce((prev, curr) => {
-            return prev + (curr === '-x'
-                ? -1
-                : (parseInt(curr.match(/(\+|-)?[0-9]+/)?.[0] ?? '1') || 0))
-        }, 0)
-    // 左边其他值
-    const v_left = parseInt(eval(left.replace(/(\+|-)?[0-9]*x/g, ' ')) ?? '0')
-
-    // 右边匹配 x
-    const xs_right = right.match(/(\+|-)?[0-9]*x/g) ?? []
-    // 右边有几个 x
-    const x_right = xs_right === null
-        ? 0
-        : xs_right.reduce((prev, curr) => {
-            return prev + (curr === '-x'
-                ? -1
-                : (parseInt(curr.match(/(\+|-)?[0-9]+/)?.[0] ?? '1') || 0))
-        }, 0)
-    // 右边其他值
-    const v_right = parseInt(eval(right.replace(/(\+|-)?[0-9]*x/g, ' ')) ?? '0')
-
-    if (x_left === x_right && v_left !== v_right) return 'No solution'
-
-    const x = (v_right - v_left) / (x_left - x_right)
-
-    console.log(xs_left, x_left, v_left)
-    console.log(xs_right, x_right, v_right)
-
-    return isNaN(x) ? 'Infinite solutions' : `x=${x}`
+    if(Math.abs(digits.length - chars.length) > 1)
+        return ''
+    else if(digits.length > chars.length)
+        return digits.split('')
+            .map((digit, idx) => digit + (chars[idx] ?? '')).join('')
+    else
+        return chars.split('')
+            .map((char, idx) => char + (digits[idx] ?? '')).join('')
 }
 
 // console.log(lk('x+5-3+x=6+x-2'))
