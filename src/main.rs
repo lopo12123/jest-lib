@@ -1,24 +1,41 @@
+use std::process::id;
+
 struct Solution {}
 
 impl Solution {
-    pub fn min_cost_to_move_chips(position: Vec<i32>) -> i32 {
-        let mut odd_even = [0, 0];
+    pub fn reformat(s: String) -> String {
+        let mut res = String::from("");
+        let mut digits: Vec<char> = vec![];
+        let mut chars: Vec<char> = vec![];
 
-        for po in position {
-            odd_even[(po % 2) as usize] += 1;
+        for char in s.chars() {
+            if char.is_ascii_digit() { digits.push(char) } else { chars.push(char) }
         }
 
-        std::cmp::min(odd_even[0], odd_even[1])
+        if ((digits.len() - chars.len()) as i32).abs() > 1 {
+            return res;
+        } else if digits.len() > chars.len() {
+            res.push(digits[0]);
+            for idx in 0..chars.len() {
+                res.push(chars[idx]);
+                res.push(digits[idx + 1]);
+            }
+        } else if digits.len() < chars.len() {
+            res.push(chars[0]);
+            for idx in 0..digits.len() {
+                res.push(digits[idx]);
+                res.push(chars[idx + 1]);
+            }
+        } else {
+            for idx in 0..digits.len() {
+                res.push(digits[idx]);
+                res.push(chars[idx]);
+            }
+        }
+
+        return res;
     }
 }
 
 
-fn main() {
-    let nums1 = vec![1, 2, 3];  // 1
-    let nums2 = vec![2, 2, 2, 3, 3];  // 2
-    let nums3 = vec![1, 100000];  // 1
-
-    println!("{:?}", Solution::min_cost_to_move_chips(nums1));
-    println!("{:?}", Solution::min_cost_to_move_chips(nums2));
-    println!("{:?}", Solution::min_cost_to_move_chips(nums3));
-}
+fn main() {}
