@@ -88,23 +88,34 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const digits = s.match(/[0-9]+/g)?.join('') ?? ''
-    const chars = s.match(/[a-z]+/g)?.join('') ?? ''
+function lk(groupSizes: number[]): number[][] {
+    const groupSolution: number[][] = []
 
-    if(Math.abs(digits.length - chars.length) > 1)
-        return ''
-    else if(digits.length > chars.length)
-        return digits.split('')
-            .map((digit, idx) => digit + (chars[idx] ?? '')).join('')
-    else
-        return chars.split('')
-            .map((char, idx) => char + (digits[idx] ?? '')).join('')
+    let toGroup = groupSizes.length
+    while (toGroup > 0) {
+        let _groupSize = -1
+        let _group = []
+        for (let i = 0; i < groupSizes.length; i++) {
+            if(_groupSize === -1 && groupSizes[i] !== -1) {
+                _groupSize = groupSizes[i]
+                groupSizes[i] = -1
+                _group.push(i)
+            }
+            else if(_groupSize !== -1 && groupSizes[i] === _groupSize) {
+                groupSizes[i] = -1
+                _group.push(i)
+            }
+
+            if(_group.length === _groupSize) break
+        }
+        groupSolution.push(_group)
+        toGroup -= _groupSize
+    }
+    return groupSolution
 }
 
-// console.log(lk('x+5-3+x=6+x-2'))
-console.log(lk('x=x'))
-console.log(lk('x=-x'))
+console.log(lk([ 3, 3, 3, 3, 3, 1, 3 ]))
+console.log(lk([ 2, 1, 3, 3, 3, 2 ]))
 
 export {
     lk
