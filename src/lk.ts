@@ -88,34 +88,64 @@
 //     }
 // }
 
-function lk(groupSizes: number[]): number[][] {
-    const groupSolution: number[][] = []
+class MyCircularDeque {
+    #queue: number[] = []
 
-    let toGroup = groupSizes.length
-    while (toGroup > 0) {
-        let _groupSize = -1
-        let _group = []
-        for (let i = 0; i < groupSizes.length; i++) {
-            if(_groupSize === -1 && groupSizes[i] !== -1) {
-                _groupSize = groupSizes[i]
-                groupSizes[i] = -1
-                _group.push(i)
-            }
-            else if(_groupSize !== -1 && groupSizes[i] === _groupSize) {
-                groupSizes[i] = -1
-                _group.push(i)
-            }
-
-            if(_group.length === _groupSize) break
-        }
-        groupSolution.push(_group)
-        toGroup -= _groupSize
+    constructor(private k: number) {
     }
-    return groupSolution
+
+    insertFront(value: number): boolean {
+        if(this.#queue.length === this.k) return false
+        else {
+            this.#queue.unshift(value)
+            return true
+        }
+    }
+
+    insertLast(value: number): boolean {
+        if(this.#queue.length === this.k) return false
+        else {
+            this.#queue.push(value)
+            return true
+        }
+    }
+
+    deleteFront(): boolean {
+        if(this.#queue.length === 0) return false
+        else {
+            this.#queue.shift()
+            return true
+        }
+    }
+
+    deleteLast(): boolean {
+        if(this.#queue.length === 0) return false
+        else {
+            this.#queue.pop()
+            return true
+        }
+    }
+
+    getFront(): number {
+        return this.#queue[0] ?? -1
+    }
+
+    getRear(): number {
+        return this.#queue.at(-1) ?? -1
+    }
+
+    isEmpty(): boolean {
+        return this.#queue.length === 0
+    }
+
+    isFull(): boolean {
+        return this.#queue.length === this.k
+    }
 }
 
-console.log(lk([ 3, 3, 3, 3, 3, 1, 3 ]))
-console.log(lk([ 2, 1, 3, 3, 3, 2 ]))
+function lk() {
+
+}
 
 export {
     lk
