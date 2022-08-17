@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -88,63 +88,23 @@
 //     }
 // }
 
-class MyCircularDeque {
-    #queue: number[] = []
+function lk(root: TreeNode): number {
+    let dp = 0, sum = 0
 
-    constructor(private k: number) {
-    }
+    ;(function dfs(_root: TreeNode | null, _dp) {
+        if(_root === null) return
 
-    insertFront(value: number): boolean {
-        if(this.#queue.length === this.k) return false
-        else {
-            this.#queue.unshift(value)
-            return true
+        if(_dp === dp)  sum += _root.val
+        else if(_dp > dp) {
+            dp = _dp
+            sum = _root.val
         }
-    }
 
-    insertLast(value: number): boolean {
-        if(this.#queue.length === this.k) return false
-        else {
-            this.#queue.push(value)
-            return true
-        }
-    }
+        dfs(_root.left, _dp + 1)
+        dfs(_root.right, _dp + 1)
+    })(root, 0)
 
-    deleteFront(): boolean {
-        if(this.#queue.length === 0) return false
-        else {
-            this.#queue.shift()
-            return true
-        }
-    }
-
-    deleteLast(): boolean {
-        if(this.#queue.length === 0) return false
-        else {
-            this.#queue.pop()
-            return true
-        }
-    }
-
-    getFront(): number {
-        return this.#queue[0] ?? -1
-    }
-
-    getRear(): number {
-        return this.#queue.at(-1) ?? -1
-    }
-
-    isEmpty(): boolean {
-        return this.#queue.length === 0
-    }
-
-    isFull(): boolean {
-        return this.#queue.length === this.k
-    }
-}
-
-function lk() {
-
+    return sum
 }
 
 export {
