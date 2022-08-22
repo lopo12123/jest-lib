@@ -88,23 +88,33 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): number {
-    let dp = 0, sum = 0
-
-    ;(function dfs(_root: TreeNode | null, _dp) {
-        if(_root === null) return
-
-        if(_dp === dp)  sum += _root.val
-        else if(_dp > dp) {
-            dp = _dp
-            sum = _root.val
+function lk(root: TreeNode | null): string[][] {
+    let depth = 0
+    ;(function getDepth(_root, curr) {
+        if (_root === null) return
+        else {
+            depth = Math.max(curr, depth)
+            getDepth(_root.left, curr + 1)
+            getDepth(_root.right, curr + 1)
         }
-
-        dfs(_root.left, _dp + 1)
-        dfs(_root.right, _dp + 1)
     })(root, 0)
 
-    return sum
+    let res: string[][] = new Array(depth + 1)
+        .fill(0)
+        .map(_ => new Array(2 ** (depth + 1) - 1)
+            .fill(0)
+            .map(_ => ''))
+
+    ;(function getPosition(_root, r, c) {
+        if (_root === null) return
+        else {
+            res[r][c] = _root.val + ''
+            getPosition(_root.left, r + 1, c - 2 ** (depth - r - 1))
+            getPosition(_root.right, r + 1, c + 2 ** (depth - r - 1))
+        }
+    })(root, 0, 2 ** depth - 1)
+
+    return res
 }
 
 export {
