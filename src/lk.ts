@@ -88,29 +88,37 @@ class TreeNode {
 //     }
 // }
 
-function lk(prices: number[]): number[] {
-    if(prices.length === 1) return prices
+function lk(root: TreeNode | null): number {
+    if(root === null) return 0
 
-    const discountStack: number[] = [ 0 ]
-    const needToPay: number[] = []
-
-    for (let i = prices.length - 1; i >= 0; i--) {
-        while (discountStack.length > 0) {
-            if(discountStack[0] <= prices[i]) {
-                needToPay.unshift(prices[i] - discountStack[0])
-                discountStack.unshift(prices[i])
-                break
+    let max = 0
+    ;(function dfs(subRoot: TreeNode | null): number {
+        if(subRoot === null) return 0
+        else {
+            const v = subRoot.val
+            const l = subRoot.left?.val
+            const r = subRoot.right?.val
+            const leftMax = dfs(subRoot.left)
+            const rightMax = dfs(subRoot.right)
+            if(v === l && v === r) {
+                max = Math.max(max, leftMax + rightMax)
+                return Math.max(leftMax, rightMax) + 1
+            }
+            else if(v !== l && v !== r) {
+                return 1
+            }
+            else if(v === l) {
+                max = Math.max(max, leftMax)
+                return leftMax + 1
             }
             else {
-                discountStack.shift()
+                max = Math.max(max, rightMax)
+                return rightMax + 1
             }
         }
-    }
-
-    return needToPay
+    })(root)
+    return max
 }
-
-console.log(lk([ 8, 7, 4, 2, 8, 1, 7, 7, 10, 1 ]))
 
 export {
     lk
