@@ -88,37 +88,27 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode | null): number {
-    if(root === null) return 0
+function lk(pairs: number[][]): number {
+    if(pairs.length === 1) return 1
 
-    let max = 0
-    ;(function dfs(subRoot: TreeNode | null): number {
-        if(subRoot === null) return 0
-        else {
-            const v = subRoot.val
-            const l = subRoot.left?.val
-            const r = subRoot.right?.val
-            const leftMax = dfs(subRoot.left)
-            const rightMax = dfs(subRoot.right)
-            if(v === l && v === r) {
-                max = Math.max(max, leftMax + rightMax)
-                return Math.max(leftMax, rightMax) + 1
-            }
-            else if(v !== l && v !== r) {
-                return 1
-            }
-            else if(v === l) {
-                max = Math.max(max, leftMax)
-                return leftMax + 1
-            }
-            else {
-                max = Math.max(max, rightMax)
-                return rightMax + 1
-            }
+    // 右端点升序
+    pairs.sort((a, b) => {
+        if(a[1] !== b[1]) return a[1] - b[1]
+        else return a[0] - b[0]
+    })
+
+    let count = 1
+    let curr = pairs[0][1]
+    for (let i = 1; i < pairs.length; i++) {
+        if(curr < pairs[i][0]) {
+            curr = pairs[i][1]
+            count += 1
         }
-    })(root)
-    return max
+    }
+    return count
 }
+
+console.log(lk([ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]))
 
 export {
     lk
