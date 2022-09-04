@@ -88,27 +88,27 @@ class TreeNode {
 //     }
 // }
 
-function lk(pairs: number[][]): number {
-    if(pairs.length === 1) return 1
+function lk(mat: number[][]): number {
+    const r = mat.length
+    const c = mat[0].length
+    const row = new Array(r).fill(0)
+    const col = new Array(c).fill(0)
 
-    // 右端点升序
-    pairs.sort((a, b) => {
-        if(a[1] !== b[1]) return a[1] - b[1]
-        else return a[0] - b[0]
-    })
+    for (let i = 0; i < r; i++) {
+        for (let j = 0; j < c; j ++) {
+            row[i] += mat[i][j]
+            col[j] += mat[i][j]
+        }
+    }
 
-    let count = 1
-    let curr = pairs[0][1]
-    for (let i = 1; i < pairs.length; i++) {
-        if(curr < pairs[i][0]) {
-            curr = pairs[i][1]
-            count += 1
+    let count = 0
+    for (let i = 0; i < r; i++) {
+        for (let j = 0; j < c; j ++) {
+            if(mat[i][j] === 1 && row[i] === 1 && col[j] === 1) count += 1
         }
     }
     return count
 }
-
-console.log(lk([ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ] ]))
 
 export {
     lk
