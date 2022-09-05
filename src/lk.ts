@@ -88,26 +88,31 @@ class TreeNode {
 //     }
 // }
 
-function lk(mat: number[][]): number {
-    const r = mat.length
-    const c = mat[0].length
-    const row = new Array(r).fill(0)
-    const col = new Array(c).fill(0)
+function lk(root: TreeNode): Array<TreeNode | null> {
+    const repeat = new Set<TreeNode>()
+    const memo = new Map<string, [ TreeNode, number ]>()
 
-    for (let i = 0; i < r; i++) {
-        for (let j = 0; j < c; j ++) {
-            row[i] += mat[i][j]
-            col[j] += mat[i][j]
+    let idx = 0
+    const dfs = (sub: TreeNode | null): number => {
+        // null 的编号为 0
+        if(sub === null) return 0;
+        else {
+            const group = [ sub.val, dfs(sub.left), dfs(sub.right) ]
+            const hash = group.toString()
+            if(memo.has(hash)) {
+                repeat.add(memo.get(hash)![0])
+                return memo.get(hash)![1] as number
+            }
+            else {
+                idx += 1
+                memo.set(hash, [ sub, idx ])
+                return idx
+            }
         }
     }
+    dfs(root)
 
-    let count = 0
-    for (let i = 0; i < r; i++) {
-        for (let j = 0; j < c; j ++) {
-            if(mat[i][j] === 1 && row[i] === 1 && col[j] === 1) count += 1
-        }
-    }
-    return count
+    return [ ...repeat ]
 }
 
 export {
