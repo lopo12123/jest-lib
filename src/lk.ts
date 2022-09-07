@@ -88,31 +88,18 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): Array<TreeNode | null> {
-    const repeat = new Set<TreeNode>()
-    const memo = new Map<string, [ TreeNode, number ]>()
-
-    let idx = 0
-    const dfs = (sub: TreeNode | null): number => {
-        // null 的编号为 0
-        if(sub === null) return 0;
+function lk(text: string): string {
+    const blank_count = text.match(/ /g)?.length ?? 0
+    if(blank_count === 0) return text
+    else {
+        const words = text.trim().split(/[ ]+/g)
+        if(words.length === 1) return text.trim() + new Array(text.length - words[0].length + 1).join(' ')
         else {
-            const group = [ sub.val, dfs(sub.left), dfs(sub.right) ]
-            const hash = group.toString()
-            if(memo.has(hash)) {
-                repeat.add(memo.get(hash)![0])
-                return memo.get(hash)![1] as number
-            }
-            else {
-                idx += 1
-                memo.set(hash, [ sub, idx ])
-                return idx
-            }
+            const blank_count_in_gap = Math.floor(blank_count / (words.length - 1))
+            const blank_after_tail = blank_count - blank_count_in_gap * (words.length - 1)
+            return words.join(new Array(blank_count_in_gap).fill(' ').join('')) + new Array(blank_after_tail).fill(' ').join('')
         }
     }
-    dfs(root)
-
-    return [ ...repeat ]
 }
 
 export {
