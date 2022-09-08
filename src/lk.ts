@@ -88,19 +88,24 @@ class TreeNode {
 //     }
 // }
 
-function lk(text: string): string {
-    const blank_count = text.match(/ /g)?.length ?? 0
-    if(blank_count === 0) return text
-    else {
-        const words = text.trim().split(/[ ]+/g)
-        if(words.length === 1) return text.trim() + new Array(text.length - words[0].length + 1).join(' ')
-        else {
-            const blank_count_in_gap = Math.floor(blank_count / (words.length - 1))
-            const blank_after_tail = blank_count - blank_count_in_gap * (words.length - 1)
-            return words.join(new Array(blank_count_in_gap).fill(' ').join('')) + new Array(blank_after_tail).fill(' ').join('')
-        }
+function lk(n: number, k: number): number[] {
+    // k个不同整数 -> (k-1)个不同整数 + '1'
+    const finalArr: number[] = []
+    let head = 1, tail = n
+
+    for (let i = 0; i < k; i++) {
+        finalArr.push(i % 2 === 0 ? (head++) : (tail--))
     }
+
+    if (k % 2 === 0)
+        for (let j = tail; j >= head; j--) finalArr.push(j)
+    else
+        for (let j = head; j <= tail; j++) finalArr.push(j)
+
+    return finalArr
 }
+
+console.log(lk(3, 1))
 
 export {
     lk
