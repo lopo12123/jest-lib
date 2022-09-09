@@ -88,24 +88,13 @@ class TreeNode {
 //     }
 // }
 
-function lk(n: number, k: number): number[] {
-    // k个不同整数 -> (k-1)个不同整数 + '1'
-    const finalArr: number[] = []
-    let head = 1, tail = n
-
-    for (let i = 0; i < k; i++) {
-        finalArr.push(i % 2 === 0 ? (head++) : (tail--))
-    }
-
-    if (k % 2 === 0)
-        for (let j = tail; j >= head; j--) finalArr.push(j)
-    else
-        for (let j = head; j <= tail; j++) finalArr.push(j)
-
-    return finalArr
+function lk(logs: string[]): number {
+    return logs.reduce((prev, curr) => {
+        if (curr === './') return prev
+        else if (curr === '../') return Math.max(prev - 1, 0)
+        else return prev + 1
+    }, 0)
 }
-
-console.log(lk(3, 1))
 
 export {
     lk
