@@ -98,15 +98,15 @@
  linkedList.deleteAtIndex(1);  //现在链表是1-> 3
  linkedList.get(1);            //返回3
  */
-type ListNode = {
-    prev: ListNode | null
-    next: ListNode | null
+type TwoDirListNode = {
+    prev: TwoDirListNode | null
+    next: TwoDirListNode | null
     val: number
 }
 
 class MyLinkedList {
-    #head: ListNode | null = null
-    #tail: ListNode | null = null
+    #head: TwoDirListNode | null = null
+    #tail: TwoDirListNode | null = null
     #count: number = 0
 
     print() {
@@ -123,7 +123,7 @@ class MyLinkedList {
     }
 
     #findNode(index: number) {
-        let _cursor: ListNode | null
+        let _cursor: TwoDirListNode | null
         if(index > this.#count / 2) {
             _cursor = this.#tail
             for (let i = this.#count - 1; i > index; i--) {
@@ -146,7 +146,7 @@ class MyLinkedList {
     }
 
     addAtHead(val: number): void {
-        const _newHead: ListNode = {
+        const _newHead: TwoDirListNode = {
             prev: null,
             next: this.#head,
             val
@@ -165,7 +165,7 @@ class MyLinkedList {
     }
 
     addAtTail(val: number): void {
-        const _newTail: ListNode = {
+        const _newTail: TwoDirListNode = {
             prev: this.#tail,
             next: null,
             val
@@ -190,13 +190,15 @@ class MyLinkedList {
         else {
             const _cursor = this.#findNode(index)!
 
-            const _newNode: ListNode = {
+            const _newNode: TwoDirListNode = {
                 prev: _cursor!.prev,
                 next: _cursor,
                 val
             }
             _cursor.prev!.next = _newNode
             _cursor.prev = _newNode
+
+            this.#count += 1
         }
     }
 
@@ -227,20 +229,30 @@ class MyLinkedList {
                 _prev.next = _next
                 _next.prev = _prev
             }
+
+            this.#count -= 1
         }
     }
 }
 
 let linkedList: MyLinkedList = new MyLinkedList();
-linkedList.addAtHead(1);
+linkedList.addAtHead(-1);
+linkedList.addAtTail(1);
+linkedList.addAtHead(-2);
+linkedList.addAtTail(2);
+linkedList.addAtHead(-3);
 linkedList.addAtTail(3);
-linkedList.addAtIndex(1, 2);   //链表变为1-> 2-> 3
+
+linkedList.addAtIndex(3, 0);
 linkedList.print()
-console.log(linkedList.get(1));            //返回2
-linkedList.deleteAtIndex(1);  //现在链表是1-> 3
+
+linkedList.deleteAtIndex(1);
+linkedList.deleteAtIndex(4);
 linkedList.print()
-console.log(linkedList.get(1));            //返回3
-linkedList.print()
+
+// console.log(linkedList.get(1));            //返回2
+// linkedList.deleteAtIndex(1);  //现在链表是1-> 3
+// console.log(linkedList.get(1));            //返回3
 
 function lk(logs: string[]): number {
     return logs.reduce((prev, curr) => {
