@@ -88,179 +88,29 @@
 //     }
 // }
 
-/**
- * @example
- MyLinkedList linkedList = new MyLinkedList();
- linkedList.addAtHead(1);
- linkedList.addAtTail(3);
- linkedList.addAtIndex(1,2);   //链表变为1-> 2-> 3
- linkedList.get(1);            //返回2
- linkedList.deleteAtIndex(1);  //现在链表是1-> 3
- linkedList.get(1);            //返回3
- */
-type TwoDirListNode = {
-    prev: TwoDirListNode | null
-    next: TwoDirListNode | null
-    val: number
-}
+function lk(code: number[], k: number): number[] {
+    const n = code.length
+    const abs_k = Math.abs(k)
+    const flag = k > 0 ? 1 : -1
+    const decoded: number[] = []
 
-class MyLinkedList {
-    #head: TwoDirListNode | null = null
-    #tail: TwoDirListNode | null = null
-    #count: number = 0
-
-    print() {
-        let arr: number[] = []
-        let p = this.#head
-        while (p !== null) {
-            arr.push(p.val)
-            p = p.next
-        }
-        console.log(arr)
-    }
-
-    constructor() {
-    }
-
-    #findNode(index: number) {
-        let _cursor: TwoDirListNode | null
-        if(index > this.#count / 2) {
-            _cursor = this.#tail
-            for (let i = this.#count - 1; i > index; i--) {
-                _cursor = _cursor!.prev
+    if (k === 0)
+        return new Array(code.length).fill(0)
+    else {
+        for (let i = 0; i < n; i++) {
+            let _sum = 0
+            for (let j = 1; j <= abs_k; j++) {
+                _sum += code.at((i + flag * j) % n)!
             }
+            decoded[i] = _sum
         }
-        else {
-            _cursor = this.#head
-            for (let i = 0; i < index; i++) {
-                _cursor = _cursor!.next
-            }
-        }
-        return _cursor
-    }
-
-    get(index: number): number {
-        if(index < 0 || index >= this.#count) return -1
-
-        return this.#findNode(index)!.val
-    }
-
-    addAtHead(val: number): void {
-        const _newHead: TwoDirListNode = {
-            prev: null,
-            next: this.#head,
-            val
-        }
-
-        if(this.#count === 0) {
-            this.#head = _newHead
-            this.#tail = _newHead
-        }
-        else {
-            this.#head!.prev = _newHead
-            this.#head = _newHead
-        }
-
-        this.#count += 1
-    }
-
-    addAtTail(val: number): void {
-        const _newTail: TwoDirListNode = {
-            prev: this.#tail,
-            next: null,
-            val
-        }
-
-        if(this.#count === 0) {
-            this.#head = _newTail
-            this.#tail = _newTail
-        }
-        else {
-            this.#tail!.next = _newTail
-            this.#tail = _newTail
-        }
-
-        this.#count += 1
-    }
-
-    addAtIndex(index: number, val: number): void {
-        if(index <= 0) this.addAtHead(val)
-        else if(index === this.#count) this.addAtTail(val)
-        else if(index > this.#count) return;
-        else {
-            const _cursor = this.#findNode(index)!
-
-            const _newNode: TwoDirListNode = {
-                prev: _cursor!.prev,
-                next: _cursor,
-                val
-            }
-            _cursor.prev!.next = _newNode
-            _cursor.prev = _newNode
-
-            this.#count += 1
-        }
-    }
-
-    deleteAtIndex(index: number): void {
-        if(index < 0 || index >= this.#count) return
-        else {
-            const _cursor = this.#findNode(index)!
-            const _prev = _cursor.prev
-            const _next = _cursor.next
-
-            // 删完
-            if(!_prev && !_next) {
-                this.#head = null
-                this.#tail = null
-            }
-            // 删头
-            else if(!_prev) {
-                this.#head = _next
-                _next!.prev = null
-            }
-            // 删尾
-            else if(!_next) {
-                this.#tail = _prev
-                _prev.next = null
-            }
-            // 中间
-            else {
-                _prev.next = _next
-                _next.prev = _prev
-            }
-
-            this.#count -= 1
-        }
+        return decoded
     }
 }
 
-let linkedList: MyLinkedList = new MyLinkedList();
-linkedList.addAtHead(-1);
-linkedList.addAtTail(1);
-linkedList.addAtHead(-2);
-linkedList.addAtTail(2);
-linkedList.addAtHead(-3);
-linkedList.addAtTail(3);
-
-linkedList.addAtIndex(3, 0);
-linkedList.print()
-
-linkedList.deleteAtIndex(1);
-linkedList.deleteAtIndex(4);
-linkedList.print()
-
-// console.log(linkedList.get(1));            //返回2
-// linkedList.deleteAtIndex(1);  //现在链表是1-> 3
-// console.log(linkedList.get(1));            //返回3
-
-function lk(logs: string[]): number {
-    return logs.reduce((prev, curr) => {
-        if(curr === './') return prev
-        else if(curr === '../') return Math.max(prev - 1, 0)
-        else return prev + 1
-    }, 0)
-}
+console.log(lk([5, 7, 1, 4], 3))
+console.log(lk([1, 2, 3, 4], 0))
+console.log(lk([2, 4, 9, 3], -2))
 
 export {
     lk
