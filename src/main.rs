@@ -3,39 +3,39 @@ use std::process::id;
 struct Solution {}
 
 impl Solution {
-    pub fn reformat(s: String) -> String {
-        let mut res = String::from("");
-        let mut digits: Vec<char> = vec![];
-        let mut chars: Vec<char> = vec![];
-
-        for char in s.chars() {
-            if char.is_ascii_digit() { digits.push(char) } else { chars.push(char) }
+    pub fn decrypt(code: Vec<i32>, k: i32) -> Vec<i32> {
+        let n = code.len();
+        if k == 0 {
+            return vec![0; n];
         }
 
-        if ((digits.len() - chars.len()) as i32).abs() > 1 {
-            return res;
-        } else if digits.len() > chars.len() {
-            res.push(digits[0]);
-            for idx in 0..chars.len() {
-                res.push(chars[idx]);
-                res.push(digits[idx + 1]);
-            }
-        } else if digits.len() < chars.len() {
-            res.push(chars[0]);
-            for idx in 0..digits.len() {
-                res.push(digits[idx]);
-                res.push(chars[idx + 1]);
-            }
+        let k_abs = k.abs() as usize;
+        let mut window_value = code.get(0..k_abs).unwrap().iter().sum::<i32>();
+        let mut decoded = vec![window_value];
+
+        for i in 1..n {
+            window_value -= code[i - 1];
+            window_value += code[(i - 1 + k_abs) % n];
+            decoded.push(window_value);
+        }
+
+        if k > 0 {
+            decoded.rotate_left(1);
         } else {
-            for idx in 0..digits.len() {
-                res.push(digits[idx]);
-                res.push(chars[idx]);
-            }
+            decoded.rotate_right(k_abs);
         }
 
-        return res;
+        decoded
     }
 }
 
 
-fn main() {}
+fn main() {
+    let a1 = Solution::decrypt(vec![5, 7, 1, 4], 3);
+    let a2 = Solution::decrypt(vec![1, 2, 3, 4], 0);
+    let a3 = Solution::decrypt(vec![2, 4, 9, 3], -2);
+
+    println!("{:?}", a1);
+    println!("{:?}", a2);
+    println!("{:?}", a3);
+}
