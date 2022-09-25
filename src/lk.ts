@@ -88,29 +88,43 @@
 //     }
 // }
 
-function lk(code: number[], k: number): number[] {
-    const n = code.length
-    const abs_k = Math.abs(k)
-    const flag = k > 0 ? 1 : -1
-    const decoded: number[] = []
+function lk(n: number): number {
+    const ifGood = (x: number) => {
+        let ifTheSame = true
 
-    if (k === 0)
-        return new Array(code.length).fill(0)
-    else {
-        for (let i = 0; i < n; i++) {
-            let _sum = 0
-            for (let j = 1; j <= abs_k; j++) {
-                _sum += code.at((i + flag * j) % n)!
+        while (x > 0) {
+            switch (x % 10) {
+                case 2:
+                case 5:
+                case 6:
+                case 9:
+                    ifTheSame = false
+                    break
+                case 0:
+                case 1:
+                case 8:
+                    break
+                default:
+                    return false
             }
-            decoded[i] = _sum
+
+            x = Math.floor(x / 10)
         }
-        return decoded
+
+        return !ifTheSame
     }
+
+    let goodCount = 0
+    for (let i = 1; i <= n; i++) {
+        if (ifGood(i)){
+            console.log(i)
+            goodCount += 1
+        }
+    }
+    return goodCount
 }
 
-console.log(lk([5, 7, 1, 4], 3))
-console.log(lk([1, 2, 3, 4], 0))
-console.log(lk([2, 4, 9, 3], -2))
+lk(10)
 
 export {
     lk
