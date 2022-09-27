@@ -88,43 +88,9 @@
 //     }
 // }
 
-function lk(n: number): number {
-    const ifGood = (x: number) => {
-        let ifTheSame = true
-
-        while (x > 0) {
-            switch (x % 10) {
-                case 2:
-                case 5:
-                case 6:
-                case 9:
-                    ifTheSame = false
-                    break
-                case 0:
-                case 1:
-                case 8:
-                    break
-                default:
-                    return false
-            }
-
-            x = Math.floor(x / 10)
-        }
-
-        return !ifTheSame
-    }
-
-    let goodCount = 0
-    for (let i = 1; i <= n; i++) {
-        if (ifGood(i)){
-            console.log(i)
-            goodCount += 1
-        }
-    }
-    return goodCount
+function lk(s1: string, s2: string): boolean {
+    return s1.split('').sort().join('') === s2.split('').sort().join('')
 }
-
-lk(10)
 
 export {
     lk
