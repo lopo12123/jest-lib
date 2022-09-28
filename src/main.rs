@@ -1,32 +1,41 @@
 struct Solution {}
 
 impl Solution {
-    pub fn check_permutation(s1: String, s2: String) -> bool {
-        let len = s1.len();
-        let mut _map: std::collections::HashMap<&str, i32> = std::collections::HashMap::new();
+    pub fn get_kth_magic_number(k: i32) -> i32 {
+        use std::collections::{BinaryHeap};
+        use std::cmp::Reverse;
+        let mut heap: BinaryHeap<Reverse<i32>> = BinaryHeap::from([Reverse(1)]);
 
-        if len != s2.len() {
-            return false;
-        }
+        let mut prev: i32 = -1;
+        let mut p: i32 = 0;
+        while p < k {
+            match heap.pop() {
+                Some(Reverse(top)) => {
+                    if top != prev {
+                        prev = top;
 
-        for i in 0..len {
-            *_map.entry(&s1[i..i + 1]).or_insert(0) += 1;
-            *_map.entry(&s2[i..i + 1]).or_insert(0) -= 1;
-        }
-
-        for (_, v) in _map {
-            if v != 0 {
-                return false;
+                        if top < std::i32::MAX / 3 {
+                            heap.push(Reverse(top * 3));
+                        }
+                        if top < std::i32::MAX / 5 {
+                            heap.push(Reverse(top * 5));
+                        }
+                        if top < std::i32::MAX / 7 {
+                            heap.push(Reverse(top * 7));
+                        }
+                        p += 1;
+                    }
+                }
+                _ => {}
             }
         }
-        true
+
+        prev
     }
 }
 
 
 fn main() {
-    println!("{}", Solution::check_permutation(String::from("aa"), String::from("ac")));
-    println!("{}", Solution::check_permutation(String::from("caa"), String::from("aca")));
-    println!("{}", Solution::check_permutation(String::from("aca"), String::from("acc")));
-    println!("{}", Solution::check_permutation(String::from("acv"), String::from("vca")));
+    let num_k = Solution::get_kth_magic_number(643);  // 1937xxxx
+    println!("{}", num_k);
 }
