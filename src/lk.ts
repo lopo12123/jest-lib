@@ -89,12 +89,33 @@
 // }
 
 function lk(s1: string, s2: string): boolean {
-    return s1.length === s2.length && (s1 + s1).includes(s2)
+    if(s1.length !== s2.length) return false
+    if(s1 === '' && s2 === '') return true
+
+    const ss = s1 + s1
+    const idx_of_head: number[] = []
+    let pp = 0, p2 = 0
+
+    while (pp < ss.length) {
+        if(ss[pp] === s2[0] && p2 !== 0) idx_of_head.push(pp)
+
+        if(ss[pp] === s2[p2]) {
+            pp += 1
+            p2 += 1
+        }
+        else {
+            pp = idx_of_head.shift() ?? (pp + Math.max(p2, 1))
+            p2 = 0
+        }
+
+        if(p2 === s2.length) return true
+    }
+    return false
 }
 
-console.log(lk('ava', 'vav'))
-console.log(lk('ava', 'vaa'))
-console.log(lk('ava', 'vca'))
+console.log(lk('abc', 'bca'))  // t
+console.log(lk('aba', 'aab'))  // t
+console.log(lk('aba', 'bab'))  // f
 
 export {
     lk
