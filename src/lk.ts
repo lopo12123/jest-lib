@@ -89,24 +89,7 @@
 // }
 
 function lk(s1: string, s2: string): boolean {
-    const len = s1.length
-    if(len !== s2.length) return false
-
-    const _map = new Map<string, number>()
-
-    for (let i = 0; i < len; i++) {
-        // @ts-ignore
-        _map[s1[i]] = (_map[s1[i]] ?? 0) + 1
-        // @ts-ignore
-        _map[s2[i]] = (_map[s2[i]] ?? 0) - 1
-    }
-
-    const vals = Object.values(_map)
-
-    for (let i = 0; i < vals.length; i++) {
-        if(vals[i] !== 0) return false
-    }
-    return true
+    return s1.length === s2.length && (s1 + s1).includes(s2)
 }
 
 console.log(lk('ava', 'vav'))
