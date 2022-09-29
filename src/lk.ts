@@ -92,23 +92,29 @@ function lk(s1: string, s2: string): boolean {
     if(s1.length !== s2.length) return false
     if(s1 === '' && s2 === '') return true
 
-    const ss = s1 + s1
+    let compare_part = 1
+    const len = s1.length
     const idx_of_head: number[] = []
-    let pp = 0, p2 = 0
+    let p_double_string = 0, p_s2 = 0
 
-    while (pp < ss.length) {
-        if(ss[pp] === s2[0] && p2 !== 0) idx_of_head.push(pp)
+    while (p_double_string < len && compare_part <= 2) {
+        if(s1[p_double_string] === s2[0] && p_s2 !== 0) idx_of_head.push(p_double_string)
 
-        if(ss[pp] === s2[p2]) {
-            pp += 1
-            p2 += 1
+        if(s1[p_double_string] === s2[p_s2]) {
+            p_double_string += 1
+            p_s2 += 1
         }
         else {
-            pp = idx_of_head.shift() ?? (pp + Math.max(p2, 1))
-            p2 = 0
+            p_double_string = idx_of_head.shift() ?? (p_double_string + Math.max(p_s2, 1))
+            p_s2 = 0
         }
 
-        if(p2 === s2.length) return true
+        if(p_s2 === len) return true
+
+        if(p_double_string >= len) {
+            compare_part += 1
+            p_double_string %= len
+        }
     }
     return false
 }
