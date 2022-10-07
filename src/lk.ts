@@ -88,9 +88,16 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): number {
-    const set = new Set(nums)
-    return set.has(0) ? (set.size - 1) : set.size
+function lk(ranks: number[], suits: string[]): string {
+    // 同花
+    if (new Set(suits).size === 1) return 'Flush'
+    else {
+        const count: { [k: string]: number } = {}
+        ranks.forEach(rank => {
+            count[rank] = (count[rank] ?? 0) + 1
+        })
+        return ['', 'High Card', 'Pair', 'Three of a Kind', 'Three of a Kind', 'Three of a Kind'][Math.max(...Object.values(count))]
+    }
 }
 
 export {
