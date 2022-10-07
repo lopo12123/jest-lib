@@ -88,35 +88,20 @@ class TreeNode {
 //     }
 // }
 
-function lk(temperatureA: number[], temperatureB: number[]): number {
-    const trendA: number[] = []
-    const trendB: number[] = []
-
-    temperatureA.reduce((prev, curr) => {
-        if (curr > prev) trendA.push(1)
-        else if (curr < prev) trendA.push(-1)
-        else trendA.push(0)
-        return curr
-    })
-    temperatureB.reduce((prev, curr) => {
-        if (curr > prev) trendB.push(1)
-        else if (curr < prev) trendB.push(-1)
-        else trendB.push(0)
-        return curr
-    })
-
-    let maxSame = 0
-    let currSame = 0
-
-    for (let i = 0; i < trendA.length; i ++) {
-        if (trendA[i] === trendB[i]) currSame += 1
-        else {
-            maxSame = Math.max(maxSame, currSame)
-            currSame = 0
-        }
+function lk(a: number, b: number): number {
+    const gcd = (x: number, y: number): number => {
+        return y === 0 ? x : gcd(y, x % y)
     }
 
-    return Math.max(maxSame, currSame)
+    const max = gcd(a, b)
+    const sqrt_max = Math.sqrt(max)
+
+    let count = 0
+    for (let i = 1; i <= sqrt_max; i++) {
+        if (max % i === 0) count += 2
+    }
+
+    return sqrt_max === ~~sqrt_max ? (count - 1) : count
 }
 
 export {
