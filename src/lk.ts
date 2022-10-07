@@ -88,19 +88,18 @@
 //     }
 // }
 
-function lk(key: string, message: string): string {
-    const inOrder = [...new Set(key)].filter(_ => _ !== ' ')
-    let s = ''
+function lk(grid: number[][]): boolean {
+    const size = grid.length
 
-    for (let i = 0; i < message.length; i++) {
-        s += message[i] === ' ' ? ' '
-            : String.fromCharCode(inOrder.findIndex(_ => _ === message[i]) + 97)
+    for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+            if (grid[r][c] !== 0 && r !== c && (r + c + 1) !== size) return false
+            else if (grid[r][c] === 0 && (r === c || (r + c + 1) === size)) return false
+        }
     }
 
-    return s
+    return true
 }
-
-console.log(lk("the quick brown fox jumps over the lazy dog", "vkbs bs t suepuv"))
 
 export {
     lk
