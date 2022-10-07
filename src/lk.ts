@@ -88,44 +88,17 @@
 //     }
 // }
 
-class TreeNode {
-    val: number
-    left: TreeNode | null
-    right: TreeNode | null
-
-    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.left = (left === undefined ? null : left)
-        this.right = (right === undefined ? null : right)
-    }
+function lk(password: string): boolean {
+    return password.length >= 8
+        && /[a-z]/.test(password)
+        && /[A-Z]/.test(password)
+        && /[0-9]/.test(password)
+        && /[!@#$%^&*()\-+]/.test(password)
+        && !/(.)\1/.test(password)
 }
 
-function lk(root: TreeNode | null): TreeNode | null {
-    const dfs = (sub: TreeNode | null) => {
-        if (sub === null) return
-        else {
-            if (!!sub.left) {
-                sub.left = {
-                    val: -1,
-                    left: sub.left,
-                    right: null,
-                }
-                dfs(sub.left.left)
-            }
-            if (!!sub.right) {
-                sub.right = {
-                    val: -1,
-                    left: null,
-                    right: sub.right,
-                }
-                dfs(sub.right.right)
-            }
-        }
-    }
-    dfs(root)
-
-    return root
-}
+// console.log(lk("a1A!A!A!"))
+console.log(lk("-Aa1a1a1"))
 
 export {
     lk
