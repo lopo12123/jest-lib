@@ -88,13 +88,19 @@
 //     }
 // }
 
-function lk(s: string): number {
-    return s.split('|')
-        .filter((val, idx) => idx % 2 === 0)
-        .reduce((sum, part) => {
-            return sum + (part.match(/[*]/g)?.length ?? 0)
-        }, 0)
+function lk(key: string, message: string): string {
+    const inOrder = [...new Set(key)].filter(_ => _ !== ' ')
+    let s = ''
+
+    for (let i = 0; i < message.length; i++) {
+        s += message[i] === ' ' ? ' '
+            : String.fromCharCode(inOrder.findIndex(_ => _ === message[i]) + 97)
+    }
+
+    return s
 }
+
+console.log(lk("the quick brown fox jumps over the lazy dog", "vkbs bs t suepuv"))
 
 export {
     lk
