@@ -88,16 +88,15 @@ class TreeNode {
 //     }
 // }
 
-function lk(root: TreeNode): boolean {
-    const dfs = (sub: TreeNode): boolean => {
-        if (!sub.left) return !!sub.val
-        else {
-            return sub.val === 2
-                ? (dfs(sub.left) || dfs(sub.right!))
-                : (dfs(sub.left) && dfs(sub.right!))
-        }
+function lk(s: string): string {
+    const his = new Set()
+
+    for (let i = 0; i < s.length; i++) {
+        if (his.has(s[i])) return s[i]
+        else his.add(s[i])
     }
-    return dfs(root)
+
+    return ''
 }
 
 export {
