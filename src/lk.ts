@@ -88,15 +88,9 @@ class TreeNode {
 //     }
 // }
 
-function lk(s: string): string {
-    const his = new Set()
-
-    for (let i = 0; i < s.length; i++) {
-        if (his.has(s[i])) return s[i]
-        else his.add(s[i])
-    }
-
-    return ''
+function lk(nums: number[]): number {
+    const set = new Set(nums)
+    return set.has(0) ? (set.size - 1) : set.size
 }
 
 export {
