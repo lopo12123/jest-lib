@@ -88,28 +88,23 @@
 //     }
 // }
 
-function lk(nums: number[]): number {
-    if (nums.length === 1) return nums[0]
-    else {
-        let maxSum = 0
-        let currSum = nums[0]
+function lk(demand: string[]): number {
+    const maxInNeed = new Array(26).fill(0)
 
-        nums.reduce((prev, curr) => {
-            if (prev < curr) currSum += curr
-            else {
-                maxSum = Math.max(maxSum, currSum)
-                currSum = curr
-            }
-            console.log(curr, currSum, maxSum)
-            return curr
-        })
-        maxSum = Math.max(maxSum, currSum)
+    demand.forEach(day => {
+        const todayInNeed = new Array(26).fill(0)
 
-        return maxSum
-    }
+        for (let i = 0; i < day.length; i++) {
+            todayInNeed[day[i].charCodeAt(0) - 97] += 1
+        }
+
+        for (let i = 0; i < 26; i++) {
+            maxInNeed[i] = Math.max(maxInNeed[i], todayInNeed[i])
+        }
+    })
+
+    return maxInNeed.reduce((prev, curr) => prev + curr)
 }
-
-console.log(lk([10,20,30,40,50]))
 
 export {
     lk
