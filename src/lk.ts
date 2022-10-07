@@ -88,17 +88,21 @@
 //     }
 // }
 
-function lk(password: string): boolean {
-    return password.length >= 8
-        && /[a-z]/.test(password)
-        && /[A-Z]/.test(password)
-        && /[0-9]/.test(password)
-        && /[!@#$%^&*()\-+]/.test(password)
-        && !/(.)\1/.test(password)
-}
+function lk(s: string): string {
+    const chars = new Array(26).fill(0).map(_ => [0, 0])
 
-// console.log(lk("a1A!A!A!"))
-console.log(lk("-Aa1a1a1"))
+    for (let i = 0; i < s.length; i++) {
+        const code = s[i].charCodeAt(0)
+        if (code >= 97) chars[code - 97][0] = 1
+        else chars[code - 65][1] = 1
+    }
+
+    for (let i = 25; i >= 0; i--) {
+        if (chars[i][0] + chars[i][1] === 2) return String.fromCharCode(65 + i)
+    }
+
+    return ''
+}
 
 export {
     lk
