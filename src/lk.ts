@@ -88,22 +88,43 @@
 //     }
 // }
 
-function lk(demand: string[]): number {
-    const maxInNeed = new Array(26).fill(0)
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
 
-    demand.forEach(day => {
-        const todayInNeed = new Array(26).fill(0)
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
-        for (let i = 0; i < day.length; i++) {
-            todayInNeed[day[i].charCodeAt(0) - 97] += 1
+function lk(root: TreeNode | null): TreeNode | null {
+    const dfs = (sub: TreeNode | null) => {
+        if (sub === null) return
+        else {
+            if (!!sub.left) {
+                sub.left = {
+                    val: -1,
+                    left: sub.left,
+                    right: null,
+                }
+                dfs(sub.left.left)
+            }
+            if (!!sub.right) {
+                sub.right = {
+                    val: -1,
+                    left: null,
+                    right: sub.right,
+                }
+                dfs(sub.right.right)
+            }
         }
+    }
+    dfs(root)
 
-        for (let i = 0; i < 26; i++) {
-            maxInNeed[i] = Math.max(maxInNeed[i], todayInNeed[i])
-        }
-    })
-
-    return maxInNeed.reduce((prev, curr) => prev + curr)
+    return root
 }
 
 export {
