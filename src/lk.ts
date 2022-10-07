@@ -88,20 +88,12 @@
 //     }
 // }
 
-function lk(s: string): string {
-    const chars = new Array(26).fill(0).map(_ => [0, 0])
-
-    for (let i = 0; i < s.length; i++) {
-        const code = s[i].charCodeAt(0)
-        if (code >= 97) chars[code - 97][0] = 1
-        else chars[code - 65][1] = 1
-    }
-
-    for (let i = 25; i >= 0; i--) {
-        if (chars[i][0] + chars[i][1] === 2) return String.fromCharCode(65 + i)
-    }
-
-    return ''
+function lk(s: string): number {
+    return s.split('|')
+        .filter((val, idx) => idx % 2 === 0)
+        .reduce((sum, part) => {
+            return sum + (part.match(/[*]/g)?.length ?? 0)
+        }, 0)
 }
 
 export {
