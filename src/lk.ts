@@ -88,21 +88,22 @@ class TreeNode {
 //     }
 // }
 
-function lk(a: number, b: number): number {
-    const gcd = (x: number, y: number): number => {
-        return y === 0 ? x : gcd(y, x % y)
+function lk(word: string): boolean {
+    const count: { [k: string]: number } = {}
+
+    for (let i = 0; i < word.length; i++) {
+        count[word[i]] = (count[word[i]] ?? 0) + 1
     }
 
-    const max = gcd(a, b)
-    const sqrt_max = Math.sqrt(max)
+    const after = Object.values(count).sort((a, b) => a - b)
 
-    let count = 0
-    for (let i = 1; i <= sqrt_max; i++) {
-        if (max % i === 0) count += 2
-    }
-
-    return sqrt_max === ~~sqrt_max ? (count - 1) : count
+    if (after.length === 1) return true
+    else
+        return (new Set(after.slice(1)).size === 1 && after[0] === 1)
+            || (new Set(after.slice(0, -1)).size === 1 && after.at(-1)! - after.at(-2)! === 1)
 }
+
+console.log(lk("ddaccb"))
 
 export {
     lk
