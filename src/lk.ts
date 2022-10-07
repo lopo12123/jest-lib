@@ -8,17 +8,17 @@
 //     }
 // }
 
-// class TreeNode {
-//     val: number
-//     left: TreeNode | null
-//     right: TreeNode | null
-//
-//     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-//         this.val = (val === undefined ? 0 : val)
-//         this.left = (left === undefined ? null : left)
-//         this.right = (right === undefined ? null : right)
-//     }
-// }
+class TreeNode {
+    val: number
+    left: TreeNode | null
+    right: TreeNode | null
+
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+        this.val = (val === undefined ? 0 : val)
+        this.left = (left === undefined ? null : left)
+        this.right = (right === undefined ? null : right)
+    }
+}
 
 // class Node {
 //     val: boolean
@@ -88,17 +88,16 @@
 //     }
 // }
 
-function lk(grid: number[][]): boolean {
-    const size = grid.length
-
-    for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-            if (grid[r][c] !== 0 && r !== c && (r + c + 1) !== size) return false
-            else if (grid[r][c] === 0 && (r === c || (r + c + 1) === size)) return false
+function lk(root: TreeNode): boolean {
+    const dfs = (sub: TreeNode): boolean => {
+        if (!sub.left) return !!sub.val
+        else {
+            return sub.val === 2
+                ? (dfs(sub.left) || dfs(sub.right!))
+                : (dfs(sub.left) && dfs(sub.right!))
         }
     }
-
-    return true
+    return dfs(root)
 }
 
 export {
