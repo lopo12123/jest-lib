@@ -88,19 +88,35 @@ class TreeNode {
 //     }
 // }
 
-function lk(nums: number[]): number[] {
-    const count = new Map<number, number>()
+function lk(temperatureA: number[], temperatureB: number[]): number {
+    const trendA: number[] = []
+    const trendB: number[] = []
 
-    nums.forEach(num => {
-        count.set(num, (count.get(num) ?? 0) + 1)
+    temperatureA.reduce((prev, curr) => {
+        if (curr > prev) trendA.push(1)
+        else if (curr < prev) trendA.push(-1)
+        else trendA.push(0)
+        return curr
+    })
+    temperatureB.reduce((prev, curr) => {
+        if (curr > prev) trendB.push(1)
+        else if (curr < prev) trendB.push(-1)
+        else trendB.push(0)
+        return curr
     })
 
-    let pair = 0
-    count.forEach(groupCount => {
-        pair += Math.floor(groupCount / 2)
-    })
+    let maxSame = 0
+    let currSame = 0
 
-    return [pair, nums.length - 2 * pair]
+    for (let i = 0; i < trendA.length; i ++) {
+        if (trendA[i] === trendB[i]) currSame += 1
+        else {
+            maxSame = Math.max(maxSame, currSame)
+            currSame = 0
+        }
+    }
+
+    return Math.max(maxSame, currSame)
 }
 
 export {
