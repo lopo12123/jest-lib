@@ -88,22 +88,28 @@ class TreeNode {
 //     }
 // }
 
-function lk(word: string): boolean {
-    const count: { [k: string]: number } = {}
+function lk(nums1: number[], nums2: number[]): number[] {
+    nums1.sort((a, b) => a - b)
+    const nums2_inorder = nums2.map((num, idx) => [num, idx]).sort((a, b) => a[0] - b[0])
 
-    for (let i = 0; i < word.length; i++) {
-        count[word[i]] = (count[word[i]] ?? 0) + 1
+    const res: number[] = new Array(nums1.length).fill(0)
+
+    let p1 = 0, p2l = 0, p2r = nums1.length - 1
+
+    while (p1 < nums1.length) {
+        if (nums1[p1] > nums2_inorder[p2l][0]) {
+            res[nums2_inorder[p2l][1]] = nums1[p1]
+            p2l += 1
+            p1 += 1
+        } else {
+            res[nums2_inorder[p2r][1]] = nums1[p1]
+            p2r -= 1
+            p1 += 1
+        }
     }
 
-    const after = Object.values(count).sort((a, b) => a - b)
-
-    if (after.length === 1) return true
-    else
-        return (new Set(after.slice(1)).size === 1 && after[0] === 1)
-            || (new Set(after.slice(0, -1)).size === 1 && after.at(-1)! - after.at(-2)! === 1)
+    return res
 }
-
-console.log(lk("ddaccb"))
 
 export {
     lk
