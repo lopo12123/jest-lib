@@ -69,5 +69,39 @@ function removeNodes(head: ListNode | null): ListNode | null {
     return new_head
 }
 
+function removeNodes_proto(head: ListNode | null): ListNode | null {
+    if(!head) return null
+
+    // 1. bind 'prev' property on prototype
+    let ptr = head
+    while (ptr.next) {
+        // @ts-ignore
+        ptr.next.prev = ptr
+        ptr = ptr.next
+    }
+
+    // 2. re-chain
+    // @ts-ignore
+    let prev: ListNode | null = ptr.prev
+    // @ts-ignore
+    while (!!prev) {
+        // valid prev, keep it
+        if(prev.val >= ptr.val) {
+            // re-chain
+            prev.next = ptr
+            // update ptr to prev
+            ptr = prev
+        }
+
+        // @ts-ignore
+        // move forward
+        prev = prev.prev
+    }
+
+    // 3. OPTIONLAL: delete the 'prev' property on all nodes
+
+    return ptr
+}
+
 const head = new ListNode(5, new ListNode(2, new ListNode(13, new ListNode(3, new ListNode(8)))))
 console.log(removeNodes(head))
