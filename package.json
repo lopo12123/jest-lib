@@ -5,6 +5,7 @@
     "author": "lopo",
     "license": "MIT",
     "private": true,
-    "devDependencies": {
+    "dependencies": {
+        "typescript": "^5.3.3"
     }
 }
