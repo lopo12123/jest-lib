@@ -5,30 +5,64 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@datastructures-js/heap@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@datastructures-js/heap@npm:3.2.0"
+  checksum: 682a618826e19fa8adfcdc00f519c01190bfa0163f8457f041353f9137309ab6992af2d4c2118b8b479060f790b3761768d23ecc176cd6fe58c7dab8f8eafd0e
+  languageName: node
+  linkType: hard
+
+"@datastructures-js/priority-queue@npm:5.4.0":
+  version: 5.4.0
+  resolution: "@datastructures-js/priority-queue@npm:5.4.0"
+  dependencies:
+    "@datastructures-js/heap": ^3.2.0
+  checksum: 2a9bd8a87c46da66981fccc2adef9a1f3949a966af20a2f6c0e437041671c67b3f08cfbd86a9d736fbd7a2fe293dff9babd309794fccd58a9a0478432e46dc21
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.11.17":
+  version: 20.11.17
+  resolution: "@types/node@npm:20.11.17"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: 59c0dde187120adc97da30063c86511664b24b50fe777abfe1f557c217d0a0b84a68aaab5ef8ac44f5c2986b3f9cd605a15fa6e4f31195e594da96bbe9617c20
+  languageName: node
+  linkType: hard
+
 "leetcode-js@workspace:.":
   version: 0.0.0-use.local
   resolution: "leetcode-js@workspace:."
   dependencies:
-    typescript: ^5.3.3
+    "@datastructures-js/priority-queue": 5.4.0
+    "@types/node": ^20.11.17
+    typescript: 5.1.6
   languageName: unknown
   linkType: soft
 
-"typescript@npm:^5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
+"typescript@npm:5.1.6":
+  version: 5.1.6
+  resolution: "typescript@npm:5.1.6"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 2007ccb6e51bbbf6fde0a78099efe04dc1c3dfbdff04ca3b6a8bc717991862b39fd6126c0c3ebf2d2d98ac5e960bcaa873826bb2bb241f14277034148f41f6a2
+  checksum: b2f2c35096035fe1f5facd1e38922ccb8558996331405eb00a5111cc948b2e733163cc22fab5db46992aba7dd520fff637f2c1df4996ff0e134e77d3249a7350
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=29ae49"
+"typescript@patch:typescript@5.1.6#~builtin<compat/typescript>":
+  version: 5.1.6
+  resolution: "typescript@patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f61375590b3162599f0f0d5b8737877ac0a7bc52761dbb585d67e7b8753a3a4c42d9a554c4cc929f591ffcf3a2b0602f65ae3ce74714fd5652623a816862b610
+  checksum: f53bfe97f7c8b2b6d23cf572750d4e7d1e0c5fff1c36d859d0ec84556a827b8785077bc27676bf7e71fae538e517c3ecc0f37e7f593be913d884805d931bc8be
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 3192ef6f3fd5df652f2dc1cd782b49d6ff14dc98e5dced492aa8a8c65425227da5da6aafe22523c67f035a272c599bb89cfe803c1db6311e44bed3042fc25487
   languageName: node
   linkType: hard
